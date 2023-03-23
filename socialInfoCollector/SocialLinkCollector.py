@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-
+import pandas as pd
 
 
 
@@ -61,6 +61,9 @@ def socialPlatformsUrl(url):
         print("Mixed links:", mixed_links)
     else:
         print(f"No URL found or the URL is wrong: {url}")
+        
+    data=pd.DataFrame({'Instagram link':[instagram_link]})
+    data.to_csv("test.csv",index=False, index_label=None)
 
     return instagram_link, facebook_link,linkedin_link
 

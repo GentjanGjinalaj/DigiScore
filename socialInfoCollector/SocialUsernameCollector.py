@@ -9,7 +9,7 @@ from socialInfoCollector.SocialLinkCollector import socialPlatformsUrl
 
 def socialUsernameCollector(url):
     instagram_link, facebook_link,linkedin_link = socialPlatformsUrl(url)
-    
+
     if instagram_link:
         # Extract the username from the link using regular expressions
             instagram_username = re.search('instagram.com/([^/]+)/?', instagram_link).group(1)
@@ -28,6 +28,11 @@ def socialUsernameCollector(url):
             print('LinkedIn Username:', linkedin_username)
     else:
         print("No LinkedIn username found.")
+
+    
+    df = pd.read_csv("test.csv")
+    df["Instagram Username"] = instagram_username
+    df.to_csv("test.csv", index=False)
 
     return instagram_username,facebook_username,linkedin_username
 
