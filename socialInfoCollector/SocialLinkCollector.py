@@ -37,6 +37,7 @@ def socialPlatformsUrl(url):
             print("Instagram link:", instagram_link)
         else:
             print("No Instagram link found.")
+            instagram_link=None
 
         # Find the first anchor tag with href attribute containing "facebook.com"
         facebook_links = soup.find_all("a", href=lambda href: href and "facebook.com" in href)
@@ -45,6 +46,7 @@ def socialPlatformsUrl(url):
             print("Facebook link:", facebook_link)
         else:
             print("No Facebook link found.")
+            facebook_link=None
 
         # Find the first anchor tag with href attribute containing "linkedin.com"
         linkedin_links = soup.find_all("a", href=lambda href: href and "linkedin.com" in href)
@@ -53,6 +55,7 @@ def socialPlatformsUrl(url):
             print("LinkedIn link:", linkedin_link)
         else:
             print("No LinkedIn link found.")
+            linkedin_link=None
 
         # Find all anchor tags with href attribute containing "instagram.com", "facebook.com", or "linkedin.com"
         mixed_links = [a["href"] for a in soup.find_all("a", href=lambda href: href and ("instagram.com" in href or "facebook.com" in href or "linkedin.com" in href))]
@@ -61,9 +64,10 @@ def socialPlatformsUrl(url):
         print("Mixed links:", mixed_links)
     else:
         print(f"No URL found or the URL is wrong: {url}")
-        
+
+    path = "C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\test.csv"
     data=pd.DataFrame({'Instagram link':[instagram_link]})
-    data.to_csv("test.csv",index=False, index_label=None)
+    data.to_csv(path,index=False, index_label=None)
 
     return instagram_link, facebook_link,linkedin_link
 

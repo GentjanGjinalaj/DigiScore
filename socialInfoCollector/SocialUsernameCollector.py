@@ -1,10 +1,12 @@
-import requests
-from bs4 import BeautifulSoup
+import sys
+#sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector\\InstagramData.py')
+#sys.path.insert(0,'./socialInfoCollector')
+sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector')
+sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector\\InstagramData.py')
+sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector\\SocialLinkCollector.py')
 import re
-import instaloader
 import pandas as pd
-from instagramy import InstagramUser
-from socialInfoCollector.SocialLinkCollector import socialPlatformsUrl
+from SocialLinkCollector import socialPlatformsUrl
 
 
 def socialUsernameCollector(url):
@@ -16,21 +18,24 @@ def socialUsernameCollector(url):
             print('Instagram Username:', instagram_username)
     else:
             print("No Instagram username found.")
+            instagram_username=None
         # Extract the username from the link using regular expressions
     if facebook_link:
             facebook_username = re.search('facebook.com/([^/]+)/?', facebook_link).group(1)
             print('Facebook Username:', facebook_username)
     else:
             print("No Facebook username found.")
+            facebook_username=None
         # Extract the username from the link using regular expressions
     if linkedin_link:
             linkedin_username = re.search('linkedin.com/([^/]+)/?', linkedin_link).group(1)
             print('LinkedIn Username:', linkedin_username)
     else:
         print("No LinkedIn username found.")
+        linkedin_username=None
 
-    
-    df = pd.read_csv("test.csv")
+    path = "C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\test.csv"
+    df = pd.read_csv(path)
     df["Instagram Username"] = instagram_username
     df.to_csv("test.csv", index=False)
 

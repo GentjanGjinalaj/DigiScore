@@ -1,11 +1,12 @@
-import csv
-import requests
-from bs4 import BeautifulSoup
-import re
+import sys
+#sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector\\InstagramData.py')
+#sys.path.insert(0,'./socialInfoCollector')
+sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector')
+sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector\\SocialUsernameCollector.py')
 import instaloader
 import pandas as pd
 from instagramy import InstagramUser
-from socialInfoCollector.SocialUsernameCollector import socialUsernameCollector
+from SocialUsernameCollector import socialUsernameCollector
 import instaloader
 import itertools
 
@@ -65,25 +66,76 @@ def instaData(url):
     #with open('students.csv', 'w') as file:
     #writer = csv.DictWriter(file,fieldnames=headers)
      #writer.writerow(data)'''
-    
-    
     #data.to_csv("test.csv",index=False, index_label=None)
     #print(data)
 
     #with open('test.csv', 'a') as f:
        # data.to_csv(f,index=False, index_label=None,header=True)
-
-    df = pd.read_csv("test.csv")
-    df["Followers Count"] = profile.followers
-    df['Following Count']=profile.followees
-    df['Post 1 Likes']=likess[0]
-    df['Post 1 Comments']=commentss[0]
-    df['Post 2 Likes']=likess[1]
-    df['Post 2 Comments']=commentss[1]
-    df['Post 3 Likes']=likess[2]
-    df['Post 3 Comments']=commentss[2]
-    df['Post 4 Likes']=likess[3]
-    df['Post 4 Comments']=commentss[3]
-    df['Post 5 Likes']=likess[4]
-    df['Post 5 Comments']=commentss[4]
-    df.to_csv("test.csv", index=False,index_label=None)
+    path = "C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\test.csv"
+    try:
+        df = pd.read_csv(path)
+    except Exception as e:
+        print("An error occurred while reading the CSV file: ", e)
+        df = None
+    try:
+        df["Followers Count"] = profile.followers
+    except Exception as e:
+        print("An error occured while geting the data for Followers Count: ",e)
+        df['Followers Count']=None
+    try:
+        df['Following Count']=profile.followees
+    except Exception as e:
+        print("An error occured while geting the data for Following Count: ",e)
+        df['Following Count']=None
+    try:
+        df['Post 1 Likes']=likess[0]
+    except Exception as e:
+        print("An error occured while geting the data for Post 1 Likes: ",e)
+        df['Post 1 Likes']=None
+    try:
+        df['Post 1 Comments']=commentss[0]
+    except Exception as e:
+        print("An error occured while geting the data for Post 1 Comments: ",e)
+        df['Post 1 Comments']=None
+    try:
+        df['Post 2 Likes']=likess[1]
+    except Exception as e:
+        print("An error occured while geting the data for Post 2 Likes: ",e)
+        df['Post 2 Likes']=None
+    try:
+        df['Post 2 Comments']=commentss[1]
+    except Exception as e:
+        print("An error occured while geting the data for Post 2 Comments: ",e)
+        df['Post 2 Comments']=None
+    try:
+        df['Post 3 Likes']=likess[2]
+    except Exception as e:
+        print("An error occured while geting the data for Post 3 Likes: ",e)
+        df['Post 3 Likes']=None
+    try:
+        df['Post 3 Comments']=commentss[2]
+    except Exception as e:
+        print("An error occured while geting the data for Post 3 Comments: ",e)
+        df['Post 3 Comments']=None
+    try:
+        df['Post 4 Likes']=likess[3]
+    except Exception as e:
+        print("An error occured while geting the data for Post 4 Likes: ",e)
+        df['Post 4 Likes']=None
+    try:
+        df['Post 4 Comments']=commentss[3]
+    except Exception as e:
+        print("An error occured while geting the data for Post 4 Comments: ",e)
+        df['Post 4 Comments']=None
+    try:
+        df['Post 5 Likes']=likess[4]
+    except Exception as e:
+        print("An error occured while geting the data for Post 5 Likes: ",e)
+        df['Post 5 Likes']=None
+    try:
+        df['Post 5 Comments']=commentss[4]
+    except Exception as e:
+        print("An error occured while geting the data for Post 5 Comments: ",e)
+        df['Post 5 Comments']=None
+    df.to_csv(path, index=False,index_label=None)
+    return df

@@ -1,0 +1,9 @@
+    #outlook email = datadigitest@hotmail.com
+    #outlook password = Digitalized1243
+    #Instagram username=data_digi_test
+    #Instagram password=Digitalized1243
+
+    #https://digiscore.github.io/
+    #https://www.cathope.com/blog/2022/digiscore
+    #https://digiscore.digitalwallonia.be/
+    #https://www.digitalwallonia.be/fr/publications/entreprises2020/
