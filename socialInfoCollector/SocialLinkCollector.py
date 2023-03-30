@@ -1,11 +1,16 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+#from FacebookData import facebookData
+#from InstagramData import instagramData
+#from LinkedinData import linkedinData
+#from SocialUsernameCollector import socialUsernameCollector
 
 
 
 
-def socialPlatformsUrl(url):
+def socialLinkCollector(url):
+
 # The URL of the webpage you want to scrape
 #url = "https://www.icd-ecoles.com/"
 #url = input('Please enter your url: ')
@@ -69,6 +74,7 @@ def socialPlatformsUrl(url):
     data=pd.DataFrame({'Instagram link':[instagram_link]})
     data.to_csv(path,index=False, index_label=None)
 
-    return instagram_link, facebook_link,linkedin_link
 
-#socialPlatformsUrl('https://www.icd-ecoles.com/')
+    return instagram_link,facebook_link,linkedin_link
+
+

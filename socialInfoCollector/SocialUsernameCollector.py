@@ -6,12 +6,11 @@ sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informa
 sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector\\SocialLinkCollector.py')
 import re
 import pandas as pd
-from SocialLinkCollector import socialPlatformsUrl
+#from SocialLinkCollector import socialLinkCollector
 
 
-def socialUsernameCollector(url):
-    instagram_link, facebook_link,linkedin_link = socialPlatformsUrl(url)
-
+def socialUsernameCollector(instagram_link, facebook_link,linkedin_link):
+    #instagram_link, facebook_link,linkedin_link = socialLinkCollector(url)
     if instagram_link:
         # Extract the username from the link using regular expressions
             instagram_username = re.search('instagram.com/([^/]+)/?', instagram_link).group(1)
@@ -37,7 +36,7 @@ def socialUsernameCollector(url):
     path = "C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\test.csv"
     df = pd.read_csv(path)
     df["Instagram Username"] = instagram_username
-    df.to_csv("test.csv", index=False)
+    df.to_csv(path, index=False)
 
     return instagram_username,facebook_username,linkedin_username
 

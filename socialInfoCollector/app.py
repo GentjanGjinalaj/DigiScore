@@ -1,6 +1,7 @@
 import os
 from flask import Flask,request,render_template,send_file
 import sys
+#from DigiScore.socialInfoCollector.SocialUsernameCollector import socialUsernameCollector
 
 #sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector\\InstagramData.py')
 #sys.path.insert(0,'./socialInfoCollector')
@@ -12,8 +13,11 @@ sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informa
 #print(sys.path)
 #sys.path.insert(0, 'C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector\\InstagramData.py')
 
+import SocialLinkCollector
+import SocialUsernameCollector
 import InstagramData
-
+import LinkedinData
+import FacebookData
 
 app = Flask(__name__)
 
@@ -21,7 +25,12 @@ app = Flask(__name__)
 def index():
     if request.method == 'POST':
         user_input = request.form['user_input']
-        result = InstagramData.instaData(user_input)
+        instagram_link,facebook_link,linkedin_link = SocialLinkCollector.socialLinkCollector(user_input)
+        instagram_username,facebook_username,linkedin_username=SocialUsernameCollector.socialUsernameCollector(instagram_link=instagram_link,facebook_link=facebook_link,linkedin_link=linkedin_link)
+        instagramData=InstagramData.instagramData(instagram_username=instagram_username)
+        linkedinData=LinkedinData.linkedinData(linkedin_link=linkedin_link)
+        result=FacebookData.facebookData(facebook_link=facebook_link)
+
         # Create the CSV file and write the data to it
 
         return render_template("result.html",result=result)

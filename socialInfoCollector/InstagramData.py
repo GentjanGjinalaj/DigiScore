@@ -1,4 +1,8 @@
+from asyncio import wait
 import sys
+#from FacebookData import facebookData
+#from LinkedinData import linkedinData
+
 #sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector\\InstagramData.py')
 #sys.path.insert(0,'./socialInfoCollector')
 sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector')
@@ -6,13 +10,13 @@ sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informa
 import instaloader
 import pandas as pd
 from instagramy import InstagramUser
-from SocialUsernameCollector import socialUsernameCollector
+#from SocialUsernameCollector import socialUsernameCollector,instagram_username
 import instaloader
 import itertools
 
 
-def instaData(url):
-    instagram_username,facebook_username,linkedin_username = socialUsernameCollector(url)
+def instagramData(instagram_username):
+    #instagram_username,facebook_username,linkedin_username = socialUsernameCollector(url)
 # Creating an instance of the Instaloader class
     bot = instaloader.Instaloader()
     #outlook email = datadigitest@hotmail.com
@@ -80,62 +84,65 @@ def instaData(url):
     try:
         df["Followers Count"] = profile.followers
     except Exception as e:
-        print("An error occured while geting the data for Followers Count: ",e)
+        print("An error occured while geting the data for Instagram Followers Count: ",e)
         df['Followers Count']=None
     try:
         df['Following Count']=profile.followees
     except Exception as e:
-        print("An error occured while geting the data for Following Count: ",e)
+        print("An error occured while geting the data for Instagram Following Count: ",e)
         df['Following Count']=None
     try:
         df['Post 1 Likes']=likess[0]
     except Exception as e:
-        print("An error occured while geting the data for Post 1 Likes: ",e)
+        print("An error occured while geting the data for Instagram Post 1 Likes: ",e)
         df['Post 1 Likes']=None
     try:
         df['Post 1 Comments']=commentss[0]
     except Exception as e:
-        print("An error occured while geting the data for Post 1 Comments: ",e)
+        print("An error occured while geting the data for Instagram Post 1 Comments: ",e)
         df['Post 1 Comments']=None
     try:
         df['Post 2 Likes']=likess[1]
     except Exception as e:
-        print("An error occured while geting the data for Post 2 Likes: ",e)
+        print("An error occured while geting the data for Instagram Post 2 Likes: ",e)
         df['Post 2 Likes']=None
     try:
         df['Post 2 Comments']=commentss[1]
     except Exception as e:
-        print("An error occured while geting the data for Post 2 Comments: ",e)
+        print("An error occured while geting the data for Instagram Post 2 Comments: ",e)
         df['Post 2 Comments']=None
     try:
         df['Post 3 Likes']=likess[2]
     except Exception as e:
-        print("An error occured while geting the data for Post 3 Likes: ",e)
+        print("An error occured while geting the data for Instagram Post 3 Likes: ",e)
         df['Post 3 Likes']=None
     try:
         df['Post 3 Comments']=commentss[2]
     except Exception as e:
-        print("An error occured while geting the data for Post 3 Comments: ",e)
+        print("An error occured while geting the data for Instagram Post 3 Comments: ",e)
         df['Post 3 Comments']=None
     try:
         df['Post 4 Likes']=likess[3]
     except Exception as e:
-        print("An error occured while geting the data for Post 4 Likes: ",e)
+        print("An error occured while geting the data for Instagram Post 4 Likes: ",e)
         df['Post 4 Likes']=None
     try:
         df['Post 4 Comments']=commentss[3]
     except Exception as e:
-        print("An error occured while geting the data for Post 4 Comments: ",e)
+        print("An error occured while geting the data for Instagram Post 4 Comments: ",e)
         df['Post 4 Comments']=None
     try:
         df['Post 5 Likes']=likess[4]
     except Exception as e:
-        print("An error occured while geting the data for Post 5 Likes: ",e)
+        print("An error occured while geting the data for Instagram Post 5 Likes: ",e)
         df['Post 5 Likes']=None
     try:
         df['Post 5 Comments']=commentss[4]
     except Exception as e:
-        print("An error occured while geting the data for Post 5 Comments: ",e)
+        print("An error occured while geting the data for Instagram Post 5 Comments: ",e)
         df['Post 5 Comments']=None
     df.to_csv(path, index=False,index_label=None)
-    return df
+
+    print(df)
+    print(likess)
+    print(commentss)
