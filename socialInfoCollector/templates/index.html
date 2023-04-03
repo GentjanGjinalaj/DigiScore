@@ -1,21 +1,76 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>My Web App</title>
-  </head>
-  <body>
-    <h1>My Web App</h1>
-    <form method="POST">
-      <label for="input_field">Input Company URL:</label>
-      <input type="text" id="input_field" name="user_input" placeholder="Enter the url of the desired company in the correct format including https://"  style="width: 50%;height: 2.2em; border: 2px solid red;  background-color: white;"
-        transition: width 0.4s ease-in-out;>
-      <button type="submit", style="  background-color: #04AA6D;
-      border: none;
-      color: white;
-      padding: 16px 32px;
-      text-decoration: none;
-      margin: 4px 2px;
-      cursor: pointer;">Submit</button>
-    </form>
-  </body>
+    <title>DIGITALIZED</title>
+    <style>
+      body {
+        background-color: #f2f2f2;
+        /*background: linear-gradient(to bottom right, #2196f3, #f44336);*/
+        font-family: Arial, sans-serif;
+        color: #333333;
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+    font-size: 48px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 50px;
+  }
+
+  form {
+    margin: 0 auto;
+    max-width: 600px;
+    text-align: center;
+    margin-top: 50px;
+  }
+
+  label {
+    display: block;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    height: 2.2em;
+    border: 2px solid red;
+    background-color: white;
+    transition: width 0.4s ease-in-out;
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  input[type="text"]:focus {
+    width: 120%;
+    transition: width 0.4s ease-in-out;
+  }
+
+  button[type="submit"] {
+    background-color: #04AA6D;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin-top: 20px;
+    font-size: 24px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  button[type="submit"]:hover {
+    background-color: #3cba92;
+  }
+</style>
+</head>
+<body>
+  <h1>DIGISCORE</h1>
+  <form method="POST">
+    <label for="input_field">Input Company URL:</label>
+    <input type="text" id="input_field" name="user_input" placeholder="Enter the url of the desired company in the correct format including https://">
+    <button type="submit">Submit</button>
+  </form>
+</body>
 </html>

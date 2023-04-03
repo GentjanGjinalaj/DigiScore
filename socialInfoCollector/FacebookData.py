@@ -1,14 +1,24 @@
+#https://www.scraping-bot.io/
 import json
 from time import sleep
 import pandas as pd
 import requests
+import time
 #from SocialLinkCollector import facebook_link
 
 
-def facebookData(facebook_link):
+def facebookData(facebook_link,facebook_username):
+    st=time.time()
     path='C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\Actual\\facebook.json'
+    path1 = "C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\test.csv"
     #instagram_link, facebook_link,linkedin_link = socialPlatformsUrl(url)
     #print("My facebook link:",facebook_link)
+
+    ##################################
+    #When you uncomment the scrapper DON'T FORGET to activate this line:
+    #path=path1
+    ##################################
+    #path=path1
 
     '''if facebook_link:
         username = 'gentjan_gjinalaj'
@@ -110,20 +120,16 @@ def facebookData(facebook_link):
         print(post4)
         print(post5)
 
-        path1 = "C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\test.csv"
-
         # Create a new row to append to the DataFrame
         new_row = {
+                    'Social Platform Name':'Facebook',
+                    'Social Platform Link':facebook_link,
+                    'Social Platform Username':facebook_username,
                     'Post 1 Likes': post1,
-                    #'Post 1 Comments': post1Comments,
                     'Post 2 Likes': post2,
-                    #'Post 2 Comments': post2Comments,
                     'Post 3 Likes': post3,
-                    #'Post 3 Comments': post3Comments,
                     'Post 4 Likes': post4,
-                    #'Post 4 Comments': post4Comments,
                     'Post 5 Likes': post5,
-                    #'Post 5 Comments': post5Comments,
                     'Followers Count': fb_followers,
                     'Page Like Count':fb_likes
                 }
@@ -131,21 +137,57 @@ def facebookData(facebook_link):
 
         try:
             df1 = pd.read_csv(path1)
+            # Convert the dictionary to a DataFrame
+            new_row_df = pd.DataFrame([new_row])
+            # Append the new row of data to the existing DataFrame
+            df1 = pd.concat([df1,new_row_df], ignore_index=True)
+            # df1.loc[len(df1)] = new_row
+
+            # Write the updated DataFrame to the CSV file
+            df1.to_csv(path1, index=False)
+            print(df1)
         except Exception as e:
             print("An error occurred while reading the CSV file: ", e)
             df1 = None
-        # Convert the dictionary to a DataFrame
-        new_row_df = pd.DataFrame([new_row])
-        # Append the new row of data to the existing DataFrame
-        df1 = pd.concat([df1,new_row_df], ignore_index=True)
-        # df1.loc[len(df1)] = new_row
-
-        # Write the updated DataFrame to the CSV file
-        df1.to_csv(path1, index=False)
-        print(df1)
+        et=time.time()
+        print('Total execution time of FacebookData.py is:',et-st)
 
     else:
         print("There is no facebook link on their webpage")
+
+        # Create a new row to append to the DataFrame
+        new_row = {
+                    'Social Platform Name':'Facebook',
+                    'Social Platform Link':None,
+                    'Social Platform Username':None,
+                    'Post 1 Likes':None,
+                    'Post 2 Likes':None,
+                    'Post 3 Likes':None,
+                    'Post 4 Likes':None,
+                    'Post 5 Likes':None,
+                    'Followers Count': None,
+                    'Page Like Count':None
+                }
+        try:
+            df1 = pd.read_csv(path1)
+            # Convert the dictionary to a DataFrame
+            new_row_df = pd.DataFrame([new_row])
+            # Append the new row of data to the existing DataFrame
+            df1 = pd.concat([df1,new_row_df], ignore_index=True)
+            # df1.loc[len(df1)] = new_row
+
+            # Write the updated DataFrame to the CSV file
+            df1.to_csv(path1, index=False)
+            print(df1)
+        except Exception as e:
+            print("An error occurred while reading the CSV file: ", e)
+            df1 = None
+
+    et=time.time()
+    facebook_time=et-st
+    print('Total execution time of FacebookData.py is:',facebook_time)
+
+    return facebook_time
 
 
 #facebookData('cvsdv')

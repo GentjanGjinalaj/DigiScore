@@ -1,3 +1,5 @@
+#https://www.scraping-bot.io/
+import time
 import requests
 import json
 from time import sleep
@@ -7,11 +9,19 @@ from time import sleep
 #from SocialLinkCollector import linkedin_link
 
 
-def linkedinData(linkedin_link):
+def linkedinData(linkedin_link,linkedin_username):
+    st=time.time()
     path='C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\Actual\\linkedinData.json'
+    path1 = "C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\test.csv"
     #instagram_link, facebook_link,linkedin_link = socialPlatformsUrl(url)
     #print("my linkedin link:",linkedin_link)
-    '''if linkedin_link:
+
+    ##################################
+    #When you uncomment the scrapper DON'T FORGET to activate this line:
+    #path=path1
+    ##################################
+    #path=path1
+    if linkedin_link:
         username = 'gentjan_gjinalaj'
         apiKey = 'aWSMM1qwgr52Mm6Yyq6JPKWXH'
         scraper = 'linkedinCompanyProfile'
@@ -54,10 +64,10 @@ def linkedinData(linkedin_link):
                         print(json.dumps(result, indent=4))
 
         else:
-            print(response.text)'''
+            print(response.text)
 
     if linkedin_link:
-        print('spvdfnviwfvnsdvbsuefcsbwgeidsjkl')
+
         import pandas as pd
         #path1='C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\Actual\\linkedinData.json'
 
@@ -140,10 +150,11 @@ def linkedinData(linkedin_link):
         print(post5Comments)
 
 
-        path1 = "C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\test.csv"
-
     # Create a new row to append to the DataFrame
         new_row = {
+                'Social Platform Name':'Linkedin',
+                'Social Platform Link':linkedin_link,
+                'Social Platform Username':linkedin_username,
                 'Post 1 Likes': post1Likes,
                 'Post 1 Comments': post1Comments,
                 'Post 2 Likes': post2Likes,
@@ -160,16 +171,56 @@ def linkedinData(linkedin_link):
 
         try:
             df1 = pd.read_csv(path1)
+            # Convert the dictionary to a DataFrame
+            new_row_df = pd.DataFrame([new_row])
+            # Append the new row of data to the existing DataFrame
+            df1 = pd.concat([df1,new_row_df], ignore_index=True)
+            # df1.loc[len(df1)] = new_row
+
+            # Write the updated DataFrame to the CSV file
+            df1.to_csv(path1, index=False)
         except Exception as e:
             print("An error occurred while reading the CSV file: ", e)
             df1 = None
-        # Convert the dictionary to a DataFrame
-        new_row_df = pd.DataFrame([new_row])
-        # Append the new row of data to the existing DataFrame
-        df1 = pd.concat([df1,new_row_df], ignore_index=True)
-        # df1.loc[len(df1)] = new_row
 
-        # Write the updated DataFrame to the CSV file
-        df1.to_csv(path1, index=False)
+
+    else:
+
+        # Create a new row to append to the DataFrame
+        new_row = {
+                    'Social Platform Name':'Linkedin',
+                    'Social Platform Link':None,
+                    'Social Platform Username':None,
+                    'Post 1 Likes': None,
+                    'Post 1 Comments': None,
+                    'Post 2 Likes': None,
+                    'Post 2 Comments': None,
+                    'Post 3 Likes': None,
+                    'Post 3 Comments': None,
+                    'Post 4 Likes': None,
+                    'Post 4 Comments': None,
+                    'Post 5 Likes': None,
+                    'Post 5 Comments': None,
+                    'Followers Count': None,
+                    'Following Count': None,
+                }
+        try:
+            df1 = pd.read_csv(path1)
+            # Convert the dictionary to a DataFrame
+            new_row_df = pd.DataFrame([new_row])
+            # Append the new row of data to the existing DataFrame
+            df1 = pd.concat([df1,new_row_df], ignore_index=True)
+            # df1.loc[len(df1)] = new_row
+
+            # Write the updated DataFrame to the CSV file
+            df1.to_csv(path1, index=False)
+        except Exception as e:
+            print("An error occurred while reading the CSV file: ", e)
+            df1 = None
+    et=time.time()
+    linkedin_time=et-st
+    print('Total execution time of LinkedinData.py is:',linkedin_time)
+
+    return linkedin_time
 
 #linkedinData('qwerty')

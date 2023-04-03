@@ -1,4 +1,5 @@
 import sys
+import time
 #sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector\\InstagramData.py')
 #sys.path.insert(0,'./socialInfoCollector')
 sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector')
@@ -9,7 +10,9 @@ import pandas as pd
 #from SocialLinkCollector import socialLinkCollector
 
 
-def socialUsernameCollector(instagram_link, facebook_link,linkedin_link):
+def socialUsernameCollector(instagram_link, facebook_link,linkedin_link,twitter_link):
+    st=time.time()
+    path = "C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\test.csv"
     #instagram_link, facebook_link,linkedin_link = socialLinkCollector(url)
     if instagram_link:
         # Extract the username from the link using regular expressions
@@ -32,12 +35,23 @@ def socialUsernameCollector(instagram_link, facebook_link,linkedin_link):
     else:
         print("No LinkedIn username found.")
         linkedin_username=None
+    if twitter_link:
+        # extract the username/handle from the link using regex
+        username_regex = r"https?://(?:www\.)?twitter\.com/([A-Za-z0-9_]+)"
+        username_match = re.match(username_regex, twitter_link)
+        twitter_username = username_match.group(1)
+        print('Twitter Username:', twitter_username)
+    else:
+        print("No Twitter Username Found.")
+        twitter_username=None
 
-    path = "C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\test.csv"
     df = pd.read_csv(path)
-    df["Instagram Username"] = instagram_username
+    df["Social Platform Username"] = instagram_username
     df.to_csv(path, index=False)
+    et=time.time()
+    username_time=et-st
+    print('Total execution time of SocialUsernameCollector.py is:',username_time)
 
-    return instagram_username,facebook_username,linkedin_username
+    return instagram_username,facebook_username,linkedin_username,twitter_username,username_time
 
 

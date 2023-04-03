@@ -18,6 +18,7 @@ import SocialUsernameCollector
 import InstagramData
 import LinkedinData
 import FacebookData
+import TwitterData
 
 app = Flask(__name__)
 
@@ -25,11 +26,14 @@ app = Flask(__name__)
 def index():
     if request.method == 'POST':
         user_input = request.form['user_input']
-        instagram_link,facebook_link,linkedin_link = SocialLinkCollector.socialLinkCollector(user_input)
-        instagram_username,facebook_username,linkedin_username=SocialUsernameCollector.socialUsernameCollector(instagram_link=instagram_link,facebook_link=facebook_link,linkedin_link=linkedin_link)
-        instagramData=InstagramData.instagramData(instagram_username=instagram_username)
-        linkedinData=LinkedinData.linkedinData(linkedin_link=linkedin_link)
-        result=FacebookData.facebookData(facebook_link=facebook_link)
+        instagram_link,facebook_link,linkedin_link,twitter_link,links_time = SocialLinkCollector.socialLinkCollector(user_input)
+        instagram_username,facebook_username,linkedin_username,twitter_username,username_time=SocialUsernameCollector.socialUsernameCollector(instagram_link=instagram_link,facebook_link=facebook_link,linkedin_link=linkedin_link,twitter_link=twitter_link)
+        instagram_time=InstagramData.instagramData(instagram_username=instagram_username)
+        linkedin_time=LinkedinData.linkedinData(linkedin_link=linkedin_link,linkedin_username=linkedin_username)
+        facebook_time=FacebookData.facebookData(facebook_link=facebook_link,facebook_username=facebook_username)
+        twitter_time=TwitterData.twitterData(twitter_link=twitter_link,twitter_username=twitter_username)
+        result=instagram_time+linkedin_time+facebook_time+twitter_time+links_time+username_time
+        print('Total execution time:',result)
 
         # Create the CSV file and write the data to it
 
