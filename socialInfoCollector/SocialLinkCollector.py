@@ -12,7 +12,7 @@ import pandas as pd
 
 def socialLinkCollector(url):
     st=time.time()
-    path = "C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\test.csv"
+    path = "DigiScore\\test.csv"
     if url:
 
         # The URL of the webpage you want to scrape

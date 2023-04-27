@@ -1,4 +1,5 @@
 from asyncio import wait
+import configparser
 import sys
 import time
 #from FacebookData import facebookData
@@ -6,20 +7,27 @@ import time
 
 #sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector\\InstagramData.py')
 #sys.path.insert(0,'./socialInfoCollector')
-sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector')
-sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector\\SocialUsernameCollector.py')
+#sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector')
+#sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector\\SocialUsernameCollector.py')
 import instaloader
 import pandas as pd
 from instagramy import InstagramUser
 #from SocialUsernameCollector import socialUsernameCollector,instagram_username
-import instaloader
 import itertools
 
 
 def instagramData(instagram_username):
     st=time.time()
-    path = "C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\test.csv"
+    print('Started executing InstagramData.py')
+    path = "DigiScore\\test.csv"
     if instagram_username:
+        # Load the configuration file
+        config = configparser.ConfigParser()
+        config.read('DigiScore\\socialInfoCollector\\config.ini')
+
+        # Get the username and password from the config file
+        username = config.get('instagram', 'username')
+        password = config.get('instagram', 'password')
         #instagram_username,facebook_username,linkedin_username = socialUsernameCollector(url)
         # Creating an instance of the Instaloader class
         bot = instaloader.Instaloader()
@@ -28,6 +36,16 @@ def instagramData(instagram_username):
         #Instagram username=data_digi_test
         #Instagram password=Digitalized1243
         # Loading the profile from an Instagram handle
+
+        # Log in to Instagram
+        bot.context.log("Logging in...")
+        bot.load_session_from_file(username)
+        if not bot.context.is_logged_in:
+            bot.context.log("Login failed.")
+        else:
+            bot.context.log("Login successful.")
+
+
         profile = instaloader.Profile.from_username(bot.context, instagram_username)
         print("Username: ", profile.username)
         print("User ID: ", profile.userid)
@@ -37,14 +55,9 @@ def instagramData(instagram_username):
         print("Bio: ", profile.biography)
         print("External URL: ", profile.external_url)
 
-        # Create an instance of Instaloader class
-        L = instaloader.Instaloader()
-
         # Login to Instagram (if required)
         # L.load_session_from_file(username) # load session if previously saved
 
-        # Retrieve the profile of the user
-        profile = instaloader.Profile.from_username(L.context, instagram_username)
 
         # Get the posts of the user
         posts = itertools.islice(profile.get_posts(),5)
@@ -95,7 +108,7 @@ def instagramData(instagram_username):
         except Exception as e:
             print("An error occured while geting the data for Instagram Following Count: ",e)
             df['Following Count']=None
-        try:
+        '''try:
             df['Post 1 Likes']=likess[0]
         except Exception as e:
             print("An error occured while geting the data for Instagram Post 1 Likes: ",e)
@@ -144,8 +157,47 @@ def instagramData(instagram_username):
             df['Post 5 Comments']=commentss[4]
         except Exception as e:
             print("An error occured while geting the data for Instagram Post 5 Comments: ",e)
-            df['Post 5 Comments']=None
-        df.to_csv(path, index=False,index_label=None)
+            df['Post 5 Comments']=None'''
+        try:
+            filtered_likes = [x for x in likess if x is not None]
+
+            # Calculate the average
+            if filtered_likes:
+                average_likes = sum(filtered_likes) / len(filtered_likes)
+            else:
+                average_likes = None
+
+            print(average_likes)
+        except:
+            print("An error occured while calculating the average likes")
+            average_likes = None
+
+        try:
+            filtered_comments = [x for x in commentss if x is not None]
+
+            # Calculate the average
+            if filtered_comments:
+                average_comments = sum(filtered_comments) / len(filtered_comments)
+            else:
+                average_comments = None
+
+            print(average_comments)
+        except:
+            print("An error occured while calculating the average comments")
+            average_comments = None
+        try:
+            df['Average Likes per 5 posts']=average_likes
+        except:
+            df['Average Likes per 5 posts']=None
+        try:
+            df['Average Comments per 5 posts']=average_comments
+        except:
+            df['Average Comments per 5 posts']=None
+
+        try:
+            df.to_csv(path, index=False,index_label=None)
+        except:
+            print("An error occured while writing the data to the csv file")
 
         print(df)
         print(likess)
@@ -159,16 +211,8 @@ def instagramData(instagram_username):
             df['Social Platform Name']='Instagram'
             df['Followers Count']=None
             df['Following Count']=None
-            df['Post 1 Likes']=None
-            df['Post 1 Comments']=None
-            df['Post 2 Likes']=None
-            df['Post 2 Comments']=None
-            df['Post 3 Likes']=None
-            df['Post 3 Comments']=None
-            df['Post 4 Likes']=None
-            df['Post 4 Comments']=None
-            df['Post 5 Likes']=None
-            df['Post 5 Comments']=None
+            df['Average Likes per 5 posts']=None
+            df['Average Comments per 5 posts']=None
 
             df.to_csv(path, index=False,index_label=None)
 
@@ -178,6 +222,8 @@ def instagramData(instagram_username):
 
     et=time.time()
     instagram_time=et-st
-    print('Total execution time of InstagramData.py is:',instagram_time)
+    print('Total execution time of InstagramData.py is:',instagram_time,'seconds')
 
     return instagram_time
+
+#instagramData('gentjan_gjinalaj')

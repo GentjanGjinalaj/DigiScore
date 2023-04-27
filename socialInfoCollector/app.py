@@ -1,15 +1,17 @@
 import os
-from flask import Flask,request,render_template,send_file
+from flask import Flask,request,render_template,send_file, send_from_directory
 import sys
 #from DigiScore.socialInfoCollector.SocialUsernameCollector import socialUsernameCollector
 
 #sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector\\InstagramData.py')
 #sys.path.insert(0,'./socialInfoCollector')
-sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector')
-sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector\\InstagramData.py')
-sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector\\templates')
-sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector\\templates\\result.html')
-sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector\\templates\\index.html')
+
+#sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector')
+#sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector\\InstagramData.py')
+#sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector\\templates')
+#sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector\\templates\\result.html')
+#sys.path.append('C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector\\templates\\index.html')
+
 #print(sys.path)
 #sys.path.insert(0, 'C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\socialInfoCollector\\InstagramData.py')
 
@@ -20,6 +22,7 @@ import LinkedinData
 import FacebookData
 import TwitterData
 
+
 app = Flask(__name__)
 
 @app.route("/", methods=["GET", "POST"])
@@ -29,11 +32,11 @@ def index():
         instagram_link,facebook_link,linkedin_link,twitter_link,links_time = SocialLinkCollector.socialLinkCollector(user_input)
         instagram_username,facebook_username,linkedin_username,twitter_username,username_time=SocialUsernameCollector.socialUsernameCollector(instagram_link=instagram_link,facebook_link=facebook_link,linkedin_link=linkedin_link,twitter_link=twitter_link)
         instagram_time=InstagramData.instagramData(instagram_username=instagram_username)
+        twitter_time=TwitterData.twitterData(twitter_link=twitter_link,twitter_username=twitter_username)
         linkedin_time=LinkedinData.linkedinData(linkedin_link=linkedin_link,linkedin_username=linkedin_username)
         facebook_time=FacebookData.facebookData(facebook_link=facebook_link,facebook_username=facebook_username)
-        twitter_time=TwitterData.twitterData(twitter_link=twitter_link,twitter_username=twitter_username)
         result=instagram_time+linkedin_time+facebook_time+twitter_time+links_time+username_time
-        print('Total execution time:',result)
+        print('Total execution time:',result,'seconds')
 
         # Create the CSV file and write the data to it
 
@@ -49,11 +52,12 @@ def index():
 
 @app.route('/download_csv')
 def download_csv():
-    path = "C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\test.csv"
+    filename = "test.csv"
+    path = os.path.abspath(os.path.join(os.getcwd(), "DigiScore", filename))
     return send_file(path, as_attachment=True)
 
 
-def result():
+'''def result():
     # get user input from the form
     user_input = request.form['user_input']
 
@@ -63,7 +67,8 @@ def result():
 
     # construct the file download response
     directory, filename = os.path.split('DigiScore\\test.csv')
-    return send_file('test.csv', attachment_filename=filename, as_attachment=True)
+    print("not executed")
+    return send_file('test.csv', attachment_filename=filename, as_attachment=True)'''
 
 if __name__ == '__main__':
     app.run(debug=True,port=5000)

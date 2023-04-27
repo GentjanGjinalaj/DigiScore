@@ -11,8 +11,9 @@ from time import sleep
 
 def linkedinData(linkedin_link,linkedin_username):
     st=time.time()
-    path='C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\Actual\\linkedinData.json'
-    path1 = "C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\test.csv"
+    print('Started executing LinkedinkData.py')
+    path='Actual\\linkedinData.json'
+    path1 = "DigiScore\\test.csv"
     #instagram_link, facebook_link,linkedin_link = socialPlatformsUrl(url)
     #print("my linkedin link:",linkedin_link)
 
@@ -21,7 +22,7 @@ def linkedinData(linkedin_link,linkedin_username):
     #path=path1
     ##################################
     #path=path1
-    if linkedin_link:
+    '''if linkedin_link:
         username = 'gentjan_gjinalaj'
         apiKey = 'aWSMM1qwgr52Mm6Yyq6JPKWXH'
         scraper = 'linkedinCompanyProfile'
@@ -64,13 +65,14 @@ def linkedinData(linkedin_link,linkedin_username):
                         print(json.dumps(result, indent=4))
 
         else:
-            print(response.text)
+            print(response.text)'''
 
     if linkedin_link:
 
         import pandas as pd
         #path1='C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\Actual\\linkedinData.json'
-
+        likess=[]
+        commentss=[]
         try:
             df = pd.read_json(path)
         except Exception as e:
@@ -84,58 +86,78 @@ def linkedinData(linkedin_link,linkedin_username):
 
         try:
             post1Likes = df['updates'][0][0]['likes_count']
+            likess.append(post1Likes)
         except Exception as e:
             print("An error occured while geting the data for Linkedin Post 1 Likes: ",e)
             post1Likes = None
+            likess.append(post1Likes)
         try:
             post1Comments = df['updates'][0][0]['comments_count']
+            commentss.append(post1Comments)
         except Exception as e:
             print("An error occured while geting the data for Linkedin Post 1 Comments: ",e)
             post1Comments = None
+            commentss.append(post1Comments)
 
         try:
             post2Comments = df['updates'][0][1]['comments_count']
+            commentss.append(post2Comments)
         except Exception as e:
             print("An error occured while geting the data for Linkedin Post 2 Comments: ",e)
             post2Comments = None
+            commentss.append(post2Comments)
         try:
             post2Likes = df['updates'][0][1]['likes_count']
+            likess.append(post2Likes)
         except Exception as e:
             print("An error occured while geting the data for Linkedin Post 2 Likes: ",e)
             post2Likes = None
+            likess.append(post2Likes)
 
         try:
             post3Likes = df['updates'][0][2]['likes_count']
+            likess.append(post3Likes)
         except Exception as e:
             print("An error occured while geting the data for Linkedin Post 3 Likes: ",e)
             post3Likes = None
+            likess.append(post3Likes)
         try:
             post3Comments = df['updates'][0][2]['comments_count']
+            commentss.append(post3Comments)
         except Exception as e:
             print("An error occured while geting the data for Linkedin Post 3 Comments: ",e)
             post3Comments = None
+            commentss.append(post3Comments)
 
         try:
             post4Likes = df['updates'][0][3]['likes_count']
+            likess.append(post4Likes)
         except Exception as e:
             print("An error occured while geting the data for Linkedin Post 4 Likes: ",e)
             post4Likes = None
+            likess.append(post4Likes)
         try:
             post4Comments = df['updates'][0][3]['comments_count']
+            commentss.append(post4Comments)
         except Exception as e:
             print("An error occured while geting the data for Linkedin Post 4 Comments: ",e)
             post4Comments = None
+            commentss.append(post4Comments)
 
         try:
             post5Likes = df['updates'][0][4]['likes_count']
+            likess.append(post5Likes)
         except Exception as e:
             print("An error occured while geting the data for Linkedin Post 5 Likes: ",e)
             post5Likes = None
+            likess.append(post5Likes)
         try:
             post5Comments = df['updates'][0][4]['comments_count']
+            commentss.append(post5Comments)
         except Exception as e:
             print("An error occured while geting the data for Linkedin Post 5 Comments: ",e)
             post5Comments = None
+            commentss.append(post5Comments)
 
         print(linkedinFollowers)
         print(post1Likes)
@@ -148,6 +170,37 @@ def linkedinData(linkedin_link,linkedin_username):
         print(post4Comments)
         print(post5Likes)
         print(post5Comments)
+        print(likess)
+        print(commentss)
+
+
+        try:
+            filtered_likes = [x for x in likess if x is not None]
+
+            # Calculate the average
+            if filtered_likes:
+                average_likes = sum(filtered_likes) / len(filtered_likes)
+            else:
+                average_likes = None
+
+            print(average_likes)
+        except:
+            print("An error occured while calculating the average likes")
+            average_likes = None
+
+        try:
+            filtered_comments = [x for x in commentss if x is not None]
+
+            # Calculate the average
+            if filtered_comments:
+                average_comments = sum(filtered_comments) / len(filtered_comments)
+            else:
+                average_comments = None
+
+            print(average_comments)
+        except:
+            print("An error occured while calculating the average comments")
+            average_comments = None
 
 
     # Create a new row to append to the DataFrame
@@ -155,17 +208,9 @@ def linkedinData(linkedin_link,linkedin_username):
                 'Social Platform Name':'Linkedin',
                 'Social Platform Link':linkedin_link,
                 'Social Platform Username':linkedin_username,
-                'Post 1 Likes': post1Likes,
-                'Post 1 Comments': post1Comments,
-                'Post 2 Likes': post2Likes,
-                'Post 2 Comments': post2Comments,
-                'Post 3 Likes': post3Likes,
-                'Post 3 Comments': post3Comments,
-                'Post 4 Likes': post4Likes,
-                'Post 4 Comments': post4Comments,
-                'Post 5 Likes': post5Likes,
-                'Post 5 Comments': post5Comments,
-                'Followers Count': linkedinFollowers
+                'Followers Count': linkedinFollowers,
+                'Average Likes per 5 posts': average_likes,
+                'Average Comments per 5 posts': average_comments
             }
 
 
@@ -191,18 +236,9 @@ def linkedinData(linkedin_link,linkedin_username):
                     'Social Platform Name':'Linkedin',
                     'Social Platform Link':None,
                     'Social Platform Username':None,
-                    'Post 1 Likes': None,
-                    'Post 1 Comments': None,
-                    'Post 2 Likes': None,
-                    'Post 2 Comments': None,
-                    'Post 3 Likes': None,
-                    'Post 3 Comments': None,
-                    'Post 4 Likes': None,
-                    'Post 4 Comments': None,
-                    'Post 5 Likes': None,
-                    'Post 5 Comments': None,
-                    'Followers Count': None,
-                    'Following Count': None,
+                    'Average Likes per 5 posts': None,
+                    'Average Comments per 5 posts': None,
+                    'Followers Count': None
                 }
         try:
             df1 = pd.read_csv(path1)
@@ -219,7 +255,7 @@ def linkedinData(linkedin_link,linkedin_username):
             df1 = None
     et=time.time()
     linkedin_time=et-st
-    print('Total execution time of LinkedinData.py is:',linkedin_time)
+    print('Total execution time of LinkedinData.py is:',linkedin_time,'seconds')
 
     return linkedin_time
 

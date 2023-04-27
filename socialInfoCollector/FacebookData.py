@@ -9,8 +9,9 @@ import time
 
 def facebookData(facebook_link,facebook_username):
     st=time.time()
-    path='C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\Actual\\facebook.json'
-    path1 = "C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\DigiScore\\test.csv"
+    print('Started executing FacebookData.py')
+    path='Actual\\facebook.json'
+    path1 = "DigiScore\\test.csv"
     #instagram_link, facebook_link,linkedin_link = socialPlatformsUrl(url)
     #print("My facebook link:",facebook_link)
 
@@ -64,7 +65,8 @@ def facebookData(facebook_link,facebook_username):
         else:
             print(response.text)'''
 
-
+    likess=[]
+    comments=[]
     if facebook_link:
         try:
             df = pd.read_json(path)
@@ -84,33 +86,58 @@ def facebookData(facebook_link,facebook_username):
 
         try:
             post1 = df['post_info'][0][0]['likes']
+            likess.append(post1)
         except Exception as e:
             print("An error occured while geting the data for Facebook Post 1 : ",e)
             post1 = None
+            likess.append(post1)
 
         try:
             post2 = df['post_info'][0][1]['likes']
+            likess.append(post2)
         except Exception as e:
             print("An error occured while geting the data for Facebook Post 2 : ",e)
             post2 = None
+            likess.append(post2)
 
         try:
             post3 = df['post_info'][0][2]['likes']
+            likess.append(post3)
         except Exception as e:
             print("An error occured while geting the data for Facebook Post 3 : ",e)
             post3 = None
+            likess.append(post3)
 
         try:
             post4 = df['post_info'][0][3]['likes']
+            likess.append(post4)
         except Exception as e:
             print("An error occured while geting the data for Facebook Post 4 : ",e)
             post4 = None
+            likess.append(post4)
 
         try:
             post5 = df['post_info'][0][4]['likes']
+            likess.append(post5)
         except Exception as e:
             print("An error occured while geting the data for Facebook Post 5: ",e)
             post5 = None
+            likess.append(post5)
+
+        try:
+            filtered_likes = [x for x in likess if x is not None]
+
+            # Calculate the average
+            if filtered_likes:
+                average_likes = sum(filtered_likes) / len(filtered_likes)
+            else:
+                average_likes = None
+
+            print(average_likes)
+        except:
+            print("An error occured while calculating the average likes")
+            average_likes = None
+
 
         print(fb_followers)
         print(fb_likes)
@@ -119,19 +146,18 @@ def facebookData(facebook_link,facebook_username):
         print(post3)
         print(post4)
         print(post5)
+        print(likess)
+        print(comments)
+        print('Avarage Fb Likes:',average_likes)
 
         # Create a new row to append to the DataFrame
         new_row = {
                     'Social Platform Name':'Facebook',
                     'Social Platform Link':facebook_link,
                     'Social Platform Username':facebook_username,
-                    'Post 1 Likes': post1,
-                    'Post 2 Likes': post2,
-                    'Post 3 Likes': post3,
-                    'Post 4 Likes': post4,
-                    'Post 5 Likes': post5,
                     'Followers Count': fb_followers,
-                    'Page Like Count':fb_likes
+                    'Page Like Count':fb_likes,
+                    'Average Likes per 5 posts':average_likes
                 }
 
 
@@ -160,11 +186,7 @@ def facebookData(facebook_link,facebook_username):
                     'Social Platform Name':'Facebook',
                     'Social Platform Link':None,
                     'Social Platform Username':None,
-                    'Post 1 Likes':None,
-                    'Post 2 Likes':None,
-                    'Post 3 Likes':None,
-                    'Post 4 Likes':None,
-                    'Post 5 Likes':None,
+                    'Average Likes per 5 posts':None,
                     'Followers Count': None,
                     'Page Like Count':None
                 }
@@ -185,7 +207,7 @@ def facebookData(facebook_link,facebook_username):
 
     et=time.time()
     facebook_time=et-st
-    print('Total execution time of FacebookData.py is:',facebook_time)
+    print('Total execution time of FacebookData.py is:',facebook_time,'seconds')
 
     return facebook_time
 
