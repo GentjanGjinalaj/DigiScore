@@ -1,12 +1,10 @@
 import snscrape.modules.twitter as sntwitter
 import pandas as pd
-import re
 import time
 from datetime import datetime, timedelta
 
 def twitterData(twitter_link,twitter_username):
     st=time.time()
-    return 0
     print('Started executing TwitterData.py')
     path = "DigiScore\\test.csv"
     if twitter_link:
@@ -15,15 +13,19 @@ def twitterData(twitter_link,twitter_username):
         d = datetime.today() - timedelta(days=90)
         date_without_hour = d.strftime(f"%Y-%m-%d")
 
-        # set the Twitter account handle
-        twitter_handle = twitter_username
+        try:
+            # set the Twitter account handle
+            twitter_handle = twitter_username
 
-        # get the user object for the Twitter account
-        user_query = f"from:{twitter_handle}"
-        user_results = list(sntwitter.TwitterSearchScraper(user_query + f" since:{date_without_hour} until:{now_withot_hour}").get_items())
-        print(user_results)
+            # get the user object for the Twitter account
+            user_query = f"from:{twitter_handle}"
+            user_results = list(sntwitter.TwitterSearchScraper(user_query + f" since:{date_without_hour} until:{now_withot_hour}").get_items())
+            print(user_results)
+        except Exception as e:
+             print("Snscrape is not working:", e)
+             user_results=[]
 
-        if not user_results==[]:
+        if not user_results==[] and user_results:
 
             user = user_results[0].user
             print(user)
@@ -200,7 +202,7 @@ def twitterData(twitter_link,twitter_username):
     print('Total execution time of TwitterData.py is:',twitter_time,'seconds')
 
     return twitter_time
-twitterData('https://www.axa.com/','elonmusk')
+#twitterData('https://www.axa.com/','elonmusk')
 
 '''from twitter_scraper import Profile, get_tweets
 

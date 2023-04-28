@@ -4,22 +4,14 @@ from time import sleep
 import pandas as pd
 import requests
 import time
-#from SocialLinkCollector import facebook_link
 
 
 def facebookData(facebook_link,facebook_username):
     st=time.time()
     print('Started executing FacebookData.py')
-    path='Actual\\facebook.json'
-    path1 = "DigiScore\\test.csv"
-    #instagram_link, facebook_link,linkedin_link = socialPlatformsUrl(url)
-    #print("My facebook link:",facebook_link)
+    path1 ='DigiScore\\socialInfoCollector\\facebook.json'
+    path = "DigiScore\\test.csv"
 
-    ##################################
-    #When you uncomment the scrapper DON'T FORGET to activate this line:
-    #path=path1
-    ##################################
-    #path=path1
 
     '''if facebook_link:
         username = 'gentjan_gjinalaj'
@@ -53,7 +45,7 @@ def facebookData(facebook_link,facebook_username):
                     print(finalResponse.text)
                     # Write result to JSON file using Pandas
                     result_df = pd.DataFrame(result)
-                    result_df.to_json(path)
+                    result_df.to_json(path1)
                 elif type(result) is dict:
                     if "status" in result and result["status"] == "pending":
                         print(result["message"])
@@ -69,7 +61,7 @@ def facebookData(facebook_link,facebook_username):
     comments=[]
     if facebook_link:
         try:
-            df = pd.read_json(path)
+            df = pd.read_json(path1)
         except Exception as e:
             print("An error occured while reading the json: ",e)
 
@@ -162,7 +154,7 @@ def facebookData(facebook_link,facebook_username):
 
 
         try:
-            df1 = pd.read_csv(path1)
+            df1 = pd.read_csv(path)
             # Convert the dictionary to a DataFrame
             new_row_df = pd.DataFrame([new_row])
             # Append the new row of data to the existing DataFrame
@@ -170,13 +162,13 @@ def facebookData(facebook_link,facebook_username):
             # df1.loc[len(df1)] = new_row
 
             # Write the updated DataFrame to the CSV file
-            df1.to_csv(path1, index=False)
+            df1.to_csv(path, index=False)
             print(df1)
         except Exception as e:
             print("An error occurred while reading the CSV file: ", e)
             df1 = None
-        et=time.time()
-        print('Total execution time of FacebookData.py is:',et-st)
+            et=time.time()
+            print('Total execution time of FacebookData.py is:',et-st,'seconds')
 
     else:
         print("There is no facebook link on their webpage")
@@ -191,7 +183,7 @@ def facebookData(facebook_link,facebook_username):
                     'Page Like Count':None
                 }
         try:
-            df1 = pd.read_csv(path1)
+            df1 = pd.read_csv(path)
             # Convert the dictionary to a DataFrame
             new_row_df = pd.DataFrame([new_row])
             # Append the new row of data to the existing DataFrame
@@ -199,7 +191,7 @@ def facebookData(facebook_link,facebook_username):
             # df1.loc[len(df1)] = new_row
 
             # Write the updated DataFrame to the CSV file
-            df1.to_csv(path1, index=False)
+            df1.to_csv(path, index=False)
             print(df1)
         except Exception as e:
             print("An error occurred while reading the CSV file: ", e)

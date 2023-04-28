@@ -24,15 +24,14 @@ def simiWebData(url):
 
         service = Service(driver_path)
         driver = webdriver.Chrome(service=service,options=options)
-        #driver = webdriver.Chrome(service=service)
 
         parsed_url = urlparse(url)
         companyName = parsed_url.netloc.replace("www.", "")
         last_part = parsed_url.path.split("/")[-1]
 
-        print(companyName) # Output: "esc-clermont.fr"
+        print(companyName)
         print(last_part)
-        # Set the window size to 1920x1080
+        # Set the window size to desired size :1920x1080
         driver.set_window_size(1440, 720)
 
         urlScrape=f'https://www.similarweb.com/website/{companyName}/#overview'
@@ -41,7 +40,7 @@ def simiWebData(url):
         # Wait for the page to load
         time.sleep(7)
         # Check if the current url contains 'search/?q'
-        if 'search/?q' in driver.current_url:
+        if 'search/' in driver.current_url:
             raise ValueError("Company not found or something went wrong")
         else:
 
@@ -89,8 +88,5 @@ def simiWebData(url):
         return simiWebData_time
     finally:
         driver.quit()
-    
 
-simiWebData("https://www.esg.-rennes?gge_source=google&gge_medium=cpc&gge_term=&gge_campaign=DSA&gclid=CjwKCAjwuqiiBhBtEiwATgvixOl7K7mP-r0aNSEjRlt91q5b5EyJjHT7yqdLVnz4RwTZsh36FPcvRhoC9d8QAvD_BwE")
-some=       'https://www.similarweb.com/search/?q=e_term%3D%26gge_campaign%3Ddsa%26gclid%3Dcjwkcajwuqiibhbteiwatgvixol7k7mp-r0ansejrlt91q5b5eyjjht7yqdlvnz4rwtzsh36fpcvrhoc9d8qavd_bwe#overview'
-iGot=       'https://www.similarweb.com/website/esg.fr/#overview'
+#simiWebData("hhttps://www.similarweb.com/website/esg.fr/#overview")

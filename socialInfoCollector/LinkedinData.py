@@ -1,27 +1,17 @@
 #https://www.scraping-bot.io/
-import time
-import requests
 import json
 from time import sleep
-#from FacebookData import facebookData
-
-
-#from SocialLinkCollector import linkedin_link
+import pandas as pd
+import requests
+import time
 
 
 def linkedinData(linkedin_link,linkedin_username):
     st=time.time()
     print('Started executing LinkedinkData.py')
-    path='Actual\\linkedinData.json'
-    path1 = "DigiScore\\test.csv"
-    #instagram_link, facebook_link,linkedin_link = socialPlatformsUrl(url)
-    #print("my linkedin link:",linkedin_link)
+    path1='DigiScore\\socialInfoCollector\\linkedinData.json'
+    path = "DigiScore\\test.csv"
 
-    ##################################
-    #When you uncomment the scrapper DON'T FORGET to activate this line:
-    #path=path1
-    ##################################
-    #path=path1
     '''if linkedin_link:
         username = 'gentjan_gjinalaj'
         apiKey = 'aWSMM1qwgr52Mm6Yyq6JPKWXH'
@@ -55,7 +45,7 @@ def linkedinData(linkedin_link,linkedin_username):
                     import pandas as pd
                     pending = False
                     result_df = pd.DataFrame(result)
-                    result_df.to_json(path)
+                    result_df.to_json(path1)
                 elif type(result) is dict:
                     if "status" in result and result["status"] == "pending":
                         print(result["message"])
@@ -69,12 +59,10 @@ def linkedinData(linkedin_link,linkedin_username):
 
     if linkedin_link:
 
-        import pandas as pd
-        #path1='C:\\Users\\User\\OneDrive - Fakulteti i Teknologjise se Informacionit\\Desktop\\Digitalized\\Actual\\linkedinData.json'
         likess=[]
         commentss=[]
         try:
-            df = pd.read_json(path)
+            df = pd.read_json(path1)
         except Exception as e:
             print("An error occured while reading the data",e)
 
@@ -215,7 +203,7 @@ def linkedinData(linkedin_link,linkedin_username):
 
 
         try:
-            df1 = pd.read_csv(path1)
+            df1 = pd.read_csv(path)
             # Convert the dictionary to a DataFrame
             new_row_df = pd.DataFrame([new_row])
             # Append the new row of data to the existing DataFrame
@@ -223,7 +211,7 @@ def linkedinData(linkedin_link,linkedin_username):
             # df1.loc[len(df1)] = new_row
 
             # Write the updated DataFrame to the CSV file
-            df1.to_csv(path1, index=False)
+            df1.to_csv(path, index=False)
         except Exception as e:
             print("An error occurred while reading the CSV file: ", e)
             df1 = None
@@ -241,7 +229,7 @@ def linkedinData(linkedin_link,linkedin_username):
                     'Followers Count': None
                 }
         try:
-            df1 = pd.read_csv(path1)
+            df1 = pd.read_csv(path)
             # Convert the dictionary to a DataFrame
             new_row_df = pd.DataFrame([new_row])
             # Append the new row of data to the existing DataFrame
@@ -249,7 +237,7 @@ def linkedinData(linkedin_link,linkedin_username):
             # df1.loc[len(df1)] = new_row
 
             # Write the updated DataFrame to the CSV file
-            df1.to_csv(path1, index=False)
+            df1.to_csv(path, index=False)
         except Exception as e:
             print("An error occurred while reading the CSV file: ", e)
             df1 = None
@@ -259,4 +247,4 @@ def linkedinData(linkedin_link,linkedin_username):
 
     return linkedin_time
 
-#linkedinData('qwerty')
+#linkedinData('qwerty','revcrvinorevnoer')

@@ -2,12 +2,6 @@ import time
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-#from FacebookData import facebookData
-#from InstagramData import instagramData
-#from LinkedinData import linkedinData
-#from SocialUsernameCollector import socialUsernameCollector
-
-
 
 
 def socialLinkCollector(url):
@@ -15,15 +9,12 @@ def socialLinkCollector(url):
     path = "DigiScore\\test.csv"
     if url:
 
-        # The URL of the webpage you want to scrape
-        #url = "https://www.icd-ecoles.com/"
-        #url = input('Please enter your url: ')
-
         response=None
 
         try:
             # code that might raise an exception
             response = requests.get(url)
+            print(response.status_code)
             response.raise_for_status() # raise HTTPError for 404 Not Found
         except requests.exceptions.SSLError:
             # code to handle the SSL error
@@ -80,27 +71,63 @@ def socialLinkCollector(url):
 
             # Print the links
             print("Mixed links:", mixed_links)
+
+            data=pd.DataFrame({'Social Platform Link':[instagram_link]})
+            data.to_csv(path,index=False, index_label=None)
+            et=time.time()
+            links_time=et-st
+            print('Total execution time of SocialLinkCollector.py is:',links_time)
         else:
             print(f"No URL found or the URL is wrong: {url}")
+            instagram_link=None
+            facebook_link=None
+            linkedin_link=None
+            twitter_link=None
+            data=pd.DataFrame({'Social Platform Link':[instagram_link]})
+            data.to_csv(path,index=False, index_label=None)
+            et=time.time()
+            links_time=et-st
+            print('Total execution time of SocialLinkCollector.py is:',links_time)
 
+            return instagram_link,facebook_link,linkedin_link,twitter_link,links_time
+
+        '''instagram_link=None
+        facebook_link=None
+        linkedin_link=None
+        twitter_link=None
         data=pd.DataFrame({'Social Platform Link':[instagram_link]})
         data.to_csv(path,index=False, index_label=None)
-
         et=time.time()
         links_time=et-st
-        return instagram_link,facebook_link,linkedin_link,twitter_link,links_time
+        print('Total execution time of SocialLinkCollector.py is:',links_time)
+
+        return instagram_link,facebook_link,linkedin_link,twitter_link,links_time'''
 
     else:
         print("No URL found or the URL is wrong:",url)
 
-        et=time.time()
-        links_time=et-st
-        print('Total execution time of SocialLinkCollector.py is:',links_time)
         instagram_link=None
         facebook_link=None
         linkedin_link=None
         twitter_link=None
+        data=pd.DataFrame({'Social Platform Link':[instagram_link]})
+        data.to_csv(path,index=False, index_label=None)
+        et=time.time()
+        links_time=et-st
+        print('Total execution time of SocialLinkCollector.py is:',links_time)
 
     return instagram_link,facebook_link,linkedin_link,twitter_link,links_time
+
+#socialLinkCollector('https://www.icd-ecoles.com/')
+
+'''
+        # create a list of column names
+        columns = ['Social Platform Link', 'Social Platform Name','Page Like Count','Social Platform Username', 'Followers Count','Following Count','Average Likes per 5 posts','Average Comments per 5 posts','Avarage Retweets per 5 posts']
+
+        # create an empty DataFrame with the specified columns
+        data = pd.DataFrame(columns=columns)
+        data["Social Platform Link"] = instagram_link
+        data.to_csv(path,index=False, index_label=None)
+'''
 
 
