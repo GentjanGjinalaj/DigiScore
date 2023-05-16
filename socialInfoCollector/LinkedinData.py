@@ -42,7 +42,6 @@ def linkedinData(linkedin_link,linkedin_username):
                 finalResponse = requests.request("GET", apiEndPointResponse + "scraper=" + scraper + "&responseId=" + responseId, auth=(username, apiKey))
                 result = finalResponse.json()
                 if type(result) is list:
-                    import pandas as pd
                     pending = False
                     result_df = pd.DataFrame(result)
                     result_df.to_json(path1)

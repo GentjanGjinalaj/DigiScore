@@ -2,7 +2,7 @@ import os
 import asyncio
 from flask import Flask,request,render_template,send_file
 from socialInfoCollector import SocialLinkCollector,SocialUsernameCollector,InstagramData,LinkedinData,FacebookData,TwitterData
-from DataML import SimiWebData
+from DataML import SimiWebData, GetDataFromPics
 
 
 app = Flask(__name__)
@@ -50,7 +50,9 @@ async def index():
 
         await asyncio.gather(simiweb_task, instagram_task, twitter_task, linkedin_task, facebook_task)
 
-        result = simiweb_task.result() + instagram_task.result() + twitter_task.result() + linkedin_task.result() + facebook_task.result() + links_time + username_time
+        getDataFromPics_time = GetDataFromPics.getDataFromPics()
+
+        result = simiweb_task.result() + instagram_task.result() + twitter_task.result() + linkedin_task.result() + facebook_task.result() + links_time + username_time + getDataFromPics_time
         print('Total execution time:', result, 'seconds')
 
         return render_template("result.html", result=result)
