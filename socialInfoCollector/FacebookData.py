@@ -118,6 +118,7 @@ def facebookData(facebook_link,facebook_username):
 
         try:
             filtered_likes = [x for x in likess if x is not None]
+            filtered_likes = [x for x in likess if x!=""]
 
             # Calculate the average
             if filtered_likes:
@@ -148,8 +149,9 @@ def facebookData(facebook_link,facebook_username):
                     'Social Platform Link':facebook_link,
                     'Social Platform Username':facebook_username,
                     'Followers Count': fb_followers,
-                    'Page Like Count':fb_likes,
-                    'Average Likes per 5 posts':average_likes
+                    #'Page Like Count':fb_likes,
+                    'Average Likes per 5 posts':average_likes,
+                    'Average Comments per 5 posts':0
                 }
 
 
@@ -180,7 +182,8 @@ def facebookData(facebook_link,facebook_username):
                     'Social Platform Username':None,
                     'Average Likes per 5 posts':None,
                     'Followers Count': None,
-                    'Page Like Count':None
+                    'Average Comments per 5 posts':None
+                    #'Page Like Count':None
                 }
         try:
             df1 = pd.read_csv(path)
@@ -204,4 +207,4 @@ def facebookData(facebook_link,facebook_username):
     return facebook_time
 
 
-#facebookData('cvsdv')
+#facebookData('cvsdv','qewfw')

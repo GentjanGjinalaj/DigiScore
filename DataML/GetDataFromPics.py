@@ -2,18 +2,19 @@ import glob
 import os
 import easyocr
 from IPython.display import display
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image
 import cv2
 import numpy as np
 import time
 import pandas as pd
 
 
-def getDataFromPics():
+def getDataFromPics(url):
     st=time.time()
     print('Started executing GettingDataFromPics.py')
     path1='DigiScore\\DataML\\DataScreenshots'
     path = "DigiScore\\test.csv"
+    new_path = "DigiScore\\test1.csv"
 
     # Set the initial image coordinates
     x1, y1 = 0, 0
@@ -29,7 +30,7 @@ def getDataFromPics():
 
     try:
         # Get the last (most recently modified) image file
-        last_image_file = sorted_files[-2]
+        last_image_file = sorted_files[-4]
         print(last_image_file)
         # Load the image
         image = Image.open(last_image_file)
@@ -46,8 +47,11 @@ def getDataFromPics():
 
         try:
             print("Entered the nested try except execution")
-            # Read the existing CSV file into a DataFrame
-            df = pd.read_csv(path)
+            # Prepare the 'Website' row
+            title_row = pd.DataFrame([{'Website Data Type': 'Website Panel'}])
+
+            # Write the 'Website' row to the CSV file
+            title_row.to_csv(new_path, index=False)
 
             # Create a DataFrame with the new data and the corresponding column names
             new_data = pd.DataFrame({
@@ -55,26 +59,31 @@ def getDataFromPics():
                 'Website Data Type': ['Category Name', 'Category Rank', 'Total Visits', 'Bounce Rate', 'Pages per Visit', 'Average Visit Duration']
             })
 
+            # Read the CSV file
+            df = pd.read_csv(new_path)
+
             # Append the new data to the existing DataFrame
             df = pd.concat([df, new_data], ignore_index=True)
 
             # Write the updated DataFrame back to the CSV file
-            df.to_csv(path, index=False)
+            df.to_csv(new_path, index=False)
             print(df)
 
         except Exception as e:
             print("An error occurred while reading the CSV file: ", e)
             df = None
             et=time.time()
-            print('Total execution time of GettingDataFromPics.py is:',et-st,'seconds')
+            #print('Total execution time of GettingDataFromPics.py is:',et-st,'seconds')
 
 
         et=time.time()
-        gettingDataFromPics_time=et-st
-        print('Total execution time of GettingDataFromPics.py is:',gettingDataFromPics_time,'seconds')
-        return gettingDataFromPics_time
+        getDataFromPics_time=et-st
+        print('Total execution time of GettingDataFromPics.py is:',getDataFromPics_time,'seconds')
+        return getDataFromPics_time
 
 
+
+    '''
     # Create a new image with the same dimensions as the original image
     new_image = Image.new('RGBA', image.size, (255, 255, 255, 0))
 
@@ -82,7 +91,6 @@ def getDataFromPics():
     new_image.paste(image, (0, 0))
 
 
-    '''
     # Draw the axis on the image
     def draw_axis(new_image):
         draw = ImageDraw.Draw(new_image)
@@ -339,8 +347,11 @@ def getDataFromPics():
 
 
     try:
-        # Read the existing CSV file into a DataFrame
-        df = pd.read_csv(path)
+        # Prepare the 'Website' row
+        title_row = pd.DataFrame([{'Website Data Type': 'Website Panel'}])
+
+        # Write the 'Website' row to the CSV file
+        title_row.to_csv(new_path, index=False)
 
         # Create a DataFrame with the new data and the corresponding column names
         new_data = pd.DataFrame({
@@ -348,23 +359,23 @@ def getDataFromPics():
             'Website Data': [category_name, category_rank, total_visits, bounce_rate, pages_per_visit, avg_visit_dur]
         })
 
-        # Append the new data to the existing DataFrame
+        df = pd.read_csv(new_path)
+        # Concatenate the existing DataFrame with the new data
         df = pd.concat([df, new_data], ignore_index=True)
 
         # Write the updated DataFrame back to the CSV file
-        df.to_csv(path, index=False)
-        #print(df)
+        df.to_csv(new_path, index=False)
 
     except Exception as e:
         print("An error occurred while reading the CSV file: ", e)
         df = None
         et=time.time()
-        print('Total execution time of GettingDataFromPics.py is:',et-st,'seconds')
+        #print('Total execution time of GettingDataFromPics.py is:',et-st,'seconds')
 
 
     et=time.time()
-    gettingDataFromPics_time=et-st
-    print('Total execution time of GettingDataFromPics.py is:',gettingDataFromPics_time,'seconds')
-    return gettingDataFromPics_time
+    getDataFromPics_time=et-st
+    print('Total execution time of GettingDataFromPics.py is:',getDataFromPics_time,'seconds')
+    return getDataFromPics_time
 
-#getDataFromPics()
+#getDataFromPics('wefw')

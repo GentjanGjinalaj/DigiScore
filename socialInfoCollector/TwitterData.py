@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 
 def twitterData(twitter_link,twitter_username):
     st=time.time()
+    return 0
     print('Started executing TwitterData.py')
     path = "DigiScore\\test.csv"
     if twitter_link:
@@ -72,6 +73,7 @@ def twitterData(twitter_link,twitter_username):
 
             try:
                 filtered_likes = [x for x in likess if x is not None]
+                filtered_likes = [x for x in likess if x!=""]
 
                 # Calculate the average
                 if filtered_likes:
@@ -86,6 +88,7 @@ def twitterData(twitter_link,twitter_username):
 
             try:
                 filtered_comments = [x for x in commentss if x is not None]
+                filtered_comments = [x for x in commentss if x!=""]
 
                 # Calculate the average
                 if filtered_comments:
@@ -99,6 +102,7 @@ def twitterData(twitter_link,twitter_username):
                 average_comments = None
             try:
                 filtered_retweets = [x for x in retweetss if x is not None]
+                filtered_retweets = [x for x in retweetss if x!=""]
 
                 # Calculate the average
                 if filtered_retweets:
@@ -117,10 +121,10 @@ def twitterData(twitter_link,twitter_username):
                     'Social Platform Link':twitter_link,
                     'Social Platform Username':twitter_username,
                     'Followers Count': followers_count,
-                    'Following Count': following_count,
+                    #'Following Count': following_count,
                     'Average Likes per 5 posts': average_likes,
                     'Average Comments per 5 posts': average_comments,
-                    'Avarage Retweets per 5 posts':average_retweets
+                    #'Avarage Retweets per 5 posts':average_retweets
                 }
 
             try:
@@ -149,10 +153,10 @@ def twitterData(twitter_link,twitter_username):
                             'Social Platform Link':None,
                             'Social Platform Username':None,
                             'Followers Count': None,
-                            'Following Count': None,
+                            #'Following Count': None,
                             'Average Likes per 5 posts': None,
                             'Average Comments per 5 posts': None,
-                            'Avarage Retweets per 5 posts':None
+                            #'Avarage Retweets per 5 posts':None
                         }
 
             try:
@@ -177,10 +181,10 @@ def twitterData(twitter_link,twitter_username):
                         'Social Platform Link':None,
                         'Social Platform Username':None,
                         'Followers Count': None,
-                        'Following Count': None,
+                        #'Following Count': None,
                         'Average Likes per 5 posts': None,
                         'Average Comments per 5 posts': None,
-                        'Avarage Retweets per 5 posts':None
+                        #'Avarage Retweets per 5 posts':None
                     }
 
         try:
@@ -202,7 +206,7 @@ def twitterData(twitter_link,twitter_username):
     print('Total execution time of TwitterData.py is:',twitter_time,'seconds')
 
     return twitter_time
-#twitterData('https://www.axa.com/','elonmusk')
+twitterData('https://www.axa.com/','elonmusk')
 
 '''from twitter_scraper import Profile, get_tweets
 

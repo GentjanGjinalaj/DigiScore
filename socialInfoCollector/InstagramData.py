@@ -7,6 +7,7 @@ import itertools
 
 def instagramData(instagram_username):
     st=time.time()
+    #return 0
     print('Started executing InstagramData.py')
     path = "DigiScore\\test.csv"
     if instagram_username:
@@ -25,9 +26,20 @@ def instagramData(instagram_username):
         #Instagram username=data_digi_test
         #Instagram password=Digitalized1243
 
-        # Log in to Instagram
+        try:# Log in to Instagram# Log in with your new credentials
+            bot.login(username, password)
+            # Save the session to a file
+            bot.save_session_to_file(username)
+        except Exception as e:
+            print(e)
+
+
+
+        # Save the session to a file
+        #bot.save_session_to_file(username)
+
         bot.context.log("Logging in...")
-        bot.load_session_from_file(username)
+        #bot.load_session_from_file(username)
         if not bot.context.is_logged_in:
             bot.context.log("Login failed.")
         else:
@@ -42,7 +54,7 @@ def instagramData(instagram_username):
             print("User ID: ", profile.userid)
             print("Number of Posts: ", profile.mediacount)
             print("Followers Count: ", profile.followers)
-            print("Following Count: ", profile.followees)
+            ###print("Following Count: ", profile.followees)
             print("Bio: ", profile.biography)
             print("External URL: ", profile.external_url)
 
@@ -77,12 +89,15 @@ def instagramData(instagram_username):
             except Exception as e:
                 print("An error occured while geting the data for Instagram Followers Count: ",e)
                 df['Followers Count']=None
-            try:
+
+
+
+            '''try:
                 df['Following Count']=profile.followees
             except Exception as e:
                 print("An error occured while geting the data for Instagram Following Count: ",e)
                 df['Following Count']=None
-            '''try:
+            try:
                 df['Post 1 Likes']=likess[0]
             except Exception as e:
                 print("An error occured while geting the data for Instagram Post 1 Likes: ",e)
@@ -134,6 +149,7 @@ def instagramData(instagram_username):
                 df['Post 5 Comments']=None'''
             try:
                 filtered_likes = [x for x in likess if x is not None]
+                filtered_likes = [x for x in likess if x!=""]
 
                 # Calculate the average
                 if filtered_likes:
@@ -148,6 +164,7 @@ def instagramData(instagram_username):
 
             try:
                 filtered_comments = [x for x in commentss if x is not None]
+                filtered_comments = [x for x in commentss if x!=""]
 
                 # Calculate the average
                 if filtered_comments:
@@ -184,7 +201,7 @@ def instagramData(instagram_username):
             df = pd.read_csv(path)
             df['Social Platform Name']='Instagram'
             df['Followers Count']=None
-            df['Following Count']=None
+            #df['Following Count']=None
             df['Average Likes per 5 posts']=None
             df['Average Comments per 5 posts']=None
 

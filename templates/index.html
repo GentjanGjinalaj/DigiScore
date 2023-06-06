@@ -1,161 +1,183 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>DIGITALISED</title>
-    <style>
-      body {
-        background-color: #1e1e1e;
-        font-family: Arial, sans-serif;
-        color: #fff;
-        margin: 0;
-        padding: 0;
-        background-image: url('https://www.transparenttextures.com/patterns/axiom-pattern.png');
+<head>
+  <title>DIGITALISED</title>
+  <style>
+    body {
+      background-color: #1e1e1e;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      background-image: url('https://www.transparenttextures.com/patterns/axiom-pattern.png');
+    }
+
+    h1 {
+      font-size: 48px;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 50px;
+      letter-spacing: 2px;
+    }
+
+    form {
+      margin: 0 auto;
+      max-width: 600px;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    label {
+      display: block;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      height: 2.2em;
+      border: 2px solid #9a9a9a;
+      background-color: #2a2a2a;
+      transition: width 0.4s ease-in-out;
+      font-size: 18px;
+      padding: 10px;
+      border-radius: 5px;
+      color: #fff;
+    }
+
+    input[type="text"]:focus {
+      width: 120%;
+      transition: width 0.4s ease-in-out;
+      box-shadow: 0 0 0 2px #5e5e5e;
+    }
+
+    select {
+      background-color: #2a2a2a;
+      color: #fff;
+      border: 2px solid #9a9a9a;
+      border-radius: 5px;
+      padding: 10px;
+      font-size: 18px;
+    }
+
+    select option:checked {
+      background-color: #444444;
+    }
+
+    button[type="submit"] {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 16px 32px;
+      text-decoration: none;
+      margin-top: 20px;
+      font-size: 24px;
+      border-radius: 5px;
+      cursor: pointer;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #3e8e41;
+    }
+
+    #background-graphic {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.2;
+    }
+
+    .loading-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1;
+    }
+
+    .loading-bar .double-rotating-lines {
+      width: 40px;
+      height: 40px;
+      position: relative;
+      animation: double-rotate 1.5s infinite linear;
+    }
+
+    .loading-bar .double-rotating-lines .line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 10px;
+      background-color: #444;
+      transform-origin: center bottom;
+      animation: rotate-line 1s infinite ease-in-out;
+    }
+
+    .loading-bar .double-rotating-lines .line:nth-child(2) {
+      animation-delay: 0.5s;
+    }
+
+    @keyframes rotate-line {
+      0% {
+        transform: rotate(0deg);
       }
-
-      h1 {
-        font-size: 48px;
-        font-weight: bold;
-        text-align: center;
-        margin-top: 50px;
-        letter-spacing: 2px;
+      50% {
+        transform: rotate(180deg);
       }
-
-      form {
-        margin: 0 auto;
-        max-width: 600px;
-        text-align: center;
-        margin-top: 50px;
+      100% {
+        transform: rotate(360deg);
       }
+    }
 
-      label {
-        display: block;
-        font-size: 24px;
-        font-weight: bold;
-        margin-bottom: 10px;
+    @keyframes double-rotate {
+      0% {
+        transform: rotate(0deg);
       }
-
-      input[type="text"] {
-        width: 100%;
-        height: 2.2em;
-        border: 2px solid #9a9a9a;
-        background-color: #2a2a2a;
-        transition: width 0.4s ease-in-out;
-        font-size: 18px;
-        padding: 10px;
-        border-radius: 5px;
-        color: #fff;
+      100% {
+        transform: rotate(360deg);
       }
+    }
 
-      input[type="text"]:focus {
-        width: 120%;
-        transition: width 0.4s ease-in-out;
-        box-shadow: 0 0 0 2px #5e5e5e;
-      }
+    .loading-text {
+      font-size: 24px;
+      color: #333;
+    }
 
-      select {
-        background-color: #2a2a2a;
-        color: #fff;
-        border: 2px solid #9a9a9a;
-        border-radius: 5px;
-        padding: 10px;
-        font-size: 18px;
-      }
-
-      select option:checked {
-        background-color: #444444;
-      }
-
-
-      button[type="submit"] {
-        background-color: #4CAF50;
-        border: none;
-        color: white;
-        padding: 16px 32px;
-        text-decoration: none;
-        margin-top: 20px;
-        font-size: 24px;
-        border-radius: 5px;
-        cursor: pointer;
-        letter-spacing: 1px;
-      }
-
-      button[type="submit"]:hover {
-        background-color: #3e8e41;
-      }
-
-      #background-graphic {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        opacity: 0.2;
-      }
-
-      .score-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(30, 30, 30, 0.8);
-        z-index: -1;
-        overflow: hidden;
-      }
-
-      .score {
-        font-size: 200px;
-        font-weight: bold;
-        text-align: center;
-        margin: 0;
-        letter-spacing: 10px;
-        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        opacity: 0.5;
-        transform: scale(4);
-        transition: opacity 0.4s ease-in-out, transform 0.8s ease-in-out;
-      }
-
-      form.submitting .score {
-        opacity: 1;
-        transform: scale(1);
-      }
-
-      @keyframes scorePulse {
-        0% {
-          opacity: 1;
-          transform: scale(1);
-        }
-        50% {
-          opacity: 0.5;
-          transform: scale(1.2);
-        }
-      }
-
-    </style>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-      $(document).ready(function() {
-        $('form').submit(function() {
-          $('#btnSubmit').prop('disabled', true);
-          $('#btnSubmit').html("Processing...Don't click it again");
-          setTimeout(function() {
-            $('#btnSubmit').prop('disabled', false);
-            $('#btnSubmit').html('It may take some time');
-          }, 2000);
-        });
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('form').submit(function() {
+        $('#btnSubmit').prop('disabled', true);
+        $('#btnSubmit').append('<div class="loading-bar"><div class="double-rotating-lines"><span class="line"></span><span class="line"></span></div><span class="loading-text">Loading...</span></div>');
+        setTimeout(function() {
+          $('#btnSubmit').prop('disabled', false);
+          $('#btnSubmit').html('It may take some time');
+          $('.loading-bar').remove();
+        }, 2000);
+        
       });
-    </script>
-  </head>
-  <body>
-    <h1>DIGISCORE</h1>
-    <form method="POST">
-      <label for="input_field">Input Company URL:</label>
-      <input type="text" id="input_field" name="user_input" placeholder="Enter the url of the desired company in the correct format including https://">
-      <button type="submit" id="btnSubmit">Submit</button>
-    </form>
-  </body>
+    });
+  </script>
+</head>
+<body>
+  <h1>DIGISCORE</h1>
+  <form method="POST">
+    <label for="input_field">Input Company URL:</label>
+    <input type="text" id="input_field" name="user_input" placeholder="Enter the url of the desired company in the correct format including https://">
+    <button type="submit" id="btnSubmit">Submit</button>
+  </form>
+</body>
 </html>

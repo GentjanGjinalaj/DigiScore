@@ -1,50 +1,85 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>DIGISCORE Result</title>
-    <style>
-      body {
-        background-color: #1e1e1e;
-        font-family: Arial, sans-serif;
-        color: #fff;
-        margin: 0;
-        padding: 0;
-        background-image: url('https://www.transparenttextures.com/patterns/axiom-pattern.png');
-      }
-      h1 {
-        font-size: 60px;
-        font-weight: bold;
-        text-align: center;
-        margin-top: 50px;
-      }
-      p {
-        font-size: 28px;
-        text-align: center;
-        margin-top: 20px;
-        margin-bottom: 20px;
-      }
-      a {
-        display: block;
-        width: 200px;
-        margin: 0 auto;
-        text-align: center;
-        padding: 10px;
-        background-color: #04AA6D;
-        color: #ffffff;
-        text-decoration: none;
-        font-size: 24px;
-        border-radius: 5px;
-        margin-top: 40px;
-      }
-      a:hover {
-        background-color: #3cba92;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>DIGISCORE RESULT</h1>
-    <p>CSV file generated at {{ csv_path }}</p>
-    <a href="{{ url_for('download_csv') }}">Download CSV</a>
-    <p style="font-size: 20px;">Total execution time: {{ result }} seconds</p>
-  </body>
+<head>
+  <title>DIGISCORE Result</title>
+  <style>
+    body {
+      background-color: #1e1e1e;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      background-image: url('https://www.transparenttextures.com/patterns/axiom-pattern.png');
+    }
+    h1 {
+      font-size: 60px;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 50px;
+    }
+    p {
+      font-size: 28px;
+      text-align: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    .button-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 40px;
+    }
+    .button-container a {
+      display: inline-block;
+      min-width: 200px;
+      height: 60px;
+      line-height: 60px;
+      text-align: center;
+      padding: 10px;
+      background-color: #04AA6D;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 24px;
+      border-radius: 5px;
+      margin-right: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      transition: background-color 0.3s ease;
+    }
+    .button-container a:hover {
+      background-color: #3cba92;
+    }
+    .button-container a.clicked {
+      background-color: #3cba92;
+    }
+    .button-container a.clicked span {
+      color: #ffcc00;
+    }
+  </style>
+</head>
+<body>
+  <h1>DIGISCORE RESULT</h1>
+  <p>CSV files generated at</p>
+  <div class="button-container">
+    <a href="{{ url_for('download_csv') }}">Download 'Social Media' csv file</a>
+    <a href="{{ url_for('download_csv1') }}">Download 'SEO' and 'Website' csv file</a>
+  </div>
+  <p style="font-size: 20px;">Total execution time: {{ result }} seconds</p>
+
+  <script>
+    // Add event listeners to the buttons
+    var buttons = document.querySelectorAll('.button-container a');
+    buttons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        // Remove the 'clicked' class from all buttons
+        buttons.forEach(function(btn) {
+          btn.classList.remove('clicked');
+        });
+        // Add the 'clicked' class to the clicked button
+        button.classList.add('clicked');
+      });
+    });
+  </script>
+</body>
 </html>

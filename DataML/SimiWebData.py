@@ -46,6 +46,9 @@ def simiWebData(url):
 
             # Scroll the page down by 500 pixels
             ###driver.execute_script('window.scrollBy(0, 350)')
+            # Scroll to the specified location using 100dvh
+            #driver.execute_script("window.scrollTo(0, (document.documentElement.scrollHeight - document.documentElement.clientHeight) * 0.01 * 100)")
+
             driver.execute_script('window.scrollBy(0, 480)')
             driver.execute_script("document.body.style.zoom='140%'")
             driver.execute_script("window.devicePixelRatio = 2")
@@ -58,7 +61,7 @@ def simiWebData(url):
                 os.makedirs(pathscr)
 
             # Generate a unique filename for the screenshot
-            #filename = f"screenshot_{len(os.listdir(path)) + 1}.png"
+                #filename = f"screenshot_{len(os.listdir(path)) + 1}.png"
             filename = f'{companyName}'
             str(filename)
             filename = filename.replace(".",'_')
@@ -74,8 +77,8 @@ def simiWebData(url):
             # Print the current directory to see where the file was saved
             print(os.getcwd())
 
-            '''time.sleep(1)
-            driver.execute_script('window.scrollBy(0, 570)')
+            time.sleep(0.5)
+            driver.execute_script('window.scrollBy(0, 6292)') #competitors 6772
             driver.execute_script("document.body.style.zoom='140%'")
             driver.execute_script("window.devicePixelRatio = 2")
 
@@ -94,13 +97,51 @@ def simiWebData(url):
             driver.save_screenshot(screenshot_path)
 
             # Print the current directory to see where the file was saved
-            print(os.getcwd())'''
+            print(os.getcwd())
+
+            time.sleep(0.5)
+            driver.execute_script("window.scrollBy(0, 1698)") #marketingChannelDistrib 8470
+            driver.execute_script("document.body.style.zoom='140%'")
+            driver.execute_script("window.devicePixelRatio = 2")
+            filename1 = f'{companyName}'
+            str(filename1)
+            filename = filename1.replace(".",'_')
+            filename1 = filename1 + '_channelDistrib.png'
+            print(filename1)
+
+            # Combine the path and filename
+            screenshot_path = os.path.join(pathscr, filename1)
+
+            # Take a screenshot and save it to the specified location
+            driver.save_screenshot(screenshot_path)
+
+            # Print the current directory to see where the file was saved
+            print(os.getcwd())
+
+            time.sleep(0.5)
+            driver.execute_script("window.scrollBy(0, 680)") #keywords 9150
+            driver.execute_script("document.body.style.zoom='140%'")
+            driver.execute_script("window.devicePixelRatio = 2")
+
+            filename1 = f'{companyName}'
+            str(filename1)
+            filename = filename1.replace(".",'_')
+            filename1 = filename1 + '_Keywords.png'
+            print(filename1)
+
+            # Combine the path and filename
+            screenshot_path = os.path.join(pathscr, filename1)
+
+            # Take a screenshot and save it to the specified location
+            driver.save_screenshot(screenshot_path)
 
             et=time.time()
             simiWebData_time=et-st
             print('Total execution time of SimiWebData.py is:',simiWebData_time,'seconds')
             # Close the browser window
             return simiWebData_time
+
+
     except ValueError as e:
         print(f"Invalid search URL at at :'https://www.similarweb.com/website/{companyName}/#overview': {e}")
         print(e)

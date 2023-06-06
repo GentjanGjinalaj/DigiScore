@@ -67,6 +67,8 @@ def linkedinData(linkedin_link,linkedin_username):
 
         try:
             linkedinFollowers = df['followers'][0]
+            if linkedinFollowers=="":
+                linkedinFollowers = "Not Available"
         except Exception as e:
             print("An error occured while geting the data for Linkedin page Followers: ",e)
             linkedinFollowers = None
@@ -146,8 +148,8 @@ def linkedinData(linkedin_link,linkedin_username):
             post5Comments = None
             commentss.append(post5Comments)
 
-        print(linkedinFollowers)
-        print(post1Likes)
+        print('Followers Count',linkedinFollowers)
+        print('likes 1:',post1Likes)
         print(post1Comments)
         print(post2Likes)
         print(post2Comments)
@@ -163,6 +165,7 @@ def linkedinData(linkedin_link,linkedin_username):
 
         try:
             filtered_likes = [x for x in likess if x is not None]
+            filtered_likes = [x for x in likess if x!=""]
 
             # Calculate the average
             if filtered_likes:
@@ -177,6 +180,7 @@ def linkedinData(linkedin_link,linkedin_username):
 
         try:
             filtered_comments = [x for x in commentss if x is not None]
+            filtered_comments = [x for x in commentss if x!=""]
 
             # Calculate the average
             if filtered_comments:
@@ -199,7 +203,7 @@ def linkedinData(linkedin_link,linkedin_username):
                 'Average Likes per 5 posts': average_likes,
                 'Average Comments per 5 posts': average_comments
             }
-
+        print('Followers Count:', linkedinFollowers)
 
         try:
             df1 = pd.read_csv(path)
