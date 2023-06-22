@@ -7,13 +7,16 @@ import itertools
 
 def instagramData(instagram_username):
     st=time.time()
-    #return 0
+    return 0
     print('Started executing InstagramData.py')
-    path = "DigiScore\\test.csv"
+    #path = "DigiScore\\test.csv"
+    path = "test.csv"
+
     if instagram_username:
         # Load the configuration file
         config = configparser.ConfigParser()
-        config.read('DigiScore\\socialInfoCollector\\config.ini')
+        #config.read('DigiScore\\socialInfoCollector\\config.ini')
+        config.read('socialInfoCollector\\config.ini')
 
         # Get the username and password from the config file
         username = config.get('instagram', 'username')

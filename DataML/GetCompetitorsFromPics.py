@@ -11,14 +11,18 @@ import pandas as pd
 
 def getCompetitors(url):
     st=time.time()
-    path1='DigiScore\\DataML\\DataScreenshots'
-    path = "DigiScore\\test.csv"
-    new_path = "DigiScore\\test1.csv"
+
+    #path1='DigiScore\\DataML\\DataScreenshots'
+    #new_path = "DigiScore\\test1.csv"
+    path1='DataML\\DataScreenshots'
+    new_path = "test1.csv"
+
     # Set the initial image coordinates
     x1, y1 = 0, 0
     x2, y2 = 1920, 1440
 
-    picture_folder_path = 'DigiScore\\DataML\\Pics'
+    #picture_folder_path = 'DigiScore\\DataML\\Pics'
+    picture_folder_path = 'DataML\\Pics'
 
     # Get a list of image files in the folder
     image_files = glob.glob(os.path.join(picture_folder_path, '*.png'))  # Change the file extension if necessary

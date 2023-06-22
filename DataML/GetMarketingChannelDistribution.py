@@ -10,14 +10,19 @@ def getMarketingChannelDistribution(url):
     # https://www.youtube.com/watch?v=dQw4w9WgXcQ
     st=time.time()
     print('Started executing getMarketingChannelDistribution.py')
-    path1='DigiScore\\DataML\\DataScreenshots'
-    new_path = "DigiScore\\test1.csv"
+
+    #path1='DigiScore\\DataML\\DataScreenshots'
+    #new_path = "DigiScore\\test1.csv"
+    path1='DataML\\DataScreenshots'
+    new_path = "test1.csv"
 
     # Set the initial image coordinates
     x1, y1 = 0, 0
     x2, y2 = 1920, 1440
     # Define the folder path
-    picture_folder_path = 'DigiScore\\DataML\\Pics'
+
+    #picture_folder_path = 'DigiScore\\DataML\\Pics'
+    picture_folder_path = 'DataML\\Pics'
 
     # Get a list of image files in the folder
     image_files = glob.glob(os.path.join(picture_folder_path, '*.png'))  # Change the file extension if necessary
@@ -91,6 +96,7 @@ def getMarketingChannelDistribution(url):
     def get_number(index, text_all_data, var_name):
         while True:
             val = text_all_data[index][1]
+            val = val.replace('o', '0').replace('l', '1')  # replace 'o' with '0' and 'l' with '1'
             if not val[0].isdigit():
                 print(f"Check the '{var_name}' in the picture")
                 index += 1

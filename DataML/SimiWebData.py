@@ -2,6 +2,7 @@ import time
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import WebDriverException
 from urllib.parse import urlparse
 import os
 
@@ -9,9 +10,12 @@ import os
 def simiWebData(url):
     st=time.time()
     print('Started executing SimiWebData.py')
+    driverr=None
     try:
         # Replace the path below with the path to your new chromedriver.exe file
-        driver_path = 'DigiScore\\DataML\\chromedriver.exe'
+
+        #driver_path = 'DigiScore\\DataML\\chromedriver.exe'
+        driver_path = 'DataML\\chromedriver.exe'
         # Create a new instance of the Chrome options
         options = Options()
 
@@ -54,7 +58,8 @@ def simiWebData(url):
             driver.execute_script("window.devicePixelRatio = 2")
 
             # Specify the path where you want to save the screenshots
-            pathscr = os.path.join(os.getcwd(), 'DigiScore', 'DataML', 'Pics')
+            #pathscr = os.path.join(os.getcwd(), 'DigiScore', 'DataML', 'Pics')
+            pathscr = os.path.join(os.getcwd(), 'DataML', 'Pics')
 
             # Create the directory if it doesn't exist
             if not os.path.exists(pathscr):
@@ -150,15 +155,32 @@ def simiWebData(url):
         simiWebData_time=et-st
         print('Total execution time of SimiWebData.py is:',simiWebData_time,'seconds')
         return simiWebData_time
+
+    except WebDriverException as e:
+        if 'session not created' in str(e):
+            print(f"Browser or driver version issue: {e}")
+            print("Please check your browser or driver version.")
+            et=time.time()
+            simiWebData_time=et-st
+            print('Total execution time of SimiWebData.py is:',simiWebData_time,'seconds')
+            error_message = "Browser or driver version issue. Please check your browser or driver version. It seems the ChromeDriver needs updating."
+            return error_message
+        else:
+            error_message = f"An unexpected WebDriverException occurred: {e}"
+            return error_message
+
     except Exception as e:
         print(f"An Error occured: {e}")
         print("Take a careful look at the problem of SimiWebData.py file")
-        et=time.time()
+        '''et=time.time()
         simiWebData_time=et-st
         print('Total execution time of SimiWebData.py is:',simiWebData_time,'seconds')
-        return simiWebData_time
+        return simiWebData_time'''
+        error_message = f"An unexpected error occurred: {e}"
+        return error_message
     finally:
-        driver.quit()
+        if driver:
+            driver.quit()
 
 #simiWebData("https://www.esg.fr/")
 #simiWebData("https://www.iscid-co.fr/")

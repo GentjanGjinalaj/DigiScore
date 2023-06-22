@@ -6,7 +6,8 @@ import pandas as pd
 
 def socialLinkCollector(url):
     st=time.time()
-    path = "DigiScore\\test.csv"
+    #path = "DigiScore\\test.csv"
+    path = "test.csv"
     if url:
 
         response=None

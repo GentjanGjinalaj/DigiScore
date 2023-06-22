@@ -11,15 +11,17 @@ import pandas as pd
 
 def getKeywordsNumber(url):
     st=time.time()
-    path1='DigiScore\\DataML\\DataScreenshots'
-    path = "DigiScore\\test.csv"
-    new_path = "DigiScore\\test1.csv"
+    #path1='DigiScore\\DataML\\DataScreenshots'
+    #new_path = "DigiScore\\test1.csv"
+    path1='DataML\\DataScreenshots'
+    new_path = "test1.csv"
 
     # Set the initial image coordinates
     x1, y1 = 0, 0
     x2, y2 = 1920, 1440
 
-    picture_folder_path = 'DigiScore\\DataML\\Pics'
+    #picture_folder_path = 'DigiScore\\DataML\\Pics'
+    picture_folder_path = 'DataML\\Pics'
 
     # Get a list of image files in the folder
     image_files = glob.glob(os.path.join(picture_folder_path, '*.png'))  # Change the file extension if necessary
@@ -71,7 +73,7 @@ def getKeywordsNumber(url):
 
 
     # Define the ROIs
-    total_keywords_roi = (900, 720, 1150, 900)
+    total_keywords_roi = (900, 640, 1150, 900)
     org_paid_roi = (1600, 250, 1800, 500)
     # Crop the image to the ROIs
     total_keywords_image = image.crop(total_keywords_roi)
@@ -119,11 +121,11 @@ def getKeywordsNumber(url):
                     break
             else:
                 confidence_total_keywords = text_total_keywords[index][2]
-                print('Total Keywords:', total_keywords_str, confidence_total_keywords)
+                print('Total Keywords #5:', total_keywords_str, confidence_total_keywords)
                 total_keywords = total_keywords_str
                 break
     except Exception as e:
-        print('An error occured while trying to get the data about "Total Keywords":', e)
+        print('An error occured while trying to get the data about "Total Keywords #5":', e)
         print(text_total_keywords)
         total_keywords = None
 
@@ -146,8 +148,14 @@ def getKeywordsNumber(url):
             organic_keywords_percentage=None
             paid_keywords_percentage=None
         else:
-            organic_keywords_percentage_str = text_org_paid[organic_index][1]
-            paid_keywords_percentage_str = text_org_paid[paid_index][1]
+            organic_keywords_percentage_str = text_org_paid[organic_index][1].replace('O', '0').replace('o', '0').replace('l','1')
+            paid_keywords_percentage_str = text_org_paid[paid_index][1].replace('O', '0').replace('o', '0').replace('l','1')
+
+            # Trim percentage to a single zero if it is '000%'
+            if organic_keywords_percentage_str == '000%'or organic_keywords_percentage_str == '00%':
+                organic_keywords_percentage_str = '0.0%'
+            if paid_keywords_percentage_str == '000%' or paid_keywords_percentage_str == '00%':
+                paid_keywords_percentage_str = '0.0%'
             confidence_organic_keywords_percentage = text_org_paid[organic_index][2]
             confidence_paid_keywords_percentage = text_org_paid[paid_index][2]
             print('Organic Keywords Percentage:', organic_keywords_percentage_str, confidence_organic_keywords_percentage)
@@ -169,7 +177,7 @@ def getKeywordsNumber(url):
 
         new_data = pd.DataFrame({
             'Website Data': [total_keywords, organic_keywords_percentage, paid_keywords_percentage],
-            'Website Data Type': ['Total Keywords', 'Organic Keywords Percentage', 'Paid Keywords Percentage']
+            'Website Data Type': ['Total Keywords #5', 'Organic Keywords Percentage', 'Paid Keywords Percentage']
         })
 
         # Append the new data to the existing DataFrame

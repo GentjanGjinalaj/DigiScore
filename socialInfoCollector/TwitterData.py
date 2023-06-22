@@ -7,7 +7,8 @@ def twitterData(twitter_link,twitter_username):
     st=time.time()
     return 0
     print('Started executing TwitterData.py')
-    path = "DigiScore\\test.csv"
+    #path = "DigiScore\\test.csv"
+    path = "test.csv"
     if twitter_link:
         now=datetime.today()
         now_withot_hour=now.strftime(f"%Y-%m-%d")

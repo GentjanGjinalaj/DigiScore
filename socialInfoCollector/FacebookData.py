@@ -9,8 +9,10 @@ import time
 def facebookData(facebook_link,facebook_username):
     st=time.time()
     print('Started executing FacebookData.py')
-    path1 ='DigiScore\\socialInfoCollector\\facebook.json'
-    path = "DigiScore\\test.csv"
+    #path1 ='DigiScore\\socialInfoCollector\\facebook.json'
+    #path = "DigiScore\\test.csv"
+    path1 ='socialInfoCollector\\facebook.json'
+    path = "test.csv"
 
 
     '''if facebook_link:

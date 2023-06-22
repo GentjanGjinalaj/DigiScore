@@ -9,8 +9,10 @@ import time
 def linkedinData(linkedin_link,linkedin_username):
     st=time.time()
     print('Started executing LinkedinkData.py')
-    path1='DigiScore\\socialInfoCollector\\linkedinData.json'
-    path = "DigiScore\\test.csv"
+    #path1='DigiScore\\socialInfoCollector\\linkedinData.json'
+    #path = "DigiScore\\test.csv"
+    path1='socialInfoCollector\\linkedinData.json'
+    path = "test.csv"
 
     '''if linkedin_link:
         username = 'gentjan_gjinalaj'

@@ -1,0 +1,20 @@
+Column Symbol,Column Names,Description
+Db,Database,"Regional database (US, UK, Italy, etc.)"
+Dn,Domain,Domain name.
+Dt,Date,Actual date.
+Rk,Rank,The SEMrush rating of the website's popularity based on organic traffic coming from Google's top 100 organic search results.
+Or,Organic Keywords,Keywords that bring users to a website via Google's top 100 organic search results.
+Ot,Organic Traffic,Traffic brought to a website via Google's top 100 organic search results.
+Oc,Organic Cost,Estimated price of organic keywords in Google AdWords.
+Ad,Adwords Keywords,Number of keywords the website is using for Google Ads.
+At,Adwords Traffic,Traffic brought to a website via Google Ads.
+Ac,Adwords Cost,Estimated cost of Google Ads.
+Sh,PLA Keywords,Number of keywords the website is using for product listing ads.
+Sv,PLA Uniques,Number of unique product listing ads (PLA Copies)
+FKn,SERP Features Positions,The total number of SERP Features triggered by the keywords that your domain ranks for.
+FPn,SERP Features Positions Branded,The total number of SERP Features that your domain ranks in.
+Sr,SERP Features Traffic,Number of keywords where the domain ranks in SERP Features.
+Srb,SERP Features Traffic Branded,Number of branded keywords where the domain ranks in SERP Features.
+St,SERP Features Traffic Cost,The amount of estimated organic traffic driven to an analyzed domain from a SERP Feature position over a specific period of time.
+Stb,SERP Features Positions New,The number of new SERP Features positions the domain got.
+Sc,SERP Features Positions Lost,The number of lost SERP Features positions the domain lost.

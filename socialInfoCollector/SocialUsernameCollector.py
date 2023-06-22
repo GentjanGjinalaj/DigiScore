@@ -5,7 +5,8 @@ import pandas as pd
 
 def socialUsernameCollector(instagram_link, facebook_link,linkedin_link,twitter_link):
     st=time.time()
-    path = "DigiScore\\test.csv"
+    #path = "DigiScore\\test.csv"
+    path = "test.csv"
 
     if instagram_link:
         # Extract the username from the link using regular expressions
