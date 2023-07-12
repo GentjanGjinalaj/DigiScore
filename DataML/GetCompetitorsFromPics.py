@@ -1,16 +1,18 @@
 import glob
+from io import StringIO
 import os
 import re
 import easyocr
 from IPython.display import display
 from PIL import Image
-import cv2
-import numpy as np
 import time
 import pandas as pd
+import requests
 
-def getCompetitors(url):
+
+def getCompetitors(mainUrl):
     st=time.time()
+    #mainUrl=url
 
     #path1='DigiScore\\DataML\\DataScreenshots'
     #new_path = "DigiScore\\test1.csv"
@@ -161,10 +163,12 @@ def getCompetitors(url):
         if not url[-1].isalnum():
             url = url[:-1]
 
-
         # Replace 'L' at the end of the string with '...'
         if url.endswith('L'):
             url = url[:-1] + '...'
+
+        if url.endswith('cons'):
+            url += 'eil.fr'
 
         return url
 
@@ -178,6 +182,101 @@ def getCompetitors(url):
     print(competitor_No3)
     print(competitor_No4)
     print(competitor_No5)
+
+    competitors = [competitor_No1, competitor_No2, competitor_No3, competitor_No4, competitor_No5]
+
+    mainUrl = mainUrl.replace('https://www.', '').replace('https://', '').replace('www.', '').replace('/', '')  # Remove 'https://www.' from the URL
+    # Check if any competitor has the same URL as the passed URL
+    for competitor in competitors:
+        if competitor == mainUrl:
+            print('The URL is found in the competitors list.')
+            print(mainUrl)
+            try:
+                api_key = '8bdbff61b7aa7c84bd0a8be0ffb526c9'
+                response=requests.get('http://www.semrush.com/users/countapiunits.html?key=8bdbff61b7aa7c84bd0a8be0ffb526c9')
+                print(response)
+                print(response.text)
+                apiUnitsBeforeExecution = response.text
+                apiUnitsBeforeExecution=int(apiUnitsBeforeExecution)
+                print('API_Units_Before_Execution:',apiUnitsBeforeExecution)
+                #call the competitors API from semrush to get 5 competitors. The cost will be 200 API units
+                response=requests.get(f'https://api.semrush.com/?type=domain_organic_organic&key={api_key}&display_limit=1&export_columns=Dn,Cr,Np,Or,Ot,Oc,Ad,Sr,St,Sc&domain={mainUrl}&database=fr')
+                print(response)
+                print(response.text)
+                data = pd.read_csv(StringIO(response.text), sep=';')  # Specify delimiter
+
+                # Initialize all competitors to None
+                competitor_No1 = None
+                competitor_No2 = None
+                competitor_No3 = None
+                competitor_No4 = None
+                competitor_No5 = None
+
+                for i, row in data.iterrows():
+                    competitor_Dn = row['Domain']
+
+                    # Assign the value of Dn to the corresponding competitor variable
+                    if i == 0:
+                        competitor_No1 = competitor_Dn
+                    elif i == 1:
+                        competitor_No2 = competitor_Dn
+                    elif i == 2:
+                        competitor_No3 = competitor_Dn
+                    elif i == 3:
+                        competitor_No4 = competitor_Dn
+                    elif i == 4:
+                        competitor_No5 = competitor_Dn
+                '''# Assuming the first row of the DataFrame is the relevant data
+                data_dict = data.iloc[0].to_dict()
+                print('--------------------------------------------------------------------------------------------')
+                print(data_dict)
+                print('--------------------------------------------------------------------------------------------')
+
+                # Check if each key exists in the dictionary before unpacking
+                Dn = data_dict.get('Dn', None)
+                Cr = data_dict.get('Cr', None)
+                Np = data_dict.get('Np', None)
+                Or = data_dict.get('Or', None)
+                Ot = data_dict.get('Ot', None)
+                Oc = data_dict.get('Oc', None)
+                Od = data_dict.get('Ad', None)
+                Sr = data_dict.get('Sr', None)
+                St = data_dict.get('St', None)
+                Sc = data_dict.get('Sc', None)'''
+
+            except Exception as e:
+                print(f'An error occurred: {e}')
+                competitor_No1 = None
+                competitor_No2 = None
+                competitor_No3 = None
+                competitor_No4 = None
+                competitor_No5 = None
+                '''Dn = None
+                Cr = None
+                Np = None
+                Or = None
+                Ot = None
+                Oc = None
+                Od = None
+                Sr = None
+                St = None
+                Sc = None'''
+            try:
+                #API units balance
+                response=requests.get('http://www.semrush.com/users/countapiunits.html?key=8bdbff61b7aa7c84bd0a8be0ffb526c9')
+                print(response)
+                print(response.text)
+                apiUnitsAfterExecution = response.text
+                apiUnitsAfterExecution=int(apiUnitsAfterExecution)
+                apiUnitsSpent = apiUnitsAfterExecution-apiUnitsBeforeExecution
+                print('API_Units_Left:',apiUnitsAfterExecution)
+                print('API_Units_Spent:',apiUnitsSpent)
+            except Exception as e:
+                print("An error occured:",e)
+            #return Dn,Cr,Np,Or,Ot,Oc,Od,Sr,St,Sc
+        else:
+            print('The URL is not found in the competitors list.')
+            print(mainUrl)
 
 
     try:
@@ -214,7 +313,8 @@ def getCompetitors(url):
     et=time.time()
     getCompetitorsFromPics_time=et-st
     print('Total execution time of GettingCompetitorsFromPics.py is:',getCompetitorsFromPics_time,'seconds')
-    return getCompetitorsFromPics_time
+    return getCompetitorsFromPics_time,competitor_No1, competitor_No2, competitor_No3, competitor_No4, competitor_No5
 
 
-#getCompetitors('ewtw')
+#getCompetitors('ebs-paris.fr')
+#getCompetitors('evs')

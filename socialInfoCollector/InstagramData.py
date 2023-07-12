@@ -7,7 +7,7 @@ import itertools
 
 def instagramData(instagram_username):
     st=time.time()
-    return 0
+    #return 0
     print('Started executing InstagramData.py')
     #path = "DigiScore\\test.csv"
     path = "test.csv"
