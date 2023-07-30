@@ -10,6 +10,7 @@ from PIL import Image
 def getMarketingChannelDistribution(url):
     # https://www.youtube.com/watch?v=dQw4w9WgXcQ
     st=time.time()
+    #return 0
     print('Started executing getMarketingChannelDistribution.py')
 
     #path1='DigiScore\\DataML\\DataScreenshots'
@@ -98,7 +99,7 @@ def getMarketingChannelDistribution(url):
         while True:
             val = text_all_data[index][1]
             val = val.replace('o', '0').replace('l', '1')  # replace 'o' with '0' and 'l' with '1'
-            if val == '0pp0rtunities?':
+            if val == '0pp0rtunities?' or val == '0iarWvcd':
                 val='A'
             if not val[0].isdigit():
                 print(f"Check the '{var_name}' in the picture")
@@ -175,6 +176,7 @@ def getMarketingChannelDistribution(url):
 def getMarketingChannelDistributionCompetitor(url,competitor_num):
     # https://www.youtube.com/watch?v=dQw4w9WgXcQ
     st=time.time()
+    #return 0
     print('Started executing getMarketingChannelDistributionCompetitor.py')
 
     #path1=f'DigiScore\\DataML\\Competitors\\Competitor_{competitor_num}\\DataScreenshot_{competitor_num}'
@@ -262,8 +264,8 @@ def getMarketingChannelDistributionCompetitor(url,competitor_num):
     def get_number(index, text_all_data, var_name):
         while True:
             val = text_all_data[index][1]
-            val = val.replace('o', '0').replace('l', '1')  # replace 'o' with '0' and 'l' with '1'
-            if val == '0pp0rtunities?':
+            val = val.replace('o', '0').replace('l', '1').replace('O','0')  # replace 'o' with '0' and 'l' with '1'
+            if val == '0pp0rtunities?' or val == '0iarWvcd':
                 val='A'
             if not val[0].isdigit():
                 print(f"Check the '{var_name}' in the picture")

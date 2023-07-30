@@ -12,6 +12,9 @@ import pandas as pd
 
 def getKeywordsNumber(url):
     st=time.time()
+    #return 0
+    print('Started executing GetKeywordsNumber.py')
+
     #path1='DigiScore\\DataML\\DataScreenshots'
     #new_path = "DigiScore\\test1.csv"
     path1='DataML\\DataScreenshots'
@@ -69,25 +72,30 @@ def getKeywordsNumber(url):
 
         et=time.time()
         getKeywordsNumber_time=et-st
-        print('Total execution time of GettingCompetitorsFromPics.py is:',getKeywordsNumber_time,'seconds')
+        print('Total execution time of GetKeywordsNumber.py is:',getKeywordsNumber_time,'seconds')
         return getKeywordsNumber_time
 
 
-    # Define the ROIs
-    total_keywords_roi = (900, 640, 1150, 900)
-    org_paid_roi = (1600, 250, 1800, 500)
+    # Define the ROIs (x1, y1, x2, y2)
+    total_keywords_roi = (900, 600, 1150, 900)
+    org_paid_roi = (1600, 240, 1800, 550)
+
     # Crop the image to the ROIs
     total_keywords_image = image.crop(total_keywords_roi)
     org_paid_image = image.crop(org_paid_roi)
+
     # Convert the PIL Images to numpy arrays
     total_keywords_np = np.array(total_keywords_image)
     org_paid_np = np.array(org_paid_image)
+
     # Convert the ROIs to grayscale
     total_keywords_gray = cv2.cvtColor(total_keywords_np, cv2.COLOR_BGR2GRAY)
     org_paid_gray = cv2.cvtColor(org_paid_np, cv2.COLOR_BGR2GRAY)
+
     # Convert the grayscale images to binary for better OCR accuracy
     total_keywords_binary = cv2.threshold(total_keywords_gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
     org_paid_binary = cv2.threshold(org_paid_gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
+
     # Convert the binary images back to PIL Images
     total_keywords_image = Image.fromarray(total_keywords_binary)
     org_paid_image = Image.fromarray(org_paid_binary)
@@ -104,8 +112,8 @@ def getKeywordsNumber(url):
     # perform OCR on the file
     text_total_keywords = reader.readtext(total_keywords_image_path)
     text_org_paid = reader.readtext(org_paid_image_path)
-    print(text_total_keywords)
-    print(text_org_paid)
+    #print(text_total_keywords)
+    #print(text_org_paid)
 
     # For Total Keywords
     try:
@@ -193,7 +201,7 @@ def getKeywordsNumber(url):
 
     et=time.time()
     getKeywordsNumber_time=et-st
-    print('Total execution time of GettingCompetitorsFromPics.py is:',getKeywordsNumber_time,'seconds')
+    print('Total execution time of GetKeywordsNumber.py is:',getKeywordsNumber_time,'seconds')
     return getKeywordsNumber_time
 
 #getKeywordsNumber('rtet')
@@ -208,6 +216,9 @@ def getKeywordsNumber(url):
 
 def getKeywordsNumberCompetitor(url,competitor_num):
     st=time.time()
+    #return 0
+    print('Started executing GetKeywordsNumberCompetitor.py')
+
     #path1=f'DigiScore\\DataML\\Competitors\\Competitor_{competitor_num}\\DataScreenshot_{competitor_num}'
     #new_path = f"DigiScore\\DataML\\Competitors\\seoCompetitor_{competitor_num}.csv"
     path1=f'DataML\\Competitors\\Competitor_{competitor_num}\\DataScreenshot_{competitor_num}'
@@ -265,25 +276,30 @@ def getKeywordsNumberCompetitor(url,competitor_num):
 
         et=time.time()
         getKeywordsNumberCompetitor_time=et-st
-        print('Total execution time of GettingCompetitorsFromPicsCompetitor.py is:',getKeywordsNumberCompetitor_time,'seconds')
+        print('Total execution time of GetKeywordsNumberCompetitor.py is:',getKeywordsNumberCompetitor_time,'seconds')
         return getKeywordsNumberCompetitor_time
 
 
-    # Define the ROIs
-    total_keywords_roi = (900, 640, 1150, 900)
-    org_paid_roi = (1600, 250, 1800, 500)
+    # Define the ROIs (x1, y1, x2, y2)
+    total_keywords_roi = (900, 600, 1150, 900)
+    org_paid_roi = (1600, 240, 1800, 550)
+
     # Crop the image to the ROIs
     total_keywords_image = image.crop(total_keywords_roi)
     org_paid_image = image.crop(org_paid_roi)
+
     # Convert the PIL Images to numpy arrays
     total_keywords_np = np.array(total_keywords_image)
     org_paid_np = np.array(org_paid_image)
+
     # Convert the ROIs to grayscale
     total_keywords_gray = cv2.cvtColor(total_keywords_np, cv2.COLOR_BGR2GRAY)
     org_paid_gray = cv2.cvtColor(org_paid_np, cv2.COLOR_BGR2GRAY)
+
     # Convert the grayscale images to binary for better OCR accuracy
     total_keywords_binary = cv2.threshold(total_keywords_gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
     org_paid_binary = cv2.threshold(org_paid_gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
+
     # Convert the binary images back to PIL Images
     total_keywords_image = Image.fromarray(total_keywords_binary)
     org_paid_image = Image.fromarray(org_paid_binary)
@@ -291,6 +307,7 @@ def getKeywordsNumberCompetitor(url,competitor_num):
     # Construct the full file paths
     total_keywords_image_path = os.path.join(path1, 'total_keywords.png')
     org_paid_image_path = os.path.join(path1, 'org_paid.png')
+
     # Save the PIL images as files
     total_keywords_image.save(total_keywords_image_path)
     org_paid_image.save(org_paid_image_path)
@@ -300,8 +317,8 @@ def getKeywordsNumberCompetitor(url,competitor_num):
     # perform OCR on the file
     text_total_keywords = reader.readtext(total_keywords_image_path)
     text_org_paid = reader.readtext(org_paid_image_path)
-    print(text_total_keywords)
-    print(text_org_paid)
+    #print(text_total_keywords)
+    #print(text_org_paid)
 
     # For Total Keywords
     try:
@@ -370,7 +387,7 @@ def getKeywordsNumberCompetitor(url,competitor_num):
         df = pd.read_csv(new_path)
 
         # Prepare the 'Keywords' row
-        keywords_row = pd.DataFrame([[f'Keywords Panel: Compertitor{competitor_num}'] + [''] * (df.shape[1] - 1)], columns=df.columns)
+        keywords_row = pd.DataFrame([[f'Keywords Panel: Competitor_{competitor_num}'] + [''] * (df.shape[1] - 1)], columns=df.columns)
 
         new_data = pd.DataFrame({
             'Website Data': [total_keywords, organic_keywords_percentage, paid_keywords_percentage],
@@ -389,7 +406,7 @@ def getKeywordsNumberCompetitor(url,competitor_num):
 
     et=time.time()
     getKeywordsNumberCompetitor_time=et-st
-    print('Total execution time of GettingCompetitorsFromPicsCompetitor.py is:',getKeywordsNumberCompetitor_time,'seconds')
+    print('Total execution time of GetKeywordsNumberCompetitor.py is:',getKeywordsNumberCompetitor_time,'seconds')
     return getKeywordsNumberCompetitor_time
 
 

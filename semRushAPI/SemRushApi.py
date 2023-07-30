@@ -6,7 +6,7 @@ from io import StringIO
 
 def semRushApi(url):
     st=time.time()
-    #return 0
+    return 0
     print('Started executing SemRushApi.py')
     #new_path = "DigiScore\\test1.csv"
     new_path = "test1.csv"
@@ -22,7 +22,7 @@ def semRushApi(url):
 
     def get_domain_info(domain):
         try:
-            domain_overview_url = "https://api.semrush.com/?type=domain_ranks&key={}&export_columns=Db,Dn,Dt,Rk,Or,Ot,Oc,Ad,At,Ac,Sh,Sv,FKn,FPn,Sr,Srb,St&domain={}&database=fr".format(api_key, domain)
+            domain_overview_url = "https://api.semrush.com/?type=domain_ranks&key={}&export_columns=Db,Dn,Dt,Rk,Or,Ot,Oc,Ad,At,Ac,Sh,Sv,FKn,FPn,Sr&domain={}&database=fr".format(api_key, domain)
 
             response = requests.get(domain_overview_url)
 
@@ -55,8 +55,8 @@ def semRushApi(url):
             FKn = data_dict.get('SERP Features Positions', None)
             FPn = data_dict.get('SERP Features Positions Branded', None)
             Sr = data_dict.get('SERP Features Traffic', None)
-            Srb = data_dict.get('SERP Features Traffic Branded', None)
-            St = data_dict.get('SERP Features Traffic Cost', None)
+            #Srb = data_dict.get('SERP Features Traffic Branded', None)
+            #St = data_dict.get('SERP Features Traffic Cost', None)
 
             #return Db, Dn, Dt, Rk, Or, Ot, Oc, Ad, At, Ac, Sh, Sv, FKn, FPn, Sr, Srb, St
 
@@ -77,10 +77,10 @@ def semRushApi(url):
             FKn = None
             FPn = None
             Sr = None
-            Srb = None
-            St = None
+            #Srb = None
+            #St = None
 
-        return Db, Dn, Dt, Rk, Or, Ot, Oc, Ad, At, Ac, Sh, Sv, FKn, FPn, Sr, Srb, St
+        return Db, Dn, Dt, Rk, Or, Ot, Oc, Ad, At, Ac, Sh, Sv, FKn, FPn, Sr, #Srb, St
 
 
     def getTopKeywords_1_3_10(domain):
@@ -134,8 +134,8 @@ def semRushApi(url):
                     'SERP Features Positions': [FKn],
                     'SERP Features Positions Branded': [FPn],
                     'SERP Features Traffic': [Sr],
-                    'SERP Features Traffic Branded': [Srb],
-                    'SERP Features Traffic Cost': [St],
+                    #'SERP Features Traffic Branded': [Srb],
+                    #'SERP Features Traffic Cost': [St],
                     'Number of Keywords 1-3' : [X0],
                     'Number of Keywords 3-10' : [X1]
                 })
@@ -231,7 +231,7 @@ def semRushApiCompetitor(url,competitor_num):
 
     def get_domain_info(domain):
         try:
-            domain_overview_url = "https://api.semrush.com/?type=domain_ranks&key={}&export_columns=Db,Dn,Dt,Rk,Or,Ot,Oc,Ad,At,Ac,Sh,Sv,FKn,FPn,Sr,Srb,St&domain={}&database=fr".format(api_key, domain)
+            domain_overview_url = "https://api.semrush.com/?type=domain_ranks&key={}&export_columns=Db,Dn,Dt,Rk,Or,Ot,Oc,Ad,At,Ac,Sh,Sv,FKn,FPn,Sr&domain={}&database=fr".format(api_key, domain)
 
             response = requests.get(domain_overview_url)
 
@@ -264,8 +264,8 @@ def semRushApiCompetitor(url,competitor_num):
             FKn = data_dict.get('SERP Features Positions', None)
             FPn = data_dict.get('SERP Features Positions Branded', None)
             Sr = data_dict.get('SERP Features Traffic', None)
-            Srb = data_dict.get('SERP Features Traffic Branded', None)
-            St = data_dict.get('SERP Features Traffic Cost', None)
+            #Srb = data_dict.get('SERP Features Traffic Branded', None)
+            #St = data_dict.get('SERP Features Traffic Cost', None)
 
             #return Db, Dn, Dt, Rk, Or, Ot, Oc, Ad, At, Ac, Sh, Sv, FKn, FPn, Sr, Srb, St
 
@@ -286,10 +286,10 @@ def semRushApiCompetitor(url,competitor_num):
             FKn = None
             FPn = None
             Sr = None
-            Srb = None
-            St = None
+            #Srb = None
+            #St = None
 
-        return Db, Dn, Dt, Rk, Or, Ot, Oc, Ad, At, Ac, Sh, Sv, FKn, FPn, Sr, Srb, St
+        return Db, Dn, Dt, Rk, Or, Ot, Oc, Ad, At, Ac, Sh, Sv, FKn, FPn, Sr, #Srb, St
 
 
     def getTopKeywords_1_3_10(domain):
@@ -343,8 +343,8 @@ def semRushApiCompetitor(url,competitor_num):
                     'SERP Features Positions': [FKn],
                     'SERP Features Positions Branded': [FPn],
                     'SERP Features Traffic': [Sr],
-                    'SERP Features Traffic Branded': [Srb],
-                    'SERP Features Traffic Cost': [St],
+                    #'SERP Features Traffic Branded': [Srb],
+                    #'SERP Features Traffic Cost': [St],
                     'Number of Keywords 1-3' : [X0],
                     'Number of Keywords 3-10' : [X1]
                 })

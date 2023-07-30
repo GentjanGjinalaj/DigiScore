@@ -3,13 +3,16 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import WebDriverException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 from urllib.parse import urlparse
 import os
 
 
 def simiWebData(url):
     st=time.time()
-    return 0
+    #return 0
     print('Started executing SimiWebData.py')
     driverr=None
     companyName=None
@@ -55,7 +58,14 @@ def simiWebData(url):
             # Scroll to the specified location using 100dvh
             #driver.execute_script("window.scrollTo(0, (document.documentElement.scrollHeight - document.documentElement.clientHeight) * 0.01 * 100)")
 
-            driver.execute_script('window.scrollBy(0, 480)')
+            # Accept Cookies Button
+            wait = WebDriverWait(driver, 1)
+            accept_button = wait.until(EC.element_to_be_clickable((By.ID, 'onetrust-accept-btn-handler')))
+            # Click the "Accept All Cookies" button
+            accept_button.click()
+
+
+            driver.execute_script('window.scrollBy(0, 500)') # 480
             driver.execute_script("document.body.style.zoom='140%'")
             driver.execute_script("window.devicePixelRatio = 2")
 
@@ -85,7 +95,7 @@ def simiWebData(url):
             print(os.getcwd())
 
             time.sleep(0.5)
-            driver.execute_script('window.scrollBy(0, 6292)') #competitors 6772
+            driver.execute_script('window.scrollBy(0, 6280)') #competitors 6772           6292           6325 for small
             driver.execute_script("document.body.style.zoom='140%'")
             driver.execute_script("window.devicePixelRatio = 2")
 
@@ -107,7 +117,7 @@ def simiWebData(url):
             print(os.getcwd())
 
             time.sleep(0.5)
-            driver.execute_script("window.scrollBy(0, 1698)") #marketingChannelDistrib 8470
+            driver.execute_script("window.scrollBy(0, 1713)") #marketingChannelDistrib 8470       1698          1668 for small
             driver.execute_script("document.body.style.zoom='140%'")
             driver.execute_script("window.devicePixelRatio = 2")
             filename1 = f'{companyName}'
@@ -126,7 +136,7 @@ def simiWebData(url):
             print(os.getcwd())
 
             time.sleep(0.5)
-            driver.execute_script("window.scrollBy(0, 680)") #keywords 9150
+            driver.execute_script("window.scrollBy(0, 650)") #keywords 9150      680         650 for small
             driver.execute_script("document.body.style.zoom='140%'")
             driver.execute_script("window.devicePixelRatio = 2")
 
@@ -186,8 +196,10 @@ def simiWebData(url):
 
 
 #simiWebData("https://www.esg.fr/")
+#simiWebData("https://www.junto.fr/")
 #simiWebData("https://www.iscid-co.fr/")
 #simiWebData("https://www.adcreative.ai/")
+#simiWebData("https://www.ads-up.fr/")
 
 
 
@@ -245,7 +257,13 @@ def simiWebDataCompetitor(competitorURL,competitor_num):
             # Scroll to the specified location using 100dvh
             #driver.execute_script("window.scrollTo(0, (document.documentElement.scrollHeight - document.documentElement.clientHeight) * 0.01 * 100)")
 
-            driver.execute_script('window.scrollBy(0, 480)')
+            # Accept Cookies Button
+            wait = WebDriverWait(driver, 1)
+            accept_button = wait.until(EC.element_to_be_clickable((By.ID, 'onetrust-accept-btn-handler')))
+            # Click the "Accept All Cookies" button
+            accept_button.click()
+
+            driver.execute_script('window.scrollBy(0, 500)') # 480
             driver.execute_script("document.body.style.zoom='140%'")
             driver.execute_script("window.devicePixelRatio = 2")
 
@@ -275,11 +293,11 @@ def simiWebDataCompetitor(competitorURL,competitor_num):
             print(os.getcwd())
 
             time.sleep(0.5)
-            driver.execute_script('window.scrollBy(0, 6292)') #competitors 6772
+            driver.execute_script('window.scrollBy(0, 6280)') #competitors 6772           6292         6325
             driver.execute_script("document.body.style.zoom='140%'")
             driver.execute_script("window.devicePixelRatio = 2")
 
-            driver.execute_script("window.scrollBy(0, 1698)") #marketingChannelDistrib 8470
+            driver.execute_script("window.scrollBy(0, 1713)") #marketingChannelDistrib 8470       1698        1668
             driver.execute_script("document.body.style.zoom='140%'")
             driver.execute_script("window.devicePixelRatio = 2")
             filename1 = f'{companyName}'
@@ -298,7 +316,7 @@ def simiWebDataCompetitor(competitorURL,competitor_num):
             print(os.getcwd())
 
             time.sleep(0.5)
-            driver.execute_script("window.scrollBy(0, 680)") #keywords 9150
+            driver.execute_script("window.scrollBy(0, 650)") #keywords 9150      680
             driver.execute_script("document.body.style.zoom='140%'")
             driver.execute_script("window.devicePixelRatio = 2")
 
@@ -357,5 +375,7 @@ def simiWebDataCompetitor(competitorURL,competitor_num):
             driver.quit()
 
 #simiWebDataCompetitor("https://www.esg.fr/",1)
+#simiWebDataCompetitor("https://www.junto.fr/")
 #simiWebDataCompetitor("https://www.iscid-co.fr/",1)
 #simiWebDataCompetitor("https://www.adcreative.ai/",1)
+#simiWebDataCompetitor("https://www.ads-up.fr/")

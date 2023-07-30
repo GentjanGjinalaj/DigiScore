@@ -1,5 +1,6 @@
 import glob
 import os
+from urllib.parse import urlparse
 import easyocr
 from IPython.display import display
 from PIL import Image
@@ -11,8 +12,16 @@ import pandas as pd
 
 def getDataFromPics(url):
     st=time.time()
-    print('Started executing GettingDataFromPics.py')
+    #return 0
+    print('Started executing GetDataFromPics.py')
 
+    if url != None:
+        parsed_url = urlparse(url)
+        companyName = parsed_url.netloc.replace("www.", "")
+        print('Company name:',companyName)
+    else:
+        companyName = None
+        print('The url',url)
     #path1='DigiScore\\DataML\\DataScreenshots'
     #new_path = "DigiScore\\test1.csv"
     path1='DataML\\DataScreenshots'
@@ -59,8 +68,8 @@ def getDataFromPics(url):
 
             # Create a DataFrame with the new data and the corresponding column names
             new_data = pd.DataFrame({
-                'Website Data': [category_name, category_rank, total_visits, bounce_rate, pages_per_visit, avg_visit_dur],
-                'Website Data Type': ['Category Name', 'Category Rank', 'Total Visits', 'Bounce Rate', 'Pages per Visit', 'Average Visit Duration']
+                'Website Data': [companyName, category_name, category_rank, total_visits, bounce_rate, pages_per_visit, avg_visit_dur],
+                'Website Data Type': ['Company Name','Category Name', 'Category Rank', 'Total Visits', 'Bounce Rate', 'Pages per Visit', 'Average Visit Duration']
             })
 
             # Read the CSV file
@@ -82,7 +91,7 @@ def getDataFromPics(url):
 
         et=time.time()
         getDataFromPics_time=et-st
-        print('Total execution time of GettingDataFromPics.py is:',getDataFromPics_time,'seconds')
+        print('Total execution time of GetDataFromPics.py is:',getDataFromPics_time,'seconds')
         return getDataFromPics_time
 
 
@@ -151,12 +160,19 @@ def getDataFromPics(url):
 
     ###################################################################
 
-    # Define the ROIs
+    '''# Define the ROIs
     category_roi = (1450, 280, 1830, 580)
     visits_roi = (200, 490, 450, 800)
     bounce_roi = (615, 490, 860, 800)
     page_visit_roi = (1025, 490, 1290, 800)
-    avg_visit_dur_roi = (1450, 500, 1770, 800)
+    avg_visit_dur_roi = (1450, 500, 1770, 800)'''
+
+    # Define the ROIs (x1, y1, x2, y2)
+    category_roi = (1450, 260, 1830, 585)
+    visits_roi = (200, 540, 500, 900)
+    bounce_roi = (615, 540, 910, 900)
+    page_visit_roi = (1025, 540, 1340, 900)
+    avg_visit_dur_roi = (1450, 540, 1910, 900)
 
     # Crop the image to the ROIs
     category_image = image.crop(category_roi)
@@ -222,7 +238,7 @@ def getDataFromPics(url):
 
     # Extract the required information from ROI
     try:
-        print(text_category_rank)
+        #print(text_category_rank)
         # Initialize the starting index.
         index = 1
 
@@ -359,8 +375,8 @@ def getDataFromPics(url):
 
         # Create a DataFrame with the new data and the corresponding column names
         new_data = pd.DataFrame({
-            'Website Data Type': ['Category Name', 'Category Rank', 'Total Visits', 'Bounce Rate', 'Pages per Visit', 'Average Visit Duration'],
-            'Website Data': [category_name, category_rank, total_visits, bounce_rate, pages_per_visit, avg_visit_dur]
+            'Website Data Type': ['Company Name', 'Category Name', 'Category Rank', 'Total Visits', 'Bounce Rate', 'Pages per Visit', 'Average Visit Duration'],
+            'Website Data': [companyName, category_name, category_rank, total_visits, bounce_rate, pages_per_visit, avg_visit_dur]
         })
 
         df = pd.read_csv(new_path)
@@ -379,10 +395,10 @@ def getDataFromPics(url):
 
     et=time.time()
     getDataFromPics_time=et-st
-    print('Total execution time of GettingDataFromPics.py is:',getDataFromPics_time,'seconds')
+    print('Total execution time of GetDataFromPics.py is:',getDataFromPics_time,'seconds')
     return getDataFromPics_time
 
-#getDataFromPics('wefw')
+#getDataFromPics('https://www.junto.fr/')
 
 
 
@@ -394,7 +410,14 @@ def getDataFromPics(url):
 
 def getDataFromPicsCompetitor(competitorURL,competitor_num):
     st=time.time()
-    print('Started executing GettingDataFromPicsCompetitor.py')
+    #return 0
+    print('Started executing GetDataFromPicsCompetitor.py')
+
+    if competitorURL != None:
+        parsed_url = urlparse(competitorURL)
+        companyName = parsed_url.netloc.replace("www.", "")
+    else:
+        companyName = None
 
     #path1=f'DigiScore\\DataML\\Competitors\\Competitor_{competitor_num}\\DataScreenshot_{competitor_num}'
     #new_path = f"DigiScore\\DataML\\Competitors\\seoCompetitor_{competitor_num}.csv"
@@ -442,8 +465,8 @@ def getDataFromPicsCompetitor(competitorURL,competitor_num):
 
             # Create a DataFrame with the new data and the corresponding column names
             new_data = pd.DataFrame({
-                'Website Data': [category_name, category_rank, total_visits, bounce_rate, pages_per_visit, avg_visit_dur],
-                'Website Data Type': ['Category Name', 'Category Rank', 'Total Visits', 'Bounce Rate', 'Pages per Visit', 'Average Visit Duration']
+                'Website Data': [companyName, category_name, category_rank, total_visits, bounce_rate, pages_per_visit, avg_visit_dur],
+                'Website Data Type': ['Company Name','Category Name', 'Category Rank', 'Total Visits', 'Bounce Rate', 'Pages per Visit', 'Average Visit Duration']
             })
 
             # Read the CSV file
@@ -465,7 +488,7 @@ def getDataFromPicsCompetitor(competitorURL,competitor_num):
 
         et=time.time()
         getDataFromPicsCompetitor_time=et-st
-        print('Total execution time of GettingDataFromPicsCompetitor.py is:',getDataFromPicsCompetitor_time,'seconds')
+        print('Total execution time of GetDataFromPicsCompetitor.py is:',getDataFromPicsCompetitor_time,'seconds')
         return getDataFromPicsCompetitor_time
 
 
@@ -534,12 +557,19 @@ def getDataFromPicsCompetitor(competitorURL,competitor_num):
 
     ###################################################################
 
-    # Define the ROIs
+    '''# Define the ROIs
     category_roi = (1450, 280, 1830, 580)
     visits_roi = (200, 490, 450, 800)
     bounce_roi = (615, 490, 860, 800)
     page_visit_roi = (1025, 490, 1290, 800)
-    avg_visit_dur_roi = (1450, 500, 1770, 800)
+    avg_visit_dur_roi = (1450, 500, 1770, 800)'''
+
+    # Define the ROIs (x1, y1, x2, y2)
+    category_roi = (1450, 260, 1830, 585)
+    visits_roi = (200, 540, 500, 900)
+    bounce_roi = (615, 540, 910, 900)
+    page_visit_roi = (1025, 540, 1340, 900)
+    avg_visit_dur_roi = (1450, 540, 1910, 900)
 
     # Crop the image to the ROIs
     category_image = image.crop(category_roi)
@@ -605,7 +635,7 @@ def getDataFromPicsCompetitor(competitorURL,competitor_num):
 
     # Extract the required information from ROI
     try:
-        print(text_category_rank)
+        #print(text_category_rank)
         # Initialize the starting index.
         index = 1
 
@@ -714,7 +744,7 @@ def getDataFromPicsCompetitor(competitorURL,competitor_num):
         index = 1
         while True:
             avg_visit_dur = text_avg_visit_duration[index][1]
-            avg_visit_dur = avg_visit_dur.replace(".",":")
+            avg_visit_dur = avg_visit_dur.replace(".",":").replace("o","0").replace("O","0")
             if not avg_visit_dur[0].isdigit():
                 print(f"Look at the Average Visit Duration picture 'avg_visit_dur.png'")
                 index += 1
@@ -732,6 +762,9 @@ def getDataFromPicsCompetitor(competitorURL,competitor_num):
         print(text_avg_visit_duration)
         avg_visit_dur=None
 
+    #print(text_avg_visit_duration)
+
+
 
     try:
         # Prepare the 'Website' row
@@ -742,8 +775,8 @@ def getDataFromPicsCompetitor(competitorURL,competitor_num):
 
         # Create a DataFrame with the new data and the corresponding column names
         new_data = pd.DataFrame({
-            'Website Data Type': ['Category Name', 'Category Rank', 'Total Visits', 'Bounce Rate', 'Pages per Visit', 'Average Visit Duration'],
-            'Website Data': [category_name, category_rank, total_visits, bounce_rate, pages_per_visit, avg_visit_dur]
+            'Website Data Type': ['Company Name', 'Category Name', 'Category Rank', 'Total Visits', 'Bounce Rate', 'Pages per Visit', 'Average Visit Duration'],
+            'Website Data': [companyName, category_name, category_rank, total_visits, bounce_rate, pages_per_visit, avg_visit_dur]
         })
 
         df = pd.read_csv(new_path)
@@ -762,8 +795,8 @@ def getDataFromPicsCompetitor(competitorURL,competitor_num):
 
     et=time.time()
     getDataFromPicsCompetitor_time=et-st
-    print('Total execution time of GettingDataFromPicsCompetitor.py is:',getDataFromPicsCompetitor_time,'seconds')
+    print('Total execution time of GetDataFromPicsCompetitor.py is:',getDataFromPicsCompetitor_time,'seconds')
     return getDataFromPicsCompetitor_time
 
 
-#getDataFromPicsCompetitors('wefw',1)
+#getDataFromPicsCompetitor('wefw',1)

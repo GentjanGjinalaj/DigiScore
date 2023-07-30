@@ -12,9 +12,15 @@ app = Flask(__name__)
 async def collect_social_links(username):
     instagram_link, facebook_link, linkedin_link, twitter_link, links_time = SocialLinkCollector.socialLinkCollector(username)
     return instagram_link, facebook_link, linkedin_link, twitter_link, links_time
+async def collect_social_links_Competitor(username, competitor_num):
+    instagram_link, facebook_link, linkedin_link, twitter_link, links_time = await SocialLinkCollector.socialLinkCollectorCompetitor(username, competitor_num)
+    return instagram_link, facebook_link, linkedin_link, twitter_link, links_time
 
 async def collect_social_usernames(instagram_link, facebook_link, linkedin_link, twitter_link):
     instagram_username, facebook_username, linkedin_username, twitter_username, username_time = SocialUsernameCollector.socialUsernameCollector(instagram_link=instagram_link,facebook_link=facebook_link,linkedin_link=linkedin_link,twitter_link=twitter_link)
+    return instagram_username, facebook_username, linkedin_username, twitter_username, username_time
+async def collect_social_usernames_Competitor(instagram_link, facebook_link, linkedin_link, twitter_link, competitor_num):
+    instagram_username, facebook_username, linkedin_username, twitter_username, username_time = await SocialUsernameCollector.socialUsernameCollectorCompetitor(instagram_link=instagram_link, facebook_link=facebook_link, linkedin_link=linkedin_link, twitter_link=twitter_link, competitor_num=competitor_num)
     return instagram_username, facebook_username, linkedin_username, twitter_username, username_time
 
 async def get_simiweb_data(user_input):
@@ -42,35 +48,74 @@ async def get_keywords_number_Competitor(competitorURL,competitor_num):
 
 async def get_instagram_data(instagram_username):
     return InstagramData.instagramData(instagram_username=instagram_username)
+async def get_instagram_data_Competitor(instagram_username,competitor_num):
+    return InstagramData.instagramDataCompetitor(instagram_username=instagram_username,competitor_num=competitor_num)
+
 
 async def get_twitter_data(twitter_link, twitter_username):
     return TwitterData.twitterData(twitter_link=twitter_link,twitter_username=twitter_username)
+async def get_twitter_data_Competitor(twitter_link, twitter_username, competitor_num):
+    return TwitterData.twitterDataCompetitor(twitter_link=twitter_link, twitter_username=twitter_username, competitor_num=competitor_num)
 
 async def get_linkedin_data(linkedin_link, linkedin_username):
     return LinkedinData.linkedinData(linkedin_link=linkedin_link,linkedin_username=linkedin_username)
+async def get_linkedin_data_Competitor(linkedin_link, linkedin_username, competitor_num):
+    return LinkedinData.linkedinDataCompetitor(linkedin_link=linkedin_link, linkedin_username=linkedin_username, competitor_num=competitor_num)
 
 async def get_facebook_data(facebook_link, facebook_username):
     return FacebookData.facebookData(facebook_link=facebook_link,facebook_username=facebook_username)
+
+async def get_facebook_data_Competitor(facebook_link, facebook_username, competitor_num):
+    return FacebookData.facebookDataCompetitor(facebook_link=facebook_link, facebook_username=facebook_username, competitor_num=competitor_num)
 
 async def get_semRush_api(user_input):
     return SemRushApi.semRushApi(user_input)
 async def get_semRush_api_Competitor(competitorURL,competitor_num):
     return SemRushApi.semRushApiCompetitor(competitorURL,competitor_num)
 
-async def collect_data_for_competitor(competitorURL, competitor_num):
-    '''social_links_task = asyncio.create_task(collect_social_links(competitorURL))
-    social_usernames_task = asyncio.create_task(collect_social_usernames(*await social_links_task))
-    social_links_time = (await social_links_task)[4]  # assuming time is at index 4
-    social_usernames_time = (await social_usernames_task)[4]  # assuming time is at index 4
-    instagram_username, facebook_username, linkedin_username, twitter_username, links_time = await social_usernames_task
+###################################
 
-    instagram_task = asyncio.create_task(get_instagram_data(instagram_username))
-    twitter_task = asyncio.create_task(get_twitter_data(*await social_links_task, twitter_username))
-    linkedin_task = asyncio.create_task(get_linkedin_data(*await social_links_task, linkedin_username))
-    facebook_task = asyncio.create_task(get_facebook_data(*await social_links_task, facebook_username))
+async def collect_data_for_competitor(competitorURL, competitor_num):
+
+    '''social_links_task_Competitor = asyncio.create_task(collect_social_links_Competitor(competitorURL,competitor_num))
+    instagram_link, facebook_link, linkedin_link, twitter_link, links_time = await social_links_task_Competitor
+    social_usernames_task_Competitor = asyncio.create_task(collect_social_usernames_Competitor(instagram_link, facebook_link, linkedin_link, twitter_link, competitor_num))
+
+    social_links_time_Competitor = (await social_links_task_Competitor)[4]  # assuming time is at index 4
+    social_usernames_time_Competitor = (await social_usernames_task_Competitor)[4]  # assuming time is at index 4
+    instagram_username, facebook_username, linkedin_username, twitter_username, username_time = await social_usernames_task_Competitor
+
+    instagram_task_Competitor = asyncio.create_task(get_instagram_data_Competitor(instagram_username,competitor_num))
+    twitter_task_Competitor = asyncio.create_task(get_twitter_data_Competitor(*await social_links_task_Competitor, twitter_username,competitor_num))
+    linkedin_task_Competitor = asyncio.create_task(get_linkedin_data_Competitor(*await social_links_task_Competitor, linkedin_username,competitor_num))
+    facebook_task_Competitor = asyncio.create_task(get_facebook_data_Competitor(*await social_links_task_Competitor, facebook_username,competitor_num))
+
+    social_data_tasks_Competitor = [instagram_task_Competitor, twitter_task_Competitor, linkedin_task_Competitor, facebook_task_Competitor]
+    social_data_times_Competitor = sum((await task)[0] for task in social_data_tasks_Competitor)  # assuming time is at index 0'''
+
+    #################################################################
+
+    social_links_task_Competitor = asyncio.create_task(collect_social_links_Competitor(competitorURL,competitor_num))
+    instagram_link, facebook_link, linkedin_link, twitter_link, links_time = await social_links_task_Competitor
+
+    social_usernames_task_Competitor = asyncio.create_task(collect_social_usernames_Competitor(instagram_link, facebook_link, linkedin_link, twitter_link, competitor_num))
+    instagram_username, facebook_username, linkedin_username, twitter_username, username_time = social_usernames_task_Competitor
+
+    instagram_task = asyncio.create_task(get_instagram_data_Competitor(instagram_username))
+    twitter_task = asyncio.create_task(get_twitter_data_Competitor(twitter_link, twitter_username,competitor_num))
+    linkedin_task = asyncio.create_task(get_linkedin_data_Competitor(linkedin_link, linkedin_username,competitor_num))
+    facebook_task = asyncio.create_task(get_facebook_data_Competitor(facebook_link, facebook_username,competitor_num))
 
     social_data_tasks = [instagram_task, twitter_task, linkedin_task, facebook_task]
-    social_data_times = sum((await task)[0] for task in social_data_tasks)  # assuming time is at index 0'''
+
+    resultsSocial = await asyncio.gather(*social_data_tasks, return_exceptions=True)
+    social_data_times_Competitor = sum(result if isinstance(result, (float, int)) else result[0] if not isinstance(result, Exception) else 0 for result in resultsSocial)
+
+
+
+    #social_data_tasks = [instagram_task, twitter_task, linkedin_task, facebook_task]
+    #social_data_times_Competitor = sum((await task)[0] for task in social_data_tasks)  # assuming time is at index 0
+    #social_data_times_Competitor = social_links_time + social_usernames_time + twitter_time + linkedin_time + instagram_time + facebook_time
 
     simiweb_Competitor_task = asyncio.create_task(get_simiweb_Competitor(competitorURL, competitor_num))
     data_from_pics_Competitor_task = asyncio.create_task(get_data_from_pics_Competitor(competitorURL, competitor_num))
@@ -84,9 +129,7 @@ async def collect_data_for_competitor(competitorURL, competitor_num):
     seo_times = sum(result if isinstance(result, (float, int)) else result[0] if not isinstance(result, Exception) else 0 for result in results)
 
 
-
-
-    total_time = seo_times #+ social_links_time + social_usernames_time + social_data_times + links_time
+    total_time = seo_times + social_data_times_Competitor # + social_links_time_Competitor + social_usernames_time_Competitor
     return total_time
 
 
@@ -156,6 +199,7 @@ async def index():
             for i, competitor in enumerate([comp for comp in competitors if comp is not None], start=1):
                 if competitor is not None:
                     print('Inisde for loop before calling competitor function:',competitor)
+                    print(i)
                     competitor_total_time = await collect_data_for_competitor(competitor, i) # passing the competitor number
                     competitor_total_times.append(competitor_total_time)
                     print(f"competitorNo{i}_total_time: {competitor_total_time}")

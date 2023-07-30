@@ -12,6 +12,8 @@ import requests
 
 def getCompetitors(mainUrl):
     st=time.time()
+    #return 0,'axa.com','neoma-bs.fr','yumens.fr','ads-up.fr','youlovewords.com'#lescausantes.com'
+    print('Started executing GetCompetitorsFromPics.py')
     #mainUrl=url
 
     #path1='DigiScore\\DataML\\DataScreenshots'
@@ -77,7 +79,7 @@ def getCompetitors(mainUrl):
 
         et=time.time()
         getCompetitorsFromPics_time=et-st
-        print('Total execution time of GettingCompetitorsFromPics.py is:',getCompetitorsFromPics_time,'seconds')
+        print('Total execution time of GetCompetitorsFromPics.py is:',getCompetitorsFromPics_time,'seconds')
         return getCompetitorsFromPics_time
 
     # Construct the full file paths
@@ -100,6 +102,14 @@ def getCompetitors(mainUrl):
         while len(competitors) < 5 and index < len(text_competitors):
             competitor = text_competitors[index][1]
             confidence_competitor = text_competitors[index][2]
+
+            # Check if the competitor's length is less than 4 characters or ends with 'L'
+            if len(competitor) < 4 or competitor[-1] == 'L':
+                index += 1
+                continue
+
+            # Replace ":" with "."
+            competitor = competitor.replace(":", ".")
 
             if competitor[:4].lower() != "site":
                 competitors.append((competitor, confidence_competitor))
@@ -163,9 +173,6 @@ def getCompetitors(mainUrl):
         if not url[-1].isalnum():
             url = url[:-1]
 
-        # Replace 'L' at the end of the string with '...'
-        if url.endswith('L'):
-            url = url[:-1] + '...'
 
         if url.endswith('cons'):
             url += 'eil.fr'
@@ -200,7 +207,7 @@ def getCompetitors(mainUrl):
                 apiUnitsBeforeExecution=int(apiUnitsBeforeExecution)
                 print('API_Units_Before_Execution:',apiUnitsBeforeExecution)
                 #call the competitors API from semrush to get 5 competitors. The cost will be 200 API units
-                response=requests.get(f'https://api.semrush.com/?type=domain_organic_organic&key={api_key}&display_limit=1&export_columns=Dn,Cr,Np,Or,Ot,Oc,Ad,Sr,St,Sc&domain={mainUrl}&database=fr')
+                response=requests.get(f'https://api.semrush.com/?type=domain_organic_organic&key={api_key}&display_limit=5&export_columns=Dn,Cr,Np,Or,Ot,Oc,Ad,Sr,St,Sc&domain={mainUrl}&database=fr')
                 print(response)
                 print(response.text)
                 data = pd.read_csv(StringIO(response.text), sep=';')  # Specify delimiter
@@ -279,6 +286,73 @@ def getCompetitors(mainUrl):
             print(mainUrl)
 
 
+
+    none_indices = [i for i, competitor in enumerate(competitors) if competitor is None]
+    # Get the length of the none_indices array
+    length_of_none_indices = len(none_indices)
+    if length_of_none_indices<6 and length_of_none_indices>0:
+        try:
+            print('The number of None competitors is:',length_of_none_indices,' at the positions:',none_indices)
+
+            # Fetch the data from the API only once for all the None values
+            api_key = '8bdbff61b7aa7c84bd0a8be0ffb526c9'
+
+            api_key = '8bdbff61b7aa7c84bd0a8be0ffb526c9'
+            response=requests.get('http://www.semrush.com/users/countapiunits.html?key=8bdbff61b7aa7c84bd0a8be0ffb526c9')
+            print(response)
+            print(response.text)
+            apiUnitsBeforeExecution = response.text
+            apiUnitsBeforeExecution=int(apiUnitsBeforeExecution)
+
+            try:
+                response = requests.get(f'https://api.semrush.com/?type=domain_organic_organic&key={api_key}&display_limit={length_of_none_indices}&export_columns=Dn,Cr,Np,Or,Ot,Oc,Ad,Sr,St,Sc&domain={mainUrl}&database=fr')
+                data = pd.read_csv(StringIO(response.text), sep=';')  # Specify delimiter
+            except Exception as e:
+                print(f'Error occurred: {e}')
+
+            if not data.empty:
+                # Assuming that the API response provides data in order and fills the competitors list accordingly.
+                # If the assumption is incorrect, you may need to implement a more sophisticated matching mechanism.
+
+                # Iterate over None indices and update the competitor_NoX variables
+                for idx, api_row in zip(none_indices, data.itertuples()):
+                    competitor_Dn = getattr(api_row, 'Dn')  # Get the 'Domain' data from the API response
+
+                    # Assign the value of Dn to the corresponding competitor variable
+                    if idx == 0:
+                        competitor_No1 = competitor_Dn
+                    elif idx == 1:
+                        competitor_No2 = competitor_Dn
+                    elif idx == 2:
+                        competitor_No3 = competitor_Dn
+                    elif idx == 3:
+                        competitor_No4 = competitor_Dn
+                    elif idx == 4:
+                        competitor_No5 = competitor_Dn
+
+                #API units balance
+                response=requests.get('http://www.semrush.com/users/countapiunits.html?key=8bdbff61b7aa7c84bd0a8be0ffb526c9')
+                print(response)
+                print(response.text)
+                apiUnitsAfterExecution = response.text
+                apiUnitsAfterExecution=int(apiUnitsAfterExecution)
+                apiUnitsSpent = apiUnitsAfterExecution-apiUnitsBeforeExecution
+                print('API_Units_Left:',apiUnitsAfterExecution)
+                print('API_Units_Spent:',apiUnitsSpent)
+
+            else:
+                print('API did not return any data.')
+        except Exception as e:
+            print(f'An error occurred: {e}')
+    elif length_of_none_indices == 0:
+        print('There are no missing competitors but exactly 5 competitors')
+
+    else:
+        print('Look carefully at the number of None competitors',none_indices,'at the length:',length_of_none_indices)
+        print('List of competitors:', competitors)
+
+
+
     try:
         # Read the existing CSV file into a DataFrame
         df = pd.read_csv(new_path)
@@ -312,7 +386,7 @@ def getCompetitors(mainUrl):
 
     et=time.time()
     getCompetitorsFromPics_time=et-st
-    print('Total execution time of GettingCompetitorsFromPics.py is:',getCompetitorsFromPics_time,'seconds')
+    print('Total execution time of GetCompetitorsFromPics.py is:',getCompetitorsFromPics_time,'seconds')
     return getCompetitorsFromPics_time,competitor_No1, competitor_No2, competitor_No3, competitor_No4, competitor_No5
 
 
