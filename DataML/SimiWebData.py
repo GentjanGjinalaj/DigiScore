@@ -12,6 +12,7 @@ import os
 
 def simiWebData(url):
     st=time.time()
+    time.sleep(7)
     #return 0
     print('Started executing SimiWebData.py')
     driverr=None

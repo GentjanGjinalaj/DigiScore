@@ -10,25 +10,71 @@ from RatingSystem import final
 
 appp = Flask(__name__)
 
+# Global flag for termination
+terminate_flag = False
+
 def collect_data_for_competitor(competitorURL, competitor_num):
     instagram_link, facebook_link, linkedin_link, twitter_link, links_time = SocialLinkCollector.socialLinkCollectorCompetitor(competitorURL, competitor_num)
+    # Check for termination signal
+    if terminate_flag:
+        return render_template("error.html", error_message="Process terminated by the user.")
+
     instagram_username, facebook_username, linkedin_username, twitter_username, username_time = SocialUsernameCollector.socialUsernameCollectorCompetitor(instagram_link=instagram_link, facebook_link=facebook_link, linkedin_link=linkedin_link, twitter_link=twitter_link,competitor_num=competitor_num)
+    # Check for termination signal
+    if terminate_flag:
+        return render_template("error.html", error_message="Process terminated by the user.")
 
     instagram_data = InstagramData.instagramDataCompetitor(instagram_username=instagram_username,competitor_num=competitor_num)
+    # Check for termination signal
+    if terminate_flag:
+        return render_template("error.html", error_message="Process terminated by the user.")
+
     twitter_data = TwitterData.twitterDataCompetitor(twitter_link=twitter_link, twitter_username=twitter_username,competitor_num=competitor_num)
+    # Check for termination signal
+    if terminate_flag:
+        return render_template("error.html", error_message="Process terminated by the user.")
+
     linkedin_data = LinkedinData.linkedinDataCompetitor(linkedin_link=linkedin_link, linkedin_username=linkedin_username,competitor_num=competitor_num)
+    # Check for termination signal
+    if terminate_flag:
+        return render_template("error.html", error_message="Process terminated by the user.")
+
     facebook_data = FacebookData.facebookDataCompetitor(facebook_link=facebook_link, facebook_username=facebook_username,competitor_num=competitor_num)
+    # Check for termination signal
+    if terminate_flag:
+        return render_template("error.html", error_message="Process terminated by the user.")
+
 
     social_data_times_Competitor = sum([instagram_data, twitter_data, linkedin_data, facebook_data, links_time, username_time])
 
     simiweb_data = SimiWebData.simiWebDataCompetitor(competitorURL, competitor_num)
+    # Check for termination signal
+    if terminate_flag:
+        return render_template("error.html", error_message="Process terminated by the user.")
+
     data_from_pics_data = GetDataFromPics.getDataFromPicsCompetitor(competitorURL, competitor_num)
+    # Check for termination signal
+    if terminate_flag:
+        return render_template("error.html", error_message="Process terminated by the user.")
+
     keywords_number_data = GetKeywordsNumber.getKeywordsNumberCompetitor(competitorURL, competitor_num)
+    # Check for termination signal
+    if terminate_flag:
+        return render_template("error.html", error_message="Process terminated by the user.")
+
     channel_distrib_data = GetMarketingChannelDistribution.getMarketingChannelDistributionCompetitor(competitorURL, competitor_num)
+    # Check for termination signal
+    if terminate_flag:
+        return render_template("error.html", error_message="Process terminated by the user.")
+
     semRush_data = SemRushApi.semRushApiCompetitor(competitorURL, competitor_num)
+    # Check for termination signal
+    if terminate_flag:
+        return render_template("error.html", error_message="Process terminated by the user.")
+
 
     seo_times = sum([simiweb_data, data_from_pics_data, keywords_number_data, channel_distrib_data, semRush_data])
-    
+
 
     total_time = seo_times + social_data_times_Competitor
     return total_time
@@ -37,19 +83,42 @@ def collect_data_for_competitor(competitorURL, competitor_num):
 @appp.route("/", methods=["GET", "POST"])
 def index():
     try:
+        global terminate_flag
         if request.method == 'POST':
+            # Reset the termination flag at the beginning of processing
+            terminate_flag = False
             user_input = request.form['user_input']
             url = urllib.parse.urlparse(user_input)
             if not (url.scheme == 'http' or url.scheme == 'https'):
                 raise ValueError("Invalid URL. Please ensure your URL starts with 'http' or 'https'.")
 
+
             instagram_link, facebook_link, linkedin_link, twitter_link, links_time = SocialLinkCollector.socialLinkCollector(user_input)
+            # Check for termination signal
+            if terminate_flag:
+                return render_template("error.html", error_message="Process terminated by the user.")
+
             instagram_username, facebook_username, linkedin_username, twitter_username, username_time = SocialUsernameCollector.socialUsernameCollector(instagram_link=instagram_link, facebook_link=facebook_link, linkedin_link=linkedin_link, twitter_link=twitter_link)
+            # Check for termination signal
+            if terminate_flag:
+                return render_template("error.html", error_message="Process terminated by the user.")
 
             simiweb_data = SimiWebData.simiWebData(user_input)
+            if terminate_flag:
+                return render_template("error.html", error_message="Process terminated by the user.")
+
             data_from_pics_data = GetDataFromPics.getDataFromPics(user_input)
+            if terminate_flag:
+                return render_template("error.html", error_message="Process terminated by the user.")
+
             competitors_from_pics_data = GetCompetitorsFromPics.getCompetitors(user_input)
+            if terminate_flag:
+                return render_template("error.html", error_message="Process terminated by the user.")
+
             getCompetitorsFromPics_time, competitor_No1, competitor_No2, competitor_No3, competitor_No4, competitor_No5 = competitors_from_pics_data
+            if terminate_flag:
+                return render_template("error.html", error_message="Process terminated by the user.")
+
 
             tasks = [
                 simiweb_data,
@@ -76,6 +145,23 @@ def index():
             print('Total execution time for the main Company:', total_time, 'seconds')
 
             competitors = ["https://www." + comp for comp in [competitor_No1, competitor_No2, competitor_No3, competitor_No4, competitor_No5] if comp is not None]
+            # Fetch the manually entered competitors from the form
+            competitor1User = request.form.get('competitor1')
+            competitor2User = request.form.get('competitor2')
+            competitor3User = request.form.get('competitor3')
+            competitor4User = request.form.get('competitor4')
+            competitor5User = request.form.get('competitor5')
+            # List to hold the manually entered competitors
+            new_competitors = [competitor1User, competitor2User, competitor3User, competitor4User, competitor5User]
+            # Filter out None values and check if they are not already in the competitors list
+            manual_competitors = [comp for comp in new_competitors if comp and comp not in competitors]
+
+            if manual_competitors:
+                # Replace the last competitors with the manually entered ones
+                competitors = competitors[:-len(manual_competitors)] + manual_competitors
+
+            if terminate_flag:
+                return render_template("error.html", error_message="Process terminated by the user.")
 
             competitor_total_times = []
             for i, competitor in enumerate(competitors, start=1):
@@ -146,6 +232,14 @@ def download_csv_final_scores():
     #path = os.path.abspath(os.path.join(os.getcwd(), "DigiScore", filename))
     path = os.path.abspath(os.path.join(os.getcwd(),"RatingSystem", filename))
     return send_file(path, as_attachment=True)
+
+# Route to handle termination
+@appp.route("/terminate", methods=["GET"])
+def terminate():
+    global terminate_flag
+    terminate_flag = True
+    return render_template("error.html", error_message="Process terminated by the user."), 400
+
 
 if __name__ == '__main__':
     appp.run(debug=True,port=5000)

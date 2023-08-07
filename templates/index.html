@@ -154,30 +154,117 @@
       font-size: 24px;
       color: #333;
     }
+    .styledButton {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 16px 32px;
+      text-decoration: none;
+      margin-top: 20px;
+      font-size: 24px;
+      border-radius: 5px;
+      cursor: pointer;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .styledButton:hover {
+      background-color: #3e8e41;
+    }
+
+    #terminateBtn {
+    background-color: #D32F2F; /* Red */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  #terminateBtn:hover {
+    background-color: #C62828; /* Darker Red */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  }
 
   </style>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script>
-    $(document).ready(function() {
-      $('form').submit(function() {
-        $('#btnSubmit').prop('disabled', true);
-        $('#btnSubmit').append('<div class="loading-bar"><div class="double-rotating-lines"><span class="line"></span><span class="line"></span></div><span class="loading-text">Loading...</span></div>');
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    let submitButton = document.getElementById("btnSubmit");
+    let terminateButton = document.getElementById("terminateBtn");
+    let competitorFields = document.getElementById("competitorFields");
+
+    submitButton.addEventListener("click", function() {
         setTimeout(function() {
-          $('#btnSubmit').prop('disabled', false);
-          $('#btnSubmit').html('It may take some time');
-          $('.loading-bar').remove();
-        }, 2000);
-        
-      });
+            submitButton.disabled = true;
+            submitButton.style.opacity = "0.5";
+            submitButton.style.boxShadow = "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)";
+        }, 3000);
     });
-  </script>
+
+    terminateButton.style.display = "none"; // Ensure termination button is hidden on page load
+
+    document.getElementById("addCompetitorsBtn").addEventListener("click", function() {
+        if (competitorFields.style.display === "none" || competitorFields.style.display === "") {
+            competitorFields.style.display = "block";
+        } else {
+            competitorFields.style.display = "none";
+        }
+    });
+
+    terminateButton.addEventListener("click", function() {
+    window.location.href = "/terminate"; // Directly navigate to the terminate route
+});
+
+});
+
+function showTerminateButton() {
+    document.getElementById("terminateBtn").style.display = "block";
+}
+
+
+</script>
+
+
 </head>
 <body>
   <h1>DIGISCORE</h1>
   <form method="POST">
     <label for="input_field">Input Company URL:</label>
     <input type="text" id="input_field" name="user_input" placeholder="Enter the url of the desired company in the correct format including https://">
-    <button type="submit" id="btnSubmit">Submit</button>
+
+    <button type="button" id="terminateBtn" style="position: absolute; top: 10px; right: 10px; display: none;">Terminate</button>
+
+    <button type="button" id="addCompetitorsBtn" class="styledButton" onclick= addCompetitors()>Add Competitors Manually</button>
+
+    <div id="competitorFields" style="display: none;">
+      <label for="competitor1">Input Competitor 1 URL (Optional):</label>
+      <input type="text" id="competitor1" name="competitor1" placeholder="Enter competitor 1 url if available">
+
+      <label for="competitor2">Input Competitor 2 URL (Optional):</label>
+      <input type="text" id="competitor2" name="competitor2" placeholder="Enter competitor 2 url if available">
+
+      <label for="competitor3">Input Competitor 3 URL (Optional):</label>
+      <input type="text" id="competitor3" name="competitor3" placeholder="Enter competitor 3 url if available">
+
+      <label for="competitor4">Input Competitor 4 URL (Optional):</label>
+      <input type="text" id="competitor4" name="competitor4" placeholder="Enter competitor 4 url if available">
+
+      <label for="competitor5">Input Competitor 5 URL (Optional):</label>
+      <input type="text" id="competitor5" name="competitor5" placeholder="Enter competitor 5 url if available">
+    </div>
+
+    <button type="submit" id="btnSubmit" onclick="showTerminateButton()">Submit</button>
   </form>
 </body>
 </html>
