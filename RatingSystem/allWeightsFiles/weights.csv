@@ -1,0 +1,46 @@
+Category,Metric,Weight,Platform
+Website Performance,Total Visits,0.21,
+Website Performance,Bounce Rate,0.18,
+Website Performance,Pages per Visit,0.18,
+Website Performance,Average Visit Duration,0.13,
+Website Performance,Category Rank,0.10,
+Website Performance,Rank,0.10,
+Website Performance,Total Keywords #5,0.10,
+SEO Performance,Organic Keywords,0.10,
+SEO Performance,Organic Traffic,0.10,
+SEO Performance,SERP Features Positions,0.10,
+SEO Performance,SERP Features Positions Branded,0.10,
+SEO Performance,SERP Features Traffic,0.10,
+SEO Performance,Organic Cost,0.066,
+SEO Performance,Adwords Keywords,0.066,
+SEO Performance,Adwords Traffic,0.066,
+SEO Performance,Adwords Cost,0.066,
+SEO Performance,PLA Keywords,0.033,
+SEO Performance,PLA Uniques,0.033,
+SEO Performance,Number of Keywords 1-3,0.0665,
+SEO Performance,Number of Keywords 3-10,0.033,
+SEO Performance,Organic Keywords Percentage,0.033,
+SEO Performance,Paid Keywords Percentage,0.033,
+Marketing Channel Distribution,Direct,0.20,
+Marketing Channel Distribution,Referrals,0.15,
+Marketing Channel Distribution,Organic Search,0.20,
+Marketing Channel Distribution,Paid Search,0.15,
+Marketing Channel Distribution,Social,0.10,
+Marketing Channel Distribution,Mail,0.10,
+Marketing Channel Distribution,Display,0.10,
+Competitor Analysis,First Competitor,0.20,
+Competitor Analysis,Second Competitor,0.20,
+Competitor Analysis,Third Competitor,0.20,
+Competitor Analysis,Fourth Competitor,0.20,
+Competitor Analysis,Fifth Competitor,0.20,
+Social Media Performance,Followers Count Instagram,0.40,Instagram
+Social Media Performance,Followers Count Twitter,0.30,Twitter
+Social Media Performance,Followers Count Facebook,0.50,Facebook
+Social Media Performance,Average Likes per 5 posts Instagram,0.30,Instagram
+Social Media Performance,Average Likes per 5 posts LinkedIn,0.50,LinkedIn
+Social Media Performance,Average Likes per 5 posts Twitter,0.225,Twitter
+Social Media Performance,Average Likes per 5 posts Facebook,0.50,Facebook
+Social Media Performance,Average Comments per 5 posts Instagram,0.30,Instagram
+Social Media Performance,Average Comments per 5 posts LinkedIn,0.50,LinkedIn
+Social Media Performance,Average Comments per 5 posts Twitter,0.225,Twitter
+Social Media Performance,Average Retweets per 5 posts Twitter,0.25,Twitter

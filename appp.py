@@ -1,9 +1,12 @@
 import os
+import zipfile
 import urllib.parse
 from flask import Flask,request,render_template,send_file
 from socialInfoCollector import SocialLinkCollector,SocialUsernameCollector,InstagramData,LinkedinData,FacebookData,TwitterData
 from DataML import SimiWebData, GetDataFromPics, GetCompetitorsFromPics,GetKeywordsNumber,GetMarketingChannelDistribution
 from semRushAPI import SemRushApi
+from RatingSystem import final
+
 
 appp = Flask(__name__)
 
@@ -25,6 +28,7 @@ def collect_data_for_competitor(competitorURL, competitor_num):
     semRush_data = SemRushApi.semRushApiCompetitor(competitorURL, competitor_num)
 
     seo_times = sum([simiweb_data, data_from_pics_data, keywords_number_data, channel_distrib_data, semRush_data])
+    
 
     total_time = seo_times + social_data_times_Competitor
     return total_time
@@ -82,7 +86,9 @@ def index():
                     competitor_total_times.append(competitor_total_time)
                     print(f"competitorNo{i}_total_time: {competitor_total_time}")
 
+            rating_time = final.weightRatingSystem()
             total_time += sum(competitor_total_times)
+            total_time = total_time + rating_time
             print('Total execution time:', total_time, 'seconds')
 
             return render_template("result.html", result=total_time)
@@ -98,23 +104,47 @@ def index():
 
 @appp.route('/download_Social_Media_csv')
 def download_csv():
-    filename = "test.csv"
-    #path = os.path.abspath(os.path.join(os.getcwd(), "DigiScore", filename))
-    path = os.path.abspath(os.path.join(os.getcwd(), filename))
-    return send_file(path, as_attachment=True)
+    filenames = ["test.csv",'DataML\Competitors\socialCompetitor_1.csv','DataML\Competitors\socialCompetitor_2.csv','DataML\Competitors\socialCompetitor_3.csv','DataML\Competitors\socialCompetitor_4.csv','DataML\Competitors\socialCompetitor_5.csv']
+    zip_filename = "Social_Media_csv_files.zip"
+    with zipfile.ZipFile(zip_filename, 'w') as zipf:
+        for filename in filenames:
+            #path = os.path.abspath(os.path.join(os.getcwd(), "DigiScore", filename))
+            path = os.path.abspath(os.path.join(os.getcwd(), filename))
+            if filename == "test.csv":
+                zipf.write(path, arcname="socialMainCompany.csv")
+            else:
+                zipf.write(path, arcname=os.path.basename(filename))
+
+    return send_file(zip_filename, as_attachment=True)
 
 @appp.route('/download_SEO_Website_csv')
 def download_csv1():
-    filename = "test1.csv"
-    #path = os.path.abspath(os.path.join(os.getcwd(), "DigiScore", filename))
-    path = os.path.abspath(os.path.join(os.getcwd(), filename))
-    return send_file(path, as_attachment=True)
+    filenames = ["test1.csv",'DataML\Competitors\seoCompetitor_1.csv','DataML\Competitors\seoCompetitor_2.csv','DataML\Competitors\seoCompetitor_3.csv','DataML\Competitors\seoCompetitor_4.csv','DataML\Competitors\seoCompetitor_5.csv']
+    zip_filename = "SEO_and_WEBSITE_csv_files.zip"
+    with zipfile.ZipFile(zip_filename, 'w') as zipf:
+        for filename in filenames:
+            #path = os.path.abspath(os.path.join(os.getcwd(), "DigiScore", filename))
+            path = os.path.abspath(os.path.join(os.getcwd(), filename))
+            if filename == "test1.csv":
+                zipf.write(path, arcname="seoMainCompany.csv")
+            else:
+                zipf.write(path, arcname=os.path.basename(filename))
+
+    return send_file(zip_filename, as_attachment=True)
+
 
 @appp.route('/download_Info_csv')
 def download_csv_info():
     filename = "t_column_info.csv"
     #path = os.path.abspath(os.path.join(os.getcwd(), "DigiScore", filename))
     path = os.path.abspath(os.path.join(os.getcwd(), filename))
+    return send_file(path, as_attachment=True)
+
+@appp.route('/download_Ratings_csv')
+def download_csv_final_scores():
+    filename = "final_scores.csv"
+    #path = os.path.abspath(os.path.join(os.getcwd(), "DigiScore", filename))
+    path = os.path.abspath(os.path.join(os.getcwd(),"RatingSystem", filename))
     return send_file(path, as_attachment=True)
 
 if __name__ == '__main__':

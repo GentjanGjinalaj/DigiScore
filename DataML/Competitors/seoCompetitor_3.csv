@@ -1,21 +1,21 @@
-Website Data Type,Website Data
-Website Panel,
-Company Name,yumens.fr
-Category Name,Business and Consumer Services Marketing and Advertising
-Category Rank,326
-Total Visits,39.7K
-Bounce Rate,78.91%
-Pages per Visit,1.77
-Average Visit Duration,00:01:24
-Keywords Panel: Competitor_3,
-Total Keywords #5,1.7K
-Organic Keywords Percentage,88.39%
-Paid Keywords Percentage,11.61%
-Marketing Channel Distribution Panel: Competitor_3,
-Direct,67.68%
-Referrals,20.81%
-Organic Search,8.89%
-Paid Search,0.97%
-Social,0.68%
-Mail,0.97%
-Display,0.00%
+Website Data Type,Website Data,SemRush API Data Type: Competitor_3,SemRush API Data: Competitor_3
+Website Panel,,Database,fr
+Company Name,yumens.fr,Domain,yumens.fr
+Category Name,Business and Consumer Services Marketing and Advertising,Date,20230801
+Category Rank,326,Rank,16213
+Total Visits,39.7K,Organic Keywords,10388
+Bounce Rate,78.91%,Organic Traffic,25952
+Pages per Visit,1.77,Organic Cost,60631
+Average Visit Duration,00:01:24,Adwords Keywords,4
+Keywords Panel: Competitor_3,,Adwords Traffic,100
+Total Keywords #5,1.7K,Adwords Cost,94
+Organic Keywords Percentage,88.39%,PLA Keywords,0
+Paid Keywords Percentage,11.61%,PLA Uniques,0
+Marketing Channel Distribution Panel: Competitor_3,,SERP Features Positions,760
+Direct,67.68%,SERP Features Positions Branded,
+Referrals,20.81%,SERP Features Traffic,
+Organic Search,8.89%,Number of Keywords 1-3,369
+Paid Search,0.97%,Number of Keywords 3-10,716
+Social,0.68%,,
+Mail,0.97%,,
+Display,0.00%,,

@@ -1,21 +1,21 @@
-Website Data Type,Website Data
-Website Panel,
-Company Name,lescausantes.com
-Category Name,Business and Consumer Services Marketing and Advertising
-Category Rank,1129
-Total Visits,19.5K
-Bounce Rate,67.22%
-Pages per Visit,0.80
-Average Visit Duration,00:00:37
-Keywords Panel: Competitor_5,
-Total Keywords #5,
-Organic Keywords Percentage,
-Paid Keywords Percentage,
-Marketing Channel Distribution Panel: Competitor_5,
-Direct,
-Referrals,
-Organic Search,
-Paid Search,
-Social,
-Mail,
-Display,
+Website Data Type,Website Data,SemRush API Data Type: Competitor_5,SemRush API Data: Competitor_5
+Website Panel,,Database,fr
+Company Name,lescausantes.com,Domain,lescausantes.com
+Category Name,Business and Consumer Services Marketing and Advertising,Date,20230801
+Category Rank,1129,Rank,52785
+Total Visits,19.5K,Organic Keywords,1680
+Bounce Rate,67.22%,Organic Traffic,5790
+Pages per Visit,0.80,Organic Cost,22241
+Average Visit Duration,00:00:37,Adwords Keywords,0
+Keywords Panel: Competitor_5,,Adwords Traffic,0
+Total Keywords #5,5K,Adwords Cost,0
+Organic Keywords Percentage,70%,PLA Keywords,0
+Paid Keywords Percentage,30%,PLA Uniques,0
+Marketing Channel Distribution Panel: Competitor_5,,SERP Features Positions,262
+Direct,90%,SERP Features Positions Branded,
+Referrals,2%,SERP Features Traffic,
+Organic Search,2%,Number of Keywords 1-3,
+Paid Search,1.9%,Number of Keywords 3-10,
+Social,2.1%,,
+Mail,1.5%,,
+Display,0.5%,,

@@ -132,12 +132,14 @@ def getCompetitors(mainUrl):
     third_competitor, confidence_third_competitor = competitors[2]
     fourth_competitor, confidence_fourth_competitor = competitors[3]
     fifth_competitor, confidence_fifth_competitor = competitors[4]
+    print(first_competitor,'first_competitor')
 
 
     def fix_url(url):
 
         if url is None:  # If the url is None, return None
             return None
+
         # Remove whitespace and replace with dots
         url = url.replace(' ', '.')
 
@@ -173,9 +175,20 @@ def getCompetitors(mainUrl):
         if not url[-1].isalnum():
             url = url[:-1]
 
-
         if url.endswith('cons'):
             url += 'eil.fr'
+
+        if url.endswith('.Top.Mar'):
+            url = url.replace('.Top.Mar','')
+            return url
+
+        if url.endswith('.channels.dr'):
+            url = None
+            return url
+
+        if url.endswith('.Distributio'):
+            url = None
+            return url
 
         return url
 
@@ -191,11 +204,12 @@ def getCompetitors(mainUrl):
     print(competitor_No5)
 
     competitors = [competitor_No1, competitor_No2, competitor_No3, competitor_No4, competitor_No5]
-
+    competitorEqualMainUrl= False
     mainUrl = mainUrl.replace('https://www.', '').replace('https://', '').replace('www.', '').replace('/', '')  # Remove 'https://www.' from the URL
     # Check if any competitor has the same URL as the passed URL
     for competitor in competitors:
         if competitor == mainUrl:
+            competitorEqualMainUrl=True
             print('The URL is found in the competitors list.')
             print(mainUrl)
             try:
@@ -290,66 +304,69 @@ def getCompetitors(mainUrl):
     none_indices = [i for i, competitor in enumerate(competitors) if competitor is None]
     # Get the length of the none_indices array
     length_of_none_indices = len(none_indices)
-    if length_of_none_indices<6 and length_of_none_indices>0:
-        try:
-            print('The number of None competitors is:',length_of_none_indices,' at the positions:',none_indices)
-
-            # Fetch the data from the API only once for all the None values
-            api_key = '8bdbff61b7aa7c84bd0a8be0ffb526c9'
-
-            api_key = '8bdbff61b7aa7c84bd0a8be0ffb526c9'
-            response=requests.get('http://www.semrush.com/users/countapiunits.html?key=8bdbff61b7aa7c84bd0a8be0ffb526c9')
-            print(response)
-            print(response.text)
-            apiUnitsBeforeExecution = response.text
-            apiUnitsBeforeExecution=int(apiUnitsBeforeExecution)
-
+    if competitorEqualMainUrl == False:
+        if length_of_none_indices<6 and length_of_none_indices>0:
             try:
-                response = requests.get(f'https://api.semrush.com/?type=domain_organic_organic&key={api_key}&display_limit={length_of_none_indices}&export_columns=Dn,Cr,Np,Or,Ot,Oc,Ad,Sr,St,Sc&domain={mainUrl}&database=fr')
-                data = pd.read_csv(StringIO(response.text), sep=';')  # Specify delimiter
-            except Exception as e:
-                print(f'Error occurred: {e}')
+                print('The number of None competitors is:',length_of_none_indices,' at the positions:',none_indices)
 
-            if not data.empty:
-                # Assuming that the API response provides data in order and fills the competitors list accordingly.
-                # If the assumption is incorrect, you may need to implement a more sophisticated matching mechanism.
+                # Fetch the data from the API only once for all the None values
+                api_key = '8bdbff61b7aa7c84bd0a8be0ffb526c9'
 
-                # Iterate over None indices and update the competitor_NoX variables
-                for idx, api_row in zip(none_indices, data.itertuples()):
-                    competitor_Dn = getattr(api_row, 'Dn')  # Get the 'Domain' data from the API response
-
-                    # Assign the value of Dn to the corresponding competitor variable
-                    if idx == 0:
-                        competitor_No1 = competitor_Dn
-                    elif idx == 1:
-                        competitor_No2 = competitor_Dn
-                    elif idx == 2:
-                        competitor_No3 = competitor_Dn
-                    elif idx == 3:
-                        competitor_No4 = competitor_Dn
-                    elif idx == 4:
-                        competitor_No5 = competitor_Dn
-
-                #API units balance
-                response=requests.get('http://www.semrush.com/users/countapiunits.html?key=8bdbff61b7aa7c84bd0a8be0ffb526c9')
+                api_key = '8bdbff61b7aa7c84bd0a8be0ffb526c9'
+                response=requests.get(f'http://www.semrush.com/users/countapiunits.html?key={api_key}')
                 print(response)
-                print(response.text)
-                apiUnitsAfterExecution = response.text
-                apiUnitsAfterExecution=int(apiUnitsAfterExecution)
-                apiUnitsSpent = apiUnitsAfterExecution-apiUnitsBeforeExecution
-                print('API_Units_Left:',apiUnitsAfterExecution)
-                print('API_Units_Spent:',apiUnitsSpent)
+                print('API units before execution',response.text)
+                apiUnitsBeforeExecution = response.text
+                apiUnitsBeforeExecution=int(apiUnitsBeforeExecution)
 
-            else:
-                print('API did not return any data.')
-        except Exception as e:
-            print(f'An error occurred: {e}')
-    elif length_of_none_indices == 0:
-        print('There are no missing competitors but exactly 5 competitors')
+                try:
+                    response = requests.get(f'https://api.semrush.com/?type=domain_organic_organic&key={api_key}&display_limit={length_of_none_indices}&export_columns=Dn,Cr,Np,Or,Ot,Oc,Ad,Sr,St,Sc&domain={mainUrl}&database=fr')
+                    #response = requests.get(f'https://api.semrush.com/?type=domain_organic_organic&key={api_key}&display_limit={1}&export_columns=Dn,Cr,Np,Or,Ot,Oc,Ad,Sr,St,Sc&domain={mainUrl}&database=fr')
+                    data = pd.read_csv(StringIO(response.text), sep=';')  # Specify delimiter
+                    print(data.columns)
+                except Exception as e:
+                    print(f'Error occurred: {e}')
 
-    else:
-        print('Look carefully at the number of None competitors',none_indices,'at the length:',length_of_none_indices)
-        print('List of competitors:', competitors)
+                if not data.empty:
+                    # Assuming that the API response provides data in order and fills the competitors list accordingly.
+                    # If the assumption is incorrect, you may need to implement a more sophisticated matching mechanism.
+
+                    # Iterate over None indices and update the competitor_NoX variables
+                    for idx, api_row in zip(none_indices, data.itertuples()):
+                        competitor_Dn = getattr(api_row, 'Domain')  # Get the 'Domain' data from the API response
+
+                        # Assign the value of Dn to the corresponding competitor variable
+                        if idx == 0:
+                            competitor_No1 = competitor_Dn
+                        elif idx == 1:
+                            competitor_No2 = competitor_Dn
+                        elif idx == 2:
+                            competitor_No3 = competitor_Dn
+                        elif idx == 3:
+                            competitor_No4 = competitor_Dn
+                        elif idx == 4:
+                            competitor_No5 = competitor_Dn
+
+                    #API units balance
+                    response=requests.get(f'http://www.semrush.com/users/countapiunits.html?key={api_key}')
+                    print(response)
+                    print(response.text)
+                    apiUnitsAfterExecution = response.text
+                    apiUnitsAfterExecution=int(apiUnitsAfterExecution)
+                    apiUnitsSpent = apiUnitsAfterExecution-apiUnitsBeforeExecution
+                    print('API_Units_Left:',apiUnitsAfterExecution)
+                    print('API_Units_Spent:',apiUnitsSpent)
+
+                else:
+                    print('API did not return any data.')
+            except Exception as e:
+                print(f'An error occurred: {e}')
+        elif length_of_none_indices == 0:
+            print('There are no missing competitors but exactly 5 competitors')
+
+        else:
+            print('Look carefully at the number of None competitors',none_indices,'at the length:',length_of_none_indices)
+            print('List of competitors:', competitors)
 
 
 

@@ -6,7 +6,7 @@ from io import StringIO
 
 def semRushApi(url):
     st=time.time()
-    return 0
+    #return 0
     print('Started executing SemRushApi.py')
     #new_path = "DigiScore\\test1.csv"
     new_path = "test1.csv"
@@ -113,10 +113,33 @@ def semRushApi(url):
     def main():
         domains = [url]
 
+        # Initialize an empty DataFrame with None values
+        data = pd.DataFrame({
+            'Database': [None],
+            'Domain': [None],
+            'Date': [None],
+            'Rank': [None],
+            'Organic Keywords': [None],
+            'Organic Traffic': [None],
+            'Organic Cost': [None],
+            'Adwords Keywords': [None],
+            'Adwords Traffic': [None],
+            'Adwords Cost': [None],
+            'PLA Keywords': [None],
+            'PLA Uniques': [None],
+            'SERP Features Positions': [None],
+            'SERP Features Positions Branded': [None],
+            'SERP Features Traffic': [None],
+            #'SERP Features Traffic Branded': [None],
+            #'SERP Features Traffic Cost': [None],
+            'Number of Keywords 1-3' : [None],
+            'Number of Keywords 3-10' : [None]
+        })
+
         for domain in domains:
             try:
                 print(f"Processing domain: {domain}")
-                Db, Dn, Dt, Rk, Or, Ot, Oc, Ad, At, Ac, Sh, Sv, FKn, FPn, Sr, Srb, St = get_domain_info(domain)
+                Db, Dn, Dt, Rk, Or, Ot, Oc, Ad, At, Ac, Sh, Sv, FKn, FPn, Sr = get_domain_info(domain)
                 X0, X1=getTopKeywords_1_3_10(domain)
                 data = pd.DataFrame({
                     'Database': [Db],
@@ -322,10 +345,33 @@ def semRushApiCompetitor(url,competitor_num):
     def main():
         domains = [url]
 
+        # Initialize an empty DataFrame with None values
+        data = pd.DataFrame({
+            'Database': [None],
+            'Domain': [None],
+            'Date': [None],
+            'Rank': [None],
+            'Organic Keywords': [None],
+            'Organic Traffic': [None],
+            'Organic Cost': [None],
+            'Adwords Keywords': [None],
+            'Adwords Traffic': [None],
+            'Adwords Cost': [None],
+            'PLA Keywords': [None],
+            'PLA Uniques': [None],
+            'SERP Features Positions': [None],
+            'SERP Features Positions Branded': [None],
+            'SERP Features Traffic': [None],
+            #'SERP Features Traffic Branded': [None],
+            #'SERP Features Traffic Cost': [None],
+            'Number of Keywords 1-3' : [None],
+            'Number of Keywords 3-10' : [None]
+        })
+
         for domain in domains:
             try:
                 print(f"Processing domain: {domain}")
-                Db, Dn, Dt, Rk, Or, Ot, Oc, Ad, At, Ac, Sh, Sv, FKn, FPn, Sr, Srb, St = get_domain_info(domain)
+                Db, Dn, Dt, Rk, Or, Ot, Oc, Ad, At, Ac, Sh, Sv, FKn, FPn, Sr = get_domain_info(domain)
                 X0, X1=getTopKeywords_1_3_10(domain)
                 data = pd.DataFrame({
                     'Database': [Db],

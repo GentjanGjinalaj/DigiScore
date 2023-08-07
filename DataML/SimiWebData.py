@@ -95,7 +95,7 @@ def simiWebData(url):
             print(os.getcwd())
 
             time.sleep(0.5)
-            driver.execute_script('window.scrollBy(0, 6280)') #competitors 6772           6292           6325 for small
+            driver.execute_script('window.scrollBy(0, 6275)') #competitors 6772           6292           6325 for small
             driver.execute_script("document.body.style.zoom='140%'")
             driver.execute_script("window.devicePixelRatio = 2")
 
@@ -117,7 +117,7 @@ def simiWebData(url):
             print(os.getcwd())
 
             time.sleep(0.5)
-            driver.execute_script("window.scrollBy(0, 1713)") #marketingChannelDistrib 8470       1698          1668 for small
+            driver.execute_script("window.scrollBy(0, 1718)") #marketingChannelDistrib 8470       1698          1668 for small
             driver.execute_script("document.body.style.zoom='140%'")
             driver.execute_script("window.devicePixelRatio = 2")
             filename1 = f'{companyName}'
@@ -200,6 +200,7 @@ def simiWebData(url):
 #simiWebData("https://www.iscid-co.fr/")
 #simiWebData("https://www.adcreative.ai/")
 #simiWebData("https://www.ads-up.fr/")
+#simiWebData("https://www.icd-ecoles.com/")
 
 
 

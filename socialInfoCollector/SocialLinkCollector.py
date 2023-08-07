@@ -189,7 +189,7 @@ def socialLinkCollector(url):
 
 def socialLinkCollectorCompetitor(url,competitor_num):
     st=time.time()
-    #return 0
+    #return None,None,None,None,0
     print('Started executing socialLinkCollectorCompetitor.py')
 
     #path = "DigiScore\\DataML\\Competitors\\socialCompetitor_{competitor_num}.csv"

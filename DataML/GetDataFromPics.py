@@ -347,7 +347,7 @@ def getDataFromPics(url):
         index = 1
         while True:
             avg_visit_dur = text_avg_visit_duration[index][1]
-            avg_visit_dur = avg_visit_dur.replace(".",":")
+            avg_visit_dur = avg_visit_dur.replace(".",":").replace("::",":")
             if not avg_visit_dur[0].isdigit():
                 print(f"Look at the Average Visit Duration picture 'avg_visit_dur.png'")
                 index += 1

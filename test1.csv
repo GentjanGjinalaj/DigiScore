@@ -1,27 +1,27 @@
-Website Data Type,Website Data
-Website Panel,
-Company Name,junto.fr
-Category Name,Business and Consumer Services Marketing and Advertising
-Category Rank,213
-Total Visits,69.9K
-Bounce Rate,68.15%
-Pages per Visit,1.81
-Average Visit Duration,00:02:06
-Competitors Panel,
-First Competitor,sortlist.fr
-Second Competitor,digitiz.fr
-Third Competitor,yumens.fr
-Fourth Competitor,ads-up.fr
-Fifth Competitor,lescausantes.com
-Marketing Channel Distribution Panel,
-Direct,61.59%
-Referrals,25.40%
-Organic Search,9.90%
-Paid Search,1.81%
-Social,0.74%
-Mail,0.54%
-Display,0.03%
-Keywords Panel,
-Total Keywords #5,3.3K
-Organic Keywords Percentage,86.15%
-Paid Keywords Percentage,13.85%
+Website Data Type,Website Data,SemRush API Data Type,SemRush API Data
+Website Panel,,Database,fr
+Company Name,junto.fr,Domain,junto.fr
+Category Name,Business and Consumer Services Marketing and Advertising,Date,20230801
+Category Rank,213,Rank,8765
+Total Visits,69.9K,Organic Keywords,21421
+Bounce Rate,68.15%,Organic Traffic,53952
+Pages per Visit,1.81,Organic Cost,118154
+Average Visit Duration,00:02:06,Adwords Keywords,66
+Competitors Panel,,Adwords Traffic,2750
+First Competitor,sortlist.fr,Adwords Cost,66274
+Second Competitor,digitiz.fr,PLA Keywords,0
+Third Competitor,yumens.fr,PLA Uniques,0
+Fourth Competitor,ads-up.fr,SERP Features Positions,1165
+Fifth Competitor,lescausantes.com,SERP Features Positions Branded,
+Marketing Channel Distribution Panel,,SERP Features Traffic,
+Direct,61.59%,Number of Keywords 1-3,1089
+Referrals,25.40%,Number of Keywords 3-10,2305
+Organic Search,9.90%,,
+Paid Search,1.81%,,
+Social,0.74%,,
+Mail,0.54%,,
+Display,0.03%,,
+Keywords Panel,,,
+Total Keywords #5,3.3K,,
+Organic Keywords Percentage,86.15%,,
+Paid Keywords Percentage,13.85%,,

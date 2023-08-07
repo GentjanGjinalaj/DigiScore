@@ -1,21 +1,21 @@
-Website Data Type,Website Data
-Website Panel,
-Company Name,sortlist.fr
-Category Name,Business and Consumer Services Marketing and Advertising
-Category Rank,148
-Total Visits,112.8K
-Bounce Rate,75.83%
-Pages per Visit,1.65
-Average Visit Duration,00:01:50
-Keywords Panel: Competitor_1,
-Total Keywords #5,4.K
-Organic Keywords Percentage,87.07%
-Paid Keywords Percentage,12.93%
-Marketing Channel Distribution Panel: Competitor_1,
-Direct,66.87%
-Referrals,17.77%
-Organic Search,9.93%
-Paid Search,3.47%
-Social,0.44%
-Mail,1.43%
-Display,0.10%
+Website Data Type,Website Data,SemRush API Data Type: Competitor_1,SemRush API Data: Competitor_1
+Website Panel,,Database,fr
+Company Name,sortlist.fr,Domain,sortlist.fr
+Category Name,Business and Consumer Services Marketing and Advertising,Date,20230801
+Category Rank,148,Rank,6809
+Total Visits,112.8K,Organic Keywords,27987
+Bounce Rate,75.83%,Organic Traffic,72285
+Pages per Visit,1.65,Organic Cost,109269
+Average Visit Duration,00:01:50,Adwords Keywords,88
+Keywords Panel: Competitor_1,,Adwords Traffic,1502
+Total Keywords #5,4.K,Adwords Cost,4884
+Organic Keywords Percentage,87.07%,PLA Keywords,0
+Paid Keywords Percentage,12.93%,PLA Uniques,0
+Marketing Channel Distribution Panel: Competitor_1,,SERP Features Positions,723
+Direct,66.87%,SERP Features Positions Branded,
+Referrals,17.77%,SERP Features Traffic,
+Organic Search,9.93%,Number of Keywords 1-3,2681
+Paid Search,3.47%,Number of Keywords 3-10,3970
+Social,0.44%,,
+Mail,1.43%,,
+Display,0.10%,,
