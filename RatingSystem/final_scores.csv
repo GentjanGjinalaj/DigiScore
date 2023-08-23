@@ -1,7 +1,7 @@
-Subjects,Competitor Analysis,Marketing Channel Distribution,SEO Performance,Social Media Performance,Website Performance,Final Score
-Main,0.0462,0.0504,0.1641,0.0314,0.1333,0.4254
-First Competitor,0.0,0.0631,0.1575,0.0729,0.1679,0.4615
-Second Competitor,0.0,0.0631,0.1575,0.0,0.1679,0.3885
-Third Competitor,0.0,0.0477,0.0628,0.033,0.1445,0.288
-Fourth Competitor,0.0,0.0476,0.0433,0.0069,0.1256,0.2234
-Fifth Competitor,0.0,0.0609,0.0265,0.0252,0.0674,0.18
+Subjects,Company,Competitor Analysis,Marketing Channel Distribution,SEO Performance,Social Media Performance,Website Performance,Final Score
+Main,utc.fr,3.48,3.17,5.98,0.32,17.64,30.59
+First Competitor,utt.fr,0.0,2.61,0.77,0.0,11.68,15.06
+Second Competitor,utbm.fr,0.0,2.61,0.77,0.24,11.68,15.3
+Third Competitor,insa-Iyon.fr,0.0,5.44,8.5,0.0,10.34,24.29
+Fourth Competitor,U-picardie.fr,0.0,3.84,7.54,5.0,19.37,35.75
+Fifth Competitor,unice.fr,0.0,3.21,6.25,0.0,16.2,25.66

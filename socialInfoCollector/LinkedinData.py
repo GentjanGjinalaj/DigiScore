@@ -16,7 +16,7 @@ def linkedinData(linkedin_link,linkedin_username):
     path1='socialInfoCollector\\linkedinData.json'
     path = "test.csv"
 
-    '''if linkedin_link:
+    if linkedin_link:
         username = 'gentjan_gjinalaj'
         apiKey = 'aWSMM1qwgr52Mm6Yyq6JPKWXH'
         scraper = 'linkedinCompanyProfile'
@@ -58,7 +58,35 @@ def linkedinData(linkedin_link,linkedin_username):
                         print(json.dumps(result, indent=4))
 
         else:
-            print(response.text)'''
+            print("An error occurred while making the API request.")
+            print(response.text)
+            # Create a new row to append to the DataFrame
+            new_row = {
+                        'Social Platform Name':'Linkedin',
+                        'Social Platform Link':None,
+                        'Social Platform Username':None,
+                        'Average Likes per 5 posts': None,
+                        'Average Comments per 5 posts': None,
+                        'Followers Count': None
+                    }
+            try:
+                df1 = pd.read_csv(path)
+                # Convert the dictionary to a DataFrame
+                new_row_df = pd.DataFrame([new_row])
+                # Append the new row of data to the existing DataFrame
+                df1 = pd.concat([df1,new_row_df], ignore_index=True)
+                # df1.loc[len(df1)] = new_row
+
+                # Write the updated DataFrame to the CSV file
+                df1.to_csv(path, index=False)
+            except Exception as e:
+                print("An error occurred while reading the CSV file: ", e)
+                df1 = None
+            et=time.time()
+            linkedin_time=et-st
+            print('Total execution time of LinkedinData.py is:',linkedin_time,'seconds')
+            return linkedin_time
+
 
     if linkedin_link:
 
@@ -274,7 +302,7 @@ def linkedinDataCompetitor(linkedin_link,linkedin_username,competitor_num):
     path1=f'DataML\\Competitors\\Competitor_{competitor_num}\\JsonFiles\\linkedinData.json'
     path = f"DataML\\Competitors\\socialCompetitor_{competitor_num}.csv"
 
-    '''if linkedin_link:
+    if linkedin_link:
         username = 'gentjan_gjinalaj'
         apiKey = 'aWSMM1qwgr52Mm6Yyq6JPKWXH'
         scraper = 'linkedinCompanyProfile'
@@ -316,7 +344,34 @@ def linkedinDataCompetitor(linkedin_link,linkedin_username,competitor_num):
                         print(json.dumps(result, indent=4))
 
         else:
-            print(response.text)'''
+            print("An error occurred while making the API request.")
+            print(response.text)
+            # Create a new row to append to the DataFrame
+            new_row = {
+                        'Social Platform Name':'Linkedin',
+                        'Social Platform Link':None,
+                        'Social Platform Username':None,
+                        'Average Likes per 5 posts': None,
+                        'Average Comments per 5 posts': None,
+                        'Followers Count': None
+                    }
+            try:
+                df1 = pd.read_csv(path)
+                # Convert the dictionary to a DataFrame
+                new_row_df = pd.DataFrame([new_row])
+                # Append the new row of data to the existing DataFrame
+                df1 = pd.concat([df1,new_row_df], ignore_index=True)
+                # df1.loc[len(df1)] = new_row
+
+                # Write the updated DataFrame to the CSV file
+                df1.to_csv(path, index=False)
+            except Exception as e:
+                print("An error occurred while reading the CSV file: ", e)
+                df1 = None
+            et=time.time()
+            linkedin_time=et-st
+            print('Total execution time of LinkedinDataCompetitor.py is:',linkedin_time,'seconds')
+            return linkedin_time
 
     if linkedin_link:
 

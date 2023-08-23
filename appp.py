@@ -2,13 +2,38 @@ import os
 import zipfile
 import urllib.parse
 from flask import Flask,request,render_template,send_file
+import requests
 from socialInfoCollector import SocialLinkCollector,SocialUsernameCollector,InstagramData,LinkedinData,FacebookData,TwitterData
 from DataML import SimiWebData, GetDataFromPics, GetCompetitorsFromPics,GetKeywordsNumber,GetMarketingChannelDistribution
 from semRushAPI import SemRushApi
 from RatingSystem import final
+import sys
+import logging
+import traceback
 
 
 appp = Flask(__name__)
+
+'''# Create a logger
+logging.basicConfig(filename='appp.log', level=logging.INFO, format='%(asctime)s - %(message)s')
+logger = logging.getLogger()
+
+# Redirect standard output and standard error to the logger
+class StreamToLogger:
+    def __init__(self, logger, log_level=logging.INFO):
+        self.logger = logger
+        self.log_level = log_level
+        self.linebuf = ''
+
+    def write(self, buf):
+        for line in buf.rstrip().splitlines():
+            self.logger.log(self.log_level, line.rstrip())
+
+    def flush(self):
+        pass
+
+sys.stdout = StreamToLogger(logger, logging.INFO)
+sys.stderr = StreamToLogger(logger, logging.ERROR)'''
 
 # Global flag for termination
 terminate_flag = False
@@ -91,7 +116,12 @@ def index():
             url = urllib.parse.urlparse(user_input)
             if not (url.scheme == 'http' or url.scheme == 'https'):
                 raise ValueError("Invalid URL. Please ensure your URL starts with 'http' or 'https'.")
-
+            print(user_input)
+            # Check HTTP response for the user provided URL
+            response = requests.get(user_input)
+            if response.status_code == 403:
+                #raise HTTP403Error("HTTP error occurred: 403 Client Error: Forbidden for url: {}".format(user_input))
+                return render_template("error.html", error_message=f'HTTP error occurred: 403 Client Error: Forbidden for url: {user_input} '), 500
 
             instagram_link, facebook_link, linkedin_link, twitter_link, links_time = SocialLinkCollector.socialLinkCollector(user_input)
             # Check for termination signal
@@ -151,20 +181,31 @@ def index():
             competitor3User = request.form.get('competitor3')
             competitor4User = request.form.get('competitor4')
             competitor5User = request.form.get('competitor5')
+
             # List to hold the manually entered competitors
             new_competitors = [competitor1User, competitor2User, competitor3User, competitor4User, competitor5User]
+            print("new_competitors:",new_competitors)
             # Filter out None values and check if they are not already in the competitors list
             manual_competitors = [comp for comp in new_competitors if comp and comp not in competitors]
+            print('manual_competitors:',manual_competitors)
 
             if manual_competitors:
                 # Replace the last competitors with the manually entered ones
                 competitors = competitors[:-len(manual_competitors)] + manual_competitors
+                print('Competitors array after the manual_competitors:',competitors)
 
             if terminate_flag:
                 return render_template("error.html", error_message="Process terminated by the user.")
 
+
+            if not competitors:
+                return render_template("error.html", error_message="No competitors were found on any of the sources. You should try again and give at least 1 competitor yourself. For better score it is strongly recomanded that 5 competitors to be given."),500
+            while len(competitors)<5:
+                competitors.append(None)
+            print("Competitors array after filling missing values with None:",competitors)
             competitor_total_times = []
             for i, competitor in enumerate(competitors, start=1):
+                print('Entered the "for" loop for competitors')
                 if competitor is not None:
                     print('Inside for loop before calling competitor function:', competitor)
                     print(i)
@@ -172,10 +213,11 @@ def index():
                     competitor_total_times.append(competitor_total_time)
                     print(f"competitorNo{i}_total_time: {competitor_total_time}")
 
-            rating_time = final.weightRatingSystem()
+            rating_time = final.weightRatingSystem(user_input,competitors)
             total_time += sum(competitor_total_times)
             total_time = total_time + rating_time
-            print('Total execution time:', total_time, 'seconds')
+            total_time=round(total_time / 60, 4)
+            print('Total execution time:', total_time, 'minutes')
 
             return render_template("result.html", result=total_time)
 
@@ -184,6 +226,8 @@ def index():
             return render_template("index.html")
 
     except Exception as e:
+        print(f"An error occurred: {e}")
+        traceback.print_exc()
         return render_template("error.html", error_message=str(e)), 500
 
 
@@ -238,7 +282,7 @@ def download_csv_final_scores():
 def terminate():
     global terminate_flag
     terminate_flag = True
-    return render_template("error.html", error_message="Process terminated by the user."), 400
+    return render_template("error.html", error_message="Process terminated by the user."), 500
 
 
 if __name__ == '__main__':

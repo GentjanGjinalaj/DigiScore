@@ -78,7 +78,7 @@ def getKeywordsNumber(url):
 
     # Define the ROIs (x1, y1, x2, y2)
     total_keywords_roi = (900, 600, 1150, 900)
-    org_paid_roi = (1600, 240, 1800, 550)
+    org_paid_roi = (1580, 240, 1800, 550)
 
     # Crop the image to the ROIs
     total_keywords_image = image.crop(total_keywords_roi)
@@ -282,7 +282,7 @@ def getKeywordsNumberCompetitor(url,competitor_num):
 
     # Define the ROIs (x1, y1, x2, y2)
     total_keywords_roi = (900, 600, 1150, 900)
-    org_paid_roi = (1600, 240, 1800, 550)
+    org_paid_roi = (1580, 240, 1800, 550)
 
     # Crop the image to the ROIs
     total_keywords_image = image.crop(total_keywords_roi)

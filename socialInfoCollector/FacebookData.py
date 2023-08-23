@@ -17,7 +17,7 @@ def facebookData(facebook_link,facebook_username):
     path = "test.csv"
 
 
-    '''if facebook_link:
+    if facebook_link:
         username = 'gentjan_gjinalaj'
         apiKey = 'aWSMM1qwgr52Mm6Yyq6JPKWXH'
         scraper = 'facebookProfile'
@@ -59,7 +59,37 @@ def facebookData(facebook_link,facebook_username):
                         print(json.dumps(result, indent=4))
 
         else:
-            print(response.text)'''
+            print("An error occurred while making the API request.")
+            print(response.text)
+             # Create a new row to append to the DataFrame
+            new_row = {
+                        'Social Platform Name':'Facebook',
+                        'Social Platform Link':None,
+                        'Social Platform Username':None,
+                        'Average Likes per 5 posts':None,
+                        'Followers Count': None,
+                        'Average Comments per 5 posts':None
+                        #'Page Like Count':None
+                    }
+            try:
+                df1 = pd.read_csv(path)
+                # Convert the dictionary to a DataFrame
+                new_row_df = pd.DataFrame([new_row])
+                # Append the new row of data to the existing DataFrame
+                df1 = pd.concat([df1,new_row_df], ignore_index=True)
+                # df1.loc[len(df1)] = new_row
+
+                # Write the updated DataFrame to the CSV file
+                df1.to_csv(path, index=False)
+                print(df1)
+            except Exception as e:
+                print("An error occurred while reading the CSV file: ", e)
+                df1 = None
+
+            et=time.time()
+            facebook_time=et-st
+            print('Total execution time of FacebookData.py is:',facebook_time,'seconds')
+            return facebook_time
 
     likess=[]
     comments=[]
@@ -231,7 +261,7 @@ def facebookDataCompetitor(facebook_link,facebook_username,competitor_num):
     path = f"DataML\\Competitors\\socialCompetitor_{competitor_num}.csv"
 
 
-    '''if facebook_link:
+    if facebook_link:
         username = 'gentjan_gjinalaj'
         apiKey = 'aWSMM1qwgr52Mm6Yyq6JPKWXH'
         scraper = 'facebookProfile'
@@ -273,7 +303,37 @@ def facebookDataCompetitor(facebook_link,facebook_username,competitor_num):
                         print(json.dumps(result, indent=4))
 
         else:
-            print(response.text)'''
+            print("An error occurred while making the API request.")
+            print(response.text)
+             # Create a new row to append to the DataFrame
+            new_row = {
+                        'Social Platform Name':'Facebook',
+                        'Social Platform Link':None,
+                        'Social Platform Username':None,
+                        'Average Likes per 5 posts':None,
+                        'Followers Count': None,
+                        'Average Comments per 5 posts':None
+                        #'Page Like Count':None
+                    }
+            try:
+                df1 = pd.read_csv(path)
+                # Convert the dictionary to a DataFrame
+                new_row_df = pd.DataFrame([new_row])
+                # Append the new row of data to the existing DataFrame
+                df1 = pd.concat([df1,new_row_df], ignore_index=True)
+                # df1.loc[len(df1)] = new_row
+
+                # Write the updated DataFrame to the CSV file
+                df1.to_csv(path, index=False)
+                print(df1)
+            except Exception as e:
+                print("An error occurred while reading the CSV file: ", e)
+                df1 = None
+
+            et=time.time()
+            facebook_time=et-st
+            print('Total execution time of FacebookData.py is:',facebook_time,'seconds')
+            return facebook_time
 
     likess=[]
     comments=[]

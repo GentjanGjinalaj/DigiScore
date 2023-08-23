@@ -2,11 +2,19 @@ import time
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
+from urllib.parse import urlparse
 
 
-def weightRatingSystem():
+def extract_company_name(url):
+    parsed_url = urlparse(url)
+    # Ensure that netloc is a string
+    netloc_str = parsed_url.netloc if isinstance(parsed_url.netloc, str) else parsed_url.netloc.decode("utf-8")
+    return netloc_str.replace("www.", "")
+
+def weightRatingSystem(main_company_url, competitors):
     st=time.time()
     print("Started executing WeightRatingSystem.py")
+    print('The competitors array has these values:',competitors)
     #return 0
     def mainCompanySeoFileProcessing():
 
@@ -641,8 +649,33 @@ def weightRatingSystem():
     # Create DataFrame and set the index name
     final_scores_df = pd.DataFrame(final_scores).T
     final_scores_df.index.name = 'Subjects'
-    # Round every value to 4 decimal places
-    final_scores_df = final_scores_df.round(4)
+    # Multiply the DataFrame by 100 for the numerical columns only
+    numerical_columns = final_scores_df.columns.difference(['Subjects', 'Company'])
+    final_scores_df[numerical_columns] = final_scores_df[numerical_columns] * 100
+
+    # Define the custom rounding function
+    def custom_rounding(num):
+        str_num = str(num)
+        if '.' in str_num:
+            parts = str_num.split('.')
+            if len(parts[1]) > 3:
+                return round(num, 3)
+            else:
+                return num
+        else:
+            return num
+
+    # Apply the custom rounding function to the numerical columns
+    final_scores_df[numerical_columns] = final_scores_df[numerical_columns].applymap(custom_rounding)
+    # Extract company names
+    main_company_name = extract_company_name(main_company_url)
+    competitor_names = [extract_company_name(url) for url in competitors]
+
+    # Insert the company names as the first column
+    company_column = [main_company_name] + competitor_names
+    final_scores_df.insert(0, 'Company', company_column)
+
+    # Save the DataFrame to CSV
     final_scores_df.to_csv("RatingSystem\\final_scores.csv")
     print(final_scores_df)
 
@@ -653,4 +686,8 @@ def weightRatingSystem():
 
     return total_time
 
-#weightRatingSystem()
+#weightRatingSystem('https://www.junto.fr',['https://www.axa.com','https://www.neoma-bs.fr','https://www.yumens.fr','https://www.ads-up.fr','https://www.youlovewords.com'])
+#weightRatingSystem(None,['https://www.axa.com','https://www.neoma-bs.fr','https://www.yumens.fr','https://www.ads-up.fr','https://www.youlovewords.com'])
+#weightRatingSystem('https://www.junto.fr',[None,None,None,None,None])
+#weightRatingSystem(None,[None,None,None,None,None])
+

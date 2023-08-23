@@ -183,11 +183,9 @@ def getCompetitors(mainUrl):
             return url
 
         if url.endswith('.channels.dr'):
-            url = None
             return url
 
         if url.endswith('.Distributio'):
-            url = None
             return url
 
         return url
@@ -208,11 +206,20 @@ def getCompetitors(mainUrl):
     mainUrl = mainUrl.replace('https://www.', '').replace('https://', '').replace('www.', '').replace('/', '')  # Remove 'https://www.' from the URL
     # Check if any competitor has the same URL as the passed URL
     for competitor in competitors:
-        if competitor == mainUrl:
+        if competitor is None:
+            continue
+        if competitor == mainUrl or competitor.startswith("Marketing.") or competitor.endswith(".Distributior"):
             competitorEqualMainUrl=True
-            print('The URL is found in the competitors list.')
+            print('The URL is found in the competitors list or no competitors were found.')
             print(mainUrl)
             try:
+                # Initialize all competitors to None
+                competitor_No1 = None
+                competitor_No2 = None
+                competitor_No3 = None
+                competitor_No4 = None
+                competitor_No5 = None
+
                 api_key = '8bdbff61b7aa7c84bd0a8be0ffb526c9'
                 response=requests.get('http://www.semrush.com/users/countapiunits.html?key=8bdbff61b7aa7c84bd0a8be0ffb526c9')
                 print(response)
@@ -224,46 +231,46 @@ def getCompetitors(mainUrl):
                 response=requests.get(f'https://api.semrush.com/?type=domain_organic_organic&key={api_key}&display_limit=5&export_columns=Dn,Cr,Np,Or,Ot,Oc,Ad,Sr,St,Sc&domain={mainUrl}&database=fr')
                 print(response)
                 print(response.text)
-                data = pd.read_csv(StringIO(response.text), sep=';')  # Specify delimiter
+                # Check if the response contains an error message
+                if 'ERROR 50 :: NOTHING FOUND' in response.text:
+                    print("No competitors found in the API response.")
 
-                # Initialize all competitors to None
-                competitor_No1 = None
-                competitor_No2 = None
-                competitor_No3 = None
-                competitor_No4 = None
-                competitor_No5 = None
+                else:
+                    data = pd.read_csv(StringIO(response.text), sep=';')  # Specify delimiter
 
-                for i, row in data.iterrows():
-                    competitor_Dn = row['Domain']
 
-                    # Assign the value of Dn to the corresponding competitor variable
-                    if i == 0:
-                        competitor_No1 = competitor_Dn
-                    elif i == 1:
-                        competitor_No2 = competitor_Dn
-                    elif i == 2:
-                        competitor_No3 = competitor_Dn
-                    elif i == 3:
-                        competitor_No4 = competitor_Dn
-                    elif i == 4:
-                        competitor_No5 = competitor_Dn
-                '''# Assuming the first row of the DataFrame is the relevant data
-                data_dict = data.iloc[0].to_dict()
-                print('--------------------------------------------------------------------------------------------')
-                print(data_dict)
-                print('--------------------------------------------------------------------------------------------')
 
-                # Check if each key exists in the dictionary before unpacking
-                Dn = data_dict.get('Dn', None)
-                Cr = data_dict.get('Cr', None)
-                Np = data_dict.get('Np', None)
-                Or = data_dict.get('Or', None)
-                Ot = data_dict.get('Ot', None)
-                Oc = data_dict.get('Oc', None)
-                Od = data_dict.get('Ad', None)
-                Sr = data_dict.get('Sr', None)
-                St = data_dict.get('St', None)
-                Sc = data_dict.get('Sc', None)'''
+                    for i, row in data.iterrows():
+                        competitor_Dn = row['Domain']
+
+                        # Assign the value of Dn to the corresponding competitor variable
+                        if i == 0:
+                            competitor_No1 = competitor_Dn
+                        elif i == 1:
+                            competitor_No2 = competitor_Dn
+                        elif i == 2:
+                            competitor_No3 = competitor_Dn
+                        elif i == 3:
+                            competitor_No4 = competitor_Dn
+                        elif i == 4:
+                            competitor_No5 = competitor_Dn
+                    '''# Assuming the first row of the DataFrame is the relevant data
+                    data_dict = data.iloc[0].to_dict()
+                    print('--------------------------------------------------------------------------------------------')
+                    print(data_dict)
+                    print('--------------------------------------------------------------------------------------------')
+
+                    # Check if each key exists in the dictionary before unpacking
+                    Dn = data_dict.get('Dn', None)
+                    Cr = data_dict.get('Cr', None)
+                    Np = data_dict.get('Np', None)
+                    Or = data_dict.get('Or', None)
+                    Ot = data_dict.get('Ot', None)
+                    Oc = data_dict.get('Oc', None)
+                    Od = data_dict.get('Ad', None)
+                    Sr = data_dict.get('Sr', None)
+                    St = data_dict.get('St', None)
+                    Sc = data_dict.get('Sc', None)'''
 
             except Exception as e:
                 print(f'An error occurred: {e}')

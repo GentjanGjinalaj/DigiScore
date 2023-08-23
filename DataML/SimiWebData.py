@@ -15,7 +15,7 @@ def simiWebData(url):
     time.sleep(7)
     #return 0
     print('Started executing SimiWebData.py')
-    driverr=None
+    driver=None
     companyName=None
     try:
         # Replace the path below with the path to your new chromedriver.exe file
@@ -215,7 +215,7 @@ def simiWebDataCompetitor(competitorURL,competitor_num):
     st=time.time()
     #return 0
     print('Started executing SimiWebDataCompetitor.py')
-    driverr=None
+    driver=None
     companyName=None
     try:
         # Replace the path below with the path to your new chromedriver.exe file
