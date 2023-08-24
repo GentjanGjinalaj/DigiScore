@@ -134,6 +134,9 @@ def index():
                 return render_template("error.html", error_message="Process terminated by the user.")
 
             simiweb_data = SimiWebData.simiWebData(user_input)
+            if simiweb_data == -999:
+                return render_template("error.html", error_message="Browser or driver version issue. Please check your browser or driver version. It seems the ChromeDriver needs updating.")
+
             if terminate_flag:
                 return render_template("error.html", error_message="Process terminated by the user.")
 
@@ -165,7 +168,7 @@ def index():
 
             for result in results:
                 if isinstance(result, Exception):
-                    if 'session not created' in str(result) or 'driver' in str(result):
+                    if 'session not created' in str(result) or 'driver' in str(result) or 'Browser or driver version issue' in str(result) or 'Please check your browser or driver version' in str(result):
                         error_message = "Browser or driver version issue. Please check your browser or driver version. It seems the ChromeDriver needs updating... " + str(result)
                         return render_template("error.html", error_message=error_message)
                     else:
@@ -234,7 +237,17 @@ def index():
 
 @appp.route('/download_Social_Media_csv')
 def download_csv():
-    filenames = ["test.csv",'DataML\Competitors\socialCompetitor_1.csv','DataML\Competitors\socialCompetitor_2.csv','DataML\Competitors\socialCompetitor_3.csv','DataML\Competitors\socialCompetitor_4.csv','DataML\Competitors\socialCompetitor_5.csv']
+    #filenames = ["test.csv",'DataML\Competitors\socialCompetitor_1.csv','DataML\Competitors\socialCompetitor_2.csv','DataML\Competitors\socialCompetitor_3.csv','DataML\Competitors\socialCompetitor_4.csv','DataML\Competitors\socialCompetitor_5.csv']
+    base_path = os.path.join('DataML', 'Competitors')
+
+    filenames = [
+        "test.csv",
+        os.path.join(base_path, 'socialCompetitor_1.csv'),
+        os.path.join(base_path, 'socialCompetitor_2.csv'),
+        os.path.join(base_path, 'socialCompetitor_3.csv'),
+        os.path.join(base_path, 'socialCompetitor_4.csv'),
+        os.path.join(base_path, 'socialCompetitor_5.csv')
+    ]
     zip_filename = "Social_Media_csv_files.zip"
     with zipfile.ZipFile(zip_filename, 'w') as zipf:
         for filename in filenames:
@@ -249,7 +262,17 @@ def download_csv():
 
 @appp.route('/download_SEO_Website_csv')
 def download_csv1():
-    filenames = ["test1.csv",'DataML\Competitors\seoCompetitor_1.csv','DataML\Competitors\seoCompetitor_2.csv','DataML\Competitors\seoCompetitor_3.csv','DataML\Competitors\seoCompetitor_4.csv','DataML\Competitors\seoCompetitor_5.csv']
+    #filenames = ["test1.csv",'DataML\Competitors\seoCompetitor_1.csv','DataML\Competitors\seoCompetitor_2.csv','DataML\Competitors\seoCompetitor_3.csv','DataML\Competitors\seoCompetitor_4.csv','DataML\Competitors\seoCompetitor_5.csv']
+    base_path = os.path.join('DataML', 'Competitors')
+    filenames = [
+        "test.csv",
+        os.path.join(base_path, 'seoCompetitor_1.csv'),
+        os.path.join(base_path, 'seoCompetitor_2.csv'),
+        os.path.join(base_path, 'seoCompetitor_3.csv'),
+        os.path.join(base_path, 'seoCompetitor_4.csv'),
+        os.path.join(base_path, 'seoCompetitor_5.csv')
+    ]
+
     zip_filename = "SEO_and_WEBSITE_csv_files.zip"
     with zipfile.ZipFile(zip_filename, 'w') as zipf:
         for filename in filenames:

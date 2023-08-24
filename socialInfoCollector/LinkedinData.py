@@ -4,6 +4,7 @@ from time import sleep
 import pandas as pd
 import requests
 import time
+import os
 
 
 def linkedinData(linkedin_link,linkedin_username):
@@ -13,10 +14,11 @@ def linkedinData(linkedin_link,linkedin_username):
 
     #path1='DigiScore\\socialInfoCollector\\linkedinData.json'
     #path = "DigiScore\\test.csv"
-    path1='socialInfoCollector\\linkedinData.json'
+    #path1='socialInfoCollector\\linkedinData.json'
+    path1 = os.path.join('socialInfoCollector', 'linkedinData.json')
     path = "test.csv"
 
-    if linkedin_link:
+    '''if linkedin_link:
         username = 'gentjan_gjinalaj'
         apiKey = 'aWSMM1qwgr52Mm6Yyq6JPKWXH'
         scraper = 'linkedinCompanyProfile'
@@ -85,7 +87,7 @@ def linkedinData(linkedin_link,linkedin_username):
             et=time.time()
             linkedin_time=et-st
             print('Total execution time of LinkedinData.py is:',linkedin_time,'seconds')
-            return linkedin_time
+            return linkedin_time'''
 
 
     if linkedin_link:
@@ -299,10 +301,14 @@ def linkedinDataCompetitor(linkedin_link,linkedin_username,competitor_num):
 
     #path1=f'DigiScore\\DataML\\Competitors\\Competitor_{competitor_num}\\JsonFiles\\linkedinData.json'
     #path = f"DigiScore\\DataML\\Competitors\\socialCompetitor_{competitor_num}.csv"
-    path1=f'DataML\\Competitors\\Competitor_{competitor_num}\\JsonFiles\\linkedinData.json'
-    path = f"DataML\\Competitors\\socialCompetitor_{competitor_num}.csv"
 
-    if linkedin_link:
+    #path1=f'DataML\\Competitors\\Competitor_{competitor_num}\\JsonFiles\\linkedinData.json'
+    path1 = os.path.join('DataML', 'Competitors', f'Competitor_{competitor_num}', 'JsonFiles', 'linkedinData.json')
+
+    #path = f"DataML\\Competitors\\socialCompetitor_{competitor_num}.csv"
+    path = os.path.join('DataML', 'Competitors', f'socialCompetitor_{competitor_num}.csv')
+
+    '''if linkedin_link:
         username = 'gentjan_gjinalaj'
         apiKey = 'aWSMM1qwgr52Mm6Yyq6JPKWXH'
         scraper = 'linkedinCompanyProfile'
@@ -371,7 +377,7 @@ def linkedinDataCompetitor(linkedin_link,linkedin_username,competitor_num):
             et=time.time()
             linkedin_time=et-st
             print('Total execution time of LinkedinDataCompetitor.py is:',linkedin_time,'seconds')
-            return linkedin_time
+            return linkedin_time'''
 
     if linkedin_link:
 

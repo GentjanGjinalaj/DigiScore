@@ -3,6 +3,7 @@ import time
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+import os
 
 
 def socialLinkCollector(url):
@@ -193,7 +194,8 @@ def socialLinkCollectorCompetitor(url,competitor_num):
     print('Started executing socialLinkCollectorCompetitor.py')
 
     #path = "DigiScore\\DataML\\Competitors\\socialCompetitor_{competitor_num}.csv"
-    path = f"DataML\\Competitors\\socialCompetitor_{competitor_num}.csv"
+    #path = f"DataML\\Competitors\\socialCompetitor_{competitor_num}.csv"
+    path = os.path.join('DataML', 'Competitors', f'socialCompetitor_{competitor_num}.csv')
     if url:
 
         response=None

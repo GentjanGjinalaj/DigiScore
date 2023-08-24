@@ -3,6 +3,7 @@ import time
 import instaloader
 import pandas as pd
 import itertools
+import os
 
 
 def instagramData(instagram_username):
@@ -17,7 +18,9 @@ def instagramData(instagram_username):
         # Load the configuration file
         config = configparser.ConfigParser()
         #config.read('DigiScore\\socialInfoCollector\\config.ini')
-        config.read('socialInfoCollector\\config.ini')
+        #config.read('socialInfoCollector\\config.ini')
+        config_path = os.path.join('socialInfoCollector', 'config.ini')
+        config.read(config_path)
 
         # Get the username and password from the config file
         username = config.get('instagram', 'username')
@@ -237,13 +240,16 @@ def instagramDataCompetitor(instagram_username,competitor_num):
     print('Started executing InstagramDataCompetitor.py')
 
     #path = "DigiScore\\DataML\\Competitors\\socialCompetitor_{competitor_num}.csv"
-    path = f"DataML\\Competitors\\socialCompetitor_{competitor_num}.csv"
+    #path = f"DataML\\Competitors\\socialCompetitor_{competitor_num}.csv"
+    path = os.path.join('DataML', 'Competitors', f'socialCompetitor_{competitor_num}.csv')
+
 
     if instagram_username:
         # Load the configuration file
         config = configparser.ConfigParser()
         #config.read('DigiScore\\socialInfoCollector\\config.ini')
-        config.read('socialInfoCollector\\config.ini')
+        config_path = os.path.join('socialInfoCollector', 'config.ini')
+        config.read(config_path)
 
         # Get the username and password from the config file
         username = config.get('instagram', 'username')

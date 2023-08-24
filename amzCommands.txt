@@ -1,0 +1,64 @@
+ IP `13.38.95.105`:
+
+### 1. SSH into Your EC2 Instance:
+```bash
+ssh -i "/c/Users/User/Downloads/DigiKeyUbuntu.pem" ubuntu@13.38.95.105
+```
+
+### 2. Delete Everything Inside the `DigiScore` Directory:
+When inside your EC2:
+```bash
+cd /home/ubuntu/DigiScore/
+rm -rf *
+```
+
+### 3. Exit Your EC2 Instance:
+```bash
+exit
+```
+
+### 4. Navigate to Your Local Project Directory:
+```bash
+cd "/c/Users/User/OneDrive - Fakulteti i Teknologjise se Informacionit/Desktop/Digitalized/DigiScore/"
+```
+
+### 5. Reupload Your Project Files to EC2:
+```bash
+scp -i "/c/Users/User/Downloads/DigiKeyUbuntu.pem" -r * ubuntu@13.38.95.105:/home/ubuntu/DigiScore/
+```
+
+### 6. SSH Back into Your EC2 Instance:
+```bash
+ssh -i "/c/Users/User/Downloads/DigiKeyUbuntu.pem" ubuntu@13.38.95.105
+```
+
+### 7. (Optional) If you had a virtual environment and want to recreate it:
+```bash
+rm -rf venv/
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### 8. Install Dependencies from `requirements.txt`:
+```bash
+cd /home/ubuntu/DigiScore/
+pip install -r requirements.txt
+```
+
+### 9. Run Your Flask App:
+Assuming you have `app.py` as your Flask app entry point:
+```bash
+export FLASK_APP=app.py
+flask run --host=0.0.0.0
+```
+
+Now, your Flask app should be running on your EC2 instance with the IP `13.38.95.105`. To access it via a web browser, navigate to: `http://13.38.95.105:5000`, unless you specify a different port.
+
+Remember, for longer-term or production deployments, it's advisable to set up your Flask app with a production-ready server, such as Gunicorn or uWSGI, behind a reverse proxy like Nginx or Apache.
+
+####################################
+Reupload just one file:
+scp -i "/path/to/your/key.pem" "name_of_changed_file.py" ubuntu@13.38.95.105:/path/on/server/where/you/want/the/file/
+
+scp -i "/c/Users/User/Downloads/DigiKeyUbuntu.pem" "simiWebData.py" ubuntu@13.38.95.105:~/DigiScore/
+##############################

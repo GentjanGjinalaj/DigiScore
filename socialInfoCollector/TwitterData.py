@@ -2,6 +2,7 @@ import snscrape.modules.twitter as sntwitter
 import pandas as pd
 import time
 from datetime import datetime, timedelta
+import os
 
 def twitterData(twitter_link,twitter_username):
     st=time.time()
@@ -224,7 +225,9 @@ def twitterDataCompetitor(twitter_link,twitter_username,competitor_num):
     return 0
     print('Started executing TwitterDataCompetitor.py')
     #path = f"DigiScore\\DataML\\Competitors\\socialCompetitor_{competitor_num}.csv"
-    path = f"DataML\\Competitors\\socialCompetitor_{competitor_num}.csv"
+    #path = f"DataML\\Competitors\\socialCompetitor_{competitor_num}.csv"
+    path = os.path.join('DataML', 'Competitors', f'socialCompetitor_{competitor_num}.csv')
+
     if twitter_link:
         now=datetime.today()
         now_withot_hour=now.strftime(f"%Y-%m-%d")

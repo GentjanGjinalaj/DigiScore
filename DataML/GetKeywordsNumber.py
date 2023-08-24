@@ -17,7 +17,8 @@ def getKeywordsNumber(url):
 
     #path1='DigiScore\\DataML\\DataScreenshots'
     #new_path = "DigiScore\\test1.csv"
-    path1='DataML\\DataScreenshots'
+    #path1='DataML\\DataScreenshots'
+    path1 = os.path.join('DataML', 'DataScreenshots')
     new_path = "test1.csv"
 
     # Set the initial image coordinates
@@ -25,7 +26,8 @@ def getKeywordsNumber(url):
     x2, y2 = 1920, 1440
 
     #picture_folder_path = 'DigiScore\\DataML\\Pics'
-    picture_folder_path = 'DataML\\Pics'
+    #picture_folder_path = 'DataML\\Pics'
+    picture_folder_path = os.path.join('DataML', 'Pics')
 
     # Get a list of image files in the folder
     image_files = glob.glob(os.path.join(picture_folder_path, '*.png'))  # Change the file extension if necessary
@@ -221,15 +223,19 @@ def getKeywordsNumberCompetitor(url,competitor_num):
 
     #path1=f'DigiScore\\DataML\\Competitors\\Competitor_{competitor_num}\\DataScreenshot_{competitor_num}'
     #new_path = f"DigiScore\\DataML\\Competitors\\seoCompetitor_{competitor_num}.csv"
-    path1=f'DataML\\Competitors\\Competitor_{competitor_num}\\DataScreenshot_{competitor_num}'
-    new_path = f"DataML\\Competitors\\seoCompetitor_{competitor_num}.csv"
+    #path1=f'DataML\\Competitors\\Competitor_{competitor_num}\\DataScreenshot_{competitor_num}'
+    #new_path = f"DataML\\Competitors\\seoCompetitor_{competitor_num}.csv"
+    path1 = os.path.join('DataML', 'Competitors', f'Competitor_{competitor_num}', f'DataScreenshot_{competitor_num}')
+    new_path = os.path.join('DataML', 'Competitors', f'seoCompetitor_{competitor_num}.csv')
 
     # Set the initial image coordinates
     x1, y1 = 0, 0
     x2, y2 = 1920, 1440
 
     #picture_folder_path = f'DataML\\Competitors\\Competitor_{competitor_num}'
-    picture_folder_path = f'DataML\\Competitors\\Competitor_{competitor_num}'
+    #picture_folder_path = f'DataML\\Competitors\\Competitor_{competitor_num}'
+    picture_folder_path = os.path.join('DataML', 'Competitors', f'Competitor_{competitor_num}')
+
 
     # Get a list of image files in the folder
     image_files = glob.glob(os.path.join(picture_folder_path, '*.png'))  # Change the file extension if necessary

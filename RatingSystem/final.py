@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from urllib.parse import urlparse
+import os
 
 
 def extract_company_name(url):
@@ -102,7 +103,9 @@ def weightRatingSystem(main_company_url, competitors):
 
         # Sort the DataFrame based on the 'Website Data Type' column
         df_final = df_final.sort_values('Website Data Type')
-        df_final.to_csv('RatingSystem\\regularDataWebSeo\\allDataMainCompany.csv',index=False)
+        #df_final.to_csv('RatingSystem\\regularDataWebSeo\\allDataMainCompany.csv',index=False)
+        df_final.to_csv(os.path.join('RatingSystem', 'regularDataWebSeo', 'allDataMainCompany.csv'), index=False)
+
 
         #with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
             #print(df)
@@ -112,12 +115,19 @@ def weightRatingSystem(main_company_url, competitors):
 
 
     def competitorsSeoFileProcessing():
-
-        competitor_files = ['DataML\\Competitors\\seoCompetitor_1.csv',
-                            'DataML\\Competitors\\seoCompetitor_2.csv',
-                            'DataML\\Competitors\\seoCompetitor_3.csv',
-                            'DataML\\Competitors\\seoCompetitor_4.csv',
-                            'DataML\\Competitors\\seoCompetitor_5.csv']
+        base_path = os.path.join('DataML', 'Competitors')
+        competitor_files = [
+    os.path.join(base_path, 'seoCompetitor_1.csv'),
+    os.path.join(base_path, 'seoCompetitor_2.csv'),
+    os.path.join(base_path, 'seoCompetitor_3.csv'),
+    os.path.join(base_path, 'seoCompetitor_4.csv'),
+    os.path.join(base_path, 'seoCompetitor_5.csv')
+]
+        #competitor_files = ['DataML\\Competitors\\seoCompetitor_1.csv',
+                            #'DataML\\Competitors\\seoCompetitor_2.csv',
+                            #'DataML\\Competitors\\seoCompetitor_3.csv',
+                            #'DataML\\Competitors\\seoCompetitor_4.csv',
+                            #'DataML\\Competitors\\seoCompetitor_5.csv']
 
         # Function to process strings
         def process_string(x):
@@ -211,7 +221,9 @@ def weightRatingSystem(main_company_url, competitors):
 
             # Sort the DataFrame based on the 'Website Data Type' column
             df_final = df_final.sort_values('Website Data Type')
-            df_final.to_csv(f'RatingSystem\\regularDataWebSeo\\allDataCompetitor_{i}.csv',index=False)
+            #df_final.to_csv(f'RatingSystem\\regularDataWebSeo\\allDataCompetitor_{i}.csv',index=False)
+            df_final.to_csv(os.path.join('RatingSystem', 'regularDataWebSeo', f'allDataCompetitor_{i}.csv'), index=False)
+
 
             # Append the final DataFrame for this iteration to the list
             final_dfs.append(df_final)
@@ -298,12 +310,22 @@ def weightRatingSystem(main_company_url, competitors):
 
 
     # Write each DataFrame to a CSV file
-    df_main.to_csv('RatingSystem\\finalDataWebSeo\\main.csv', index=False)
-    df_comp1.to_csv('RatingSystem\\finalDataWebSeo\\comp1.csv', index=False)
-    df_comp1.to_csv('RatingSystem\\finalDataWebSeo\\comp2.csv', index=False)
-    df_comp3.to_csv('RatingSystem\\finalDataWebSeo\\comp3.csv', index=False)
-    df_comp4.to_csv('RatingSystem\\finalDataWebSeo\\comp4.csv', index=False)
-    df_comp5.to_csv('RatingSystem\\finalDataWebSeo\\comp5.csv', index=False)
+    #df_main.to_csv('RatingSystem\\finalDataWebSeo\\main.csv', index=False)
+    #df_comp1.to_csv('RatingSystem\\finalDataWebSeo\\comp1.csv', index=False)
+    #df_comp1.to_csv('RatingSystem\\finalDataWebSeo\\comp2.csv', index=False)
+    #df_comp3.to_csv('RatingSystem\\finalDataWebSeo\\comp3.csv', index=False)
+    #df_comp4.to_csv('RatingSystem\\finalDataWebSeo\\comp4.csv', index=False)
+    #df_comp5.to_csv('RatingSystem\\finalDataWebSeo\\comp5.csv', index=False)
+
+    final_data_webseo_path = os.path.join('RatingSystem', 'finalDataWebSeo')
+
+    df_main.to_csv(os.path.join(final_data_webseo_path, 'main.csv'), index=False)
+    df_comp1.to_csv(os.path.join(final_data_webseo_path, 'comp1.csv'), index=False)
+    df_comp2.to_csv(os.path.join(final_data_webseo_path, 'comp2.csv'), index=False)  # This was missing. 
+    df_comp3.to_csv(os.path.join(final_data_webseo_path, 'comp3.csv'), index=False)
+    df_comp4.to_csv(os.path.join(final_data_webseo_path, 'comp4.csv'), index=False)
+    df_comp5.to_csv(os.path.join(final_data_webseo_path, 'comp5.csv'), index=False)
+
 
     #########################################################################
 
@@ -371,16 +393,27 @@ def weightRatingSystem(main_company_url, competitors):
         df_melted['Social Data Type'] = df_melted.apply(lambda row: f"{row['Social Data Type']} {row['Social Platform']}", axis=1)
 
         # Save your processed DataFrame to a new CSV file
-        df_melted.to_csv('RatingSystem\\regularDataSocial\\processed_social_media_Main.csv', index=False)
+        #df_melted.to_csv('RatingSystem\\regularDataSocial\\processed_social_media_Main.csv', index=False)
+        df_melted.to_csv(os.path.join('RatingSystem', 'regularDataSocial', f'processed_social_media_Main.csv'), index=False)
+
         #df.to_csv('Actual\\testsss\\DataNormalRating\\regularData\\social.csv')
         return df_melted
 
     def competitorsSocialMediaFileProcessing():
-        competitor_files = ['DataML\\Competitors\\socialCompetitor_1.csv',
-                            'DataML\\Competitors\\socialCompetitor_2.csv',
-                            'DataML\\Competitors\\socialCompetitor_3.csv',
-                            'DataML\\Competitors\\socialCompetitor_4.csv',
-                            'DataML\\Competitors\\socialCompetitor_5.csv'
+        competitors_path = os.path.join('DataML', 'Competitors')
+        #competitor_files = ['DataML\\Competitors\\socialCompetitor_1.csv',
+                            #'DataML\\Competitors\\socialCompetitor_2.csv',
+                            #'DataML\\Competitors\\socialCompetitor_3.csv',
+                            #'DataML\\Competitors\\socialCompetitor_4.csv',
+                            #'DataML\\Competitors\\socialCompetitor_5.csv'
+                            #]
+
+        competitor_files = [
+                            os.path.join(competitors_path, 'socialCompetitor_1.csv'),
+                            os.path.join(competitors_path, 'socialCompetitor_2.csv'),
+                            os.path.join(competitors_path, 'socialCompetitor_3.csv'),
+                            os.path.join(competitors_path, 'socialCompetitor_4.csv'),
+                            os.path.join(competitors_path, 'socialCompetitor_5.csv')
                             ]
 
 
@@ -440,7 +473,8 @@ def weightRatingSystem(main_company_url, competitors):
 
 
             # Save your processed DataFrame to a new CSV file
-            df_melted.to_csv(f'RatingSystem\\regularDataSocial\\processed_social_media_Competior_{i}.csv', index=False)
+            #df_melted.to_csv(f'RatingSystem\\regularDataSocial\\processed_social_media_Competior_{i}.csv', index=False)
+            df_melted.to_csv(os.path.join('RatingSystem', 'regularDataSocial', f'processed_social_media_Competior_{i}.csv'), index=False)
             final_dfs.append(df_melted)
 
 
@@ -483,7 +517,7 @@ def weightRatingSystem(main_company_url, competitors):
 
     # Apply MinMaxScaler to each DataFrame
     for data_type, df in dataframes_social.items():
-        scaler = MinMaxScaler()  # Initialize a new scaler for each D/ataFrame
+        scaler = MinMaxScaler()  # Initialize a new scaler for each DataFrame
         df['Social Data'] = scaler.fit_transform(df[['Social Data']])
         dataframes_social[data_type] = df
 
@@ -517,44 +551,81 @@ def weightRatingSystem(main_company_url, competitors):
     #########################################################################
 
     # Write each DataFrame to a CSV file
-    df_social_main.to_csv('RatingSystem\\finalDataSocial\\social_main.csv', index=False)
-    df_social_comp1.to_csv('RatingSystem\\finalDataSocial\\social_comp1.csv', index=False)
-    df_social_comp2.to_csv('RatingSystem\\finalDataSocial\\social_comp2.csv', index=False)
-    df_social_comp3.to_csv('RatingSystem\\finalDataSocial\\social_comp3.csv', index=False)
-    df_social_comp4.to_csv('RatingSystem\\finalDataSocial\\social_comp4.csv', index=False)
-    df_social_comp5.to_csv('RatingSystem\\finalDataSocial\\social_comp5.csv', index=False)
+    final_data_social_path = os.path.join('RatingSystem', 'finalDataSocial')
+    #df_social_main.to_csv('RatingSystem\\finalDataSocial\\social_main.csv', index=False)
+    #df_social_comp1.to_csv('RatingSystem\\finalDataSocial\\social_comp1.csv', index=False)
+    #df_social_comp2.to_csv('RatingSystem\\finalDataSocial\\social_comp2.csv', index=False)
+    #df_social_comp3.to_csv('RatingSystem\\finalDataSocial\\social_comp3.csv', index=False)
+    #df_social_comp4.to_csv('RatingSystem\\finalDataSocial\\social_comp4.csv', index=False)
+    #df_social_comp5.to_csv('RatingSystem\\finalDataSocial\\social_comp5.csv', index=False)
+
+    df_social_main.to_csv(os.path.join(final_data_social_path, 'social_main.csv'), index=False)
+    df_social_comp1.to_csv(os.path.join(final_data_social_path, 'social_comp1.csv'), index=False)
+    df_social_comp2.to_csv(os.path.join(final_data_social_path, 'social_comp2.csv'), index=False)
+    df_social_comp3.to_csv(os.path.join(final_data_social_path, 'social_comp3.csv'), index=False)
+    df_social_comp4.to_csv(os.path.join(final_data_social_path, 'social_comp4.csv'), index=False)
+    df_social_comp5.to_csv(os.path.join(final_data_social_path, 'social_comp5.csv'), index=False)
+
 
 
     #########################################################################
 
     # Load main and competitors data
+    #dataframes = {
+        #'Main': pd.read_csv('RatingSystem\\finalDataWebSeo\\main.csv'),
+        #'First Competitor': pd.read_csv('RatingSystem\\finalDataWebSeo\\comp1.csv'),
+        #'Second Competitor': pd.read_csv('RatingSystem\\finalDataWebSeo\\comp2.csv'),
+        #'Third Competitor': pd.read_csv('RatingSystem\\finalDataWebSeo\\comp3.csv'),
+        #'Fourth Competitor': pd.read_csv('RatingSystem\\finalDataWebSeo\\comp4.csv'),
+        #'Fifth Competitor': pd.read_csv('RatingSystem\\finalDataWebSeo\\comp5.csv')
+    #}
+
+    final_data_webseo_path = os.path.join('RatingSystem', 'finalDataWebSeo')
+
     dataframes = {
-        'Main': pd.read_csv('RatingSystem\\finalDataWebSeo\\main.csv'),
-        'First Competitor': pd.read_csv('RatingSystem\\finalDataWebSeo\\comp1.csv'),
-        'Second Competitor': pd.read_csv('RatingSystem\\finalDataWebSeo\\comp2.csv'),
-        'Third Competitor': pd.read_csv('RatingSystem\\finalDataWebSeo\\comp3.csv'),
-        'Fourth Competitor': pd.read_csv('RatingSystem\\finalDataWebSeo\\comp4.csv'),
-        'Fifth Competitor': pd.read_csv('RatingSystem\\finalDataWebSeo\\comp5.csv')
-    }
+    'Main': pd.read_csv(os.path.join(final_data_webseo_path, 'main.csv')),
+    'First Competitor': pd.read_csv(os.path.join(final_data_webseo_path, 'comp1.csv')),
+    'Second Competitor': pd.read_csv(os.path.join(final_data_webseo_path, 'comp2.csv')),
+    'Third Competitor': pd.read_csv(os.path.join(final_data_webseo_path, 'comp3.csv')),
+    'Fourth Competitor': pd.read_csv(os.path.join(final_data_webseo_path, 'comp4.csv')),
+    'Fifth Competitor': pd.read_csv(os.path.join(final_data_webseo_path, 'comp5.csv'))
+}
+
 
     # Load social media data for main and competitors
-    social_dataframes = {
-        'Main': pd.read_csv('RatingSystem\\finalDataSocial\\social_main.csv'),
-        'First Competitor': pd.read_csv('RatingSystem\\finalDataSocial\\social_comp1.csv'),
-        'Second Competitor': pd.read_csv('RatingSystem\\finalDataSocial\\social_comp2.csv'),
-        'Third Competitor': pd.read_csv('RatingSystem\\finalDataSocial\\social_comp3.csv'),
-        'Fourth Competitor': pd.read_csv('RatingSystem\\finalDataSocial\\social_comp4.csv'),
-        'Fifth Competitor': pd.read_csv('RatingSystem\\finalDataSocial\\social_comp5.csv')
-    }
+    #social_dataframes = {
+        #'Main': pd.read_csv('RatingSystem\\finalDataSocial\\social_main.csv'),
+        #'First Competitor': pd.read_csv('RatingSystem\\finalDataSocial\\social_comp1.csv'),
+        #'Second Competitor': pd.read_csv('RatingSystem\\finalDataSocial\\social_comp2.csv'),
+        #'Third Competitor': pd.read_csv('RatingSystem\\finalDataSocial\\social_comp3.csv'),
+        #'Fourth Competitor': pd.read_csv('RatingSystem\\finalDataSocial\\social_comp4.csv'),
+        #'Fifth Competitor': pd.read_csv('RatingSystem\\finalDataSocial\\social_comp5.csv')
+    #}
 
-    weights_df = pd.read_csv('RatingSystem\\allWeightsFiles\\weights.csv')
+    final_data_social_path = os.path.join('RatingSystem', 'finalDataSocial')
+
+    social_dataframes = {
+    'Main': pd.read_csv(os.path.join(final_data_social_path, 'social_main.csv')),
+    'First Competitor': pd.read_csv(os.path.join(final_data_social_path, 'social_comp1.csv')),
+    'Second Competitor': pd.read_csv(os.path.join(final_data_social_path, 'social_comp2.csv')),
+    'Third Competitor': pd.read_csv(os.path.join(final_data_social_path, 'social_comp3.csv')),
+    'Fourth Competitor': pd.read_csv(os.path.join(final_data_social_path, 'social_comp4.csv')),
+    'Fifth Competitor': pd.read_csv(os.path.join(final_data_social_path, 'social_comp5.csv'))
+}
+
+
+    all_weights_files_path = os.path.join('RatingSystem', 'allWeightsFiles')
+    #weights_df = pd.read_csv('RatingSystem\\allWeightsFiles\\weights.csv')
+    weights_df = pd.read_csv(os.path.join(all_weights_files_path, 'weights.csv'))
     weights_df['Platform'] = weights_df['Platform'].str.capitalize()
 
-    category_weights_df = pd.read_csv('RatingSystem\\allWeightsFiles\\category_weights.csv')
+    #category_weights_df = pd.read_csv('RatingSystem\\allWeightsFiles\\category_weights.csv')
+    category_weights_df = pd.read_csv(os.path.join(all_weights_files_path, 'category_weights.csv'))
     category_weights_df.set_index('Category', inplace=True)
     category_weights_df.index.name = 'Category'
 
-    platform_weights_df = pd.read_csv("RatingSystem\\allWeightsFiles\\platform_weights.csv")
+    #platform_weights_df = pd.read_csv("RatingSystem\\allWeightsFiles\\platform_weights.csv")
+    platform_weights_df = pd.read_csv(os.path.join(all_weights_files_path, 'platform_weights.csv'))
     platform_weights_df.set_index('Platform', inplace=True)
     platform_weights_df.index.name = 'Platform'
 
@@ -676,7 +747,8 @@ def weightRatingSystem(main_company_url, competitors):
     final_scores_df.insert(0, 'Company', company_column)
 
     # Save the DataFrame to CSV
-    final_scores_df.to_csv("RatingSystem\\final_scores.csv")
+    #final_scores_df.to_csv("RatingSystem\\final_scores.csv")
+    final_scores_df.to_csv(os.path.join('RatingSystem', 'final_scores.csv'))
     print(final_scores_df)
 
     et=time.time()

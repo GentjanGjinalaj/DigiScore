@@ -18,7 +18,8 @@ def getCompetitors(mainUrl):
 
     #path1='DigiScore\\DataML\\DataScreenshots'
     #new_path = "DigiScore\\test1.csv"
-    path1='DataML\\DataScreenshots'
+    #path1='DataML\\DataScreenshots'
+    path1 = os.path.join('DataML', 'DataScreenshots')
     new_path = "test1.csv"
 
     # Set the initial image coordinates
@@ -26,8 +27,8 @@ def getCompetitors(mainUrl):
     x2, y2 = 1920, 1440
 
     #picture_folder_path = 'DigiScore\\DataML\\Pics'
-    picture_folder_path = 'DataML\\Pics'
-
+    #picture_folder_path = 'DataML\\Pics'
+    picture_folder_path = os.path.join('DataML', 'Pics')
     # Get a list of image files in the folder
     image_files = glob.glob(os.path.join(picture_folder_path, '*.png'))  # Change the file extension if necessary
 

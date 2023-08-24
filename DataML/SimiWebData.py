@@ -1,3 +1,5 @@
+#https://chromedriver.chromium.org/downloads
+#https://googlechromelabs.github.io/chrome-for-testing/
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -8,6 +10,61 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from urllib.parse import urlparse
 import os
+import platform
+
+'''
+import requests
+import os
+import shutil
+import zipfile
+def update_chromedriver():
+    # Define the base URL for fetching the latest ChromeDriver version
+    base_url = "https://commondatastorage.googleapis.com/chrome-infra/chromedriver"
+
+    # Fetch the latest version of ChromeDriver
+    latest_version = requests.get(f"{base_url}/LATEST_RELEASE").text.strip()
+
+    # Define URLs for downloading ChromeDriver for Windows and Linux
+    win_url = f"{base_url}/{latest_version}/chromedriver_win32.zip"
+    linux_url = f"{base_url}/{latest_version}/chromedriver_linux64.zip"
+
+    # Define paths where you want to save the downloaded zipped binaries
+    win_dest = "chromedriver_win32.zip"
+    linux_dest = "chromedriver_linux64.zip"
+
+    # Download the binaries
+    try:
+        shutil.copyfileobj(requests.get(win_url, stream=True).raw, open(win_dest, 'wb'))
+        shutil.copyfileobj(requests.get(linux_url, stream=True).raw, open(linux_dest, 'wb'))
+    except Exception as e:
+        print(f"Error downloading ChromeDriver: {e}")
+        return
+
+    # Check if the files are valid zip files
+    if not zipfile.is_zipfile(win_dest):
+        raise Exception("File chromedriver_win32.zip is not a valid zip file")
+    if not zipfile.is_zipfile(linux_dest):
+        raise Exception("File chromedriver_linux64.zip is not a valid zip file")
+
+    # Extract the Windows ChromeDriver
+    with zipfile.ZipFile(win_dest, 'r') as zip_ref:
+        zip_ref.extractall("DataML")
+
+    # Rename the chromedriver to chromedriver.exe for clarity (Windows)
+    os.rename(os.path.join("DataML", "chromedriver"), os.path.join("DataML", "chromedriver.exe"))
+
+    # Extract the Linux ChromeDriver
+    with zipfile.ZipFile(linux_dest, 'r') as zip_ref:
+        zip_ref.extractall("DataML")
+
+    # Remove the zip files after extraction
+    os.remove(win_dest)
+    os.remove(linux_dest)
+
+    print(f"Updated ChromeDriver to version {latest_version}")
+
+update_chromedriver()
+'''
 
 
 def simiWebData(url):
@@ -21,7 +78,20 @@ def simiWebData(url):
         # Replace the path below with the path to your new chromedriver.exe file
 
         #driver_path = 'DigiScore\\DataML\\chromedriver.exe'
-        driver_path = 'DataML\\chromedriver.exe'
+        #driver_path = 'DataML\\chromedriver.exe'
+
+        # Detect the operating system
+        os_type = platform.system()
+        print(os_type)
+
+        # Set the driver path according to the OS
+        if os_type == "Windows":
+            driver_path = os.path.join('DataML', 'chromedriver.exe')
+        elif os_type == "Linux":
+            driver_path = os.path.join('DataML', 'chromedriver')  # Adjust this if your path is different in Linux
+        else:
+            raise Exception("Unsupported OS")
+
         # Create a new instance of the Chrome options
         options = Options()
 
@@ -177,7 +247,9 @@ def simiWebData(url):
             simiWebData_time=et-st
             print('Total execution time of SimiWebData.py is:',simiWebData_time,'seconds')
             error_message = "Browser or driver version issue. Please check your browser or driver version. It seems the ChromeDriver needs updating."
-            return error_message
+            print(error_message)
+            return -999  # error code for version mismatch
+
         else:
             error_message = f"An unexpected WebDriverException occurred: {e}"
             return error_message
@@ -221,7 +293,19 @@ def simiWebDataCompetitor(competitorURL,competitor_num):
         # Replace the path below with the path to your new chromedriver.exe file
 
         #driver_path = 'DigiScore\\DataML\\chromedriver.exe'
-        driver_path = 'DataML\\chromedriver.exe'
+        #driver_path = 'DataML\\chromedriver.exe'
+        # Detect the operating system
+        os_type = platform.system()
+        print(os_type)
+
+        # Set the driver path according to the OS
+        if os_type == "Windows":
+            driver_path = os.path.join('DataML', 'chromedriver.exe')
+        elif os_type == "Linux":
+            driver_path = os.path.join('DataML', 'chromedriver')  # Adjust this if your path is different in Linux
+        else:
+            raise Exception("Unsupported OS")
+
         # Create a new instance of the Chrome options
         options = Options()
 

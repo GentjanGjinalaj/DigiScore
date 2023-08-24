@@ -2,6 +2,7 @@ import pandas as pd
 import requests
 import time
 from io import StringIO
+import os
 
 
 def semRushApi(url):
@@ -241,7 +242,9 @@ def semRushApiCompetitor(url,competitor_num):
     #return 0
     print('Started executing SemRushApiCompetitor.py')
     #new_path = f"DigiScore\\DataML\\Competitors\\seoCompetitor_{competitor_num}.csv"
-    new_path = f"DataML\\Competitors\\seoCompetitor_{competitor_num}.csv"
+    #new_path = f"DataML\\Competitors\\seoCompetitor_{competitor_num}.csv"
+    new_path = os.path.join('DataML', 'Competitors', f'seoCompetitor_{competitor_num}.csv')
+
 
     api_key = '8bdbff61b7aa7c84bd0a8be0ffb526c9'
 

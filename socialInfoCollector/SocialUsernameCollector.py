@@ -1,6 +1,7 @@
 import time
 import re
 import pandas as pd
+import os
 
 
 def socialUsernameCollector(instagram_link, facebook_link,linkedin_link,twitter_link):
@@ -99,7 +100,9 @@ def socialUsernameCollectorCompetitor(instagram_link, facebook_link,linkedin_lin
     print('Started executing SocialUsernameCollectorCompetitor.py')
 
     #path = "DigiScore\\DataML\\Competitors\\socialCompetitor_{competitor_num}.csv"
-    path = f"DataML\\Competitors\\socialCompetitor_{competitor_num}.csv"
+    #path = f"DataML\\Competitors\\socialCompetitor_{competitor_num}.csv"
+    path = os.path.join('DataML', 'Competitors', f'socialCompetitor_{competitor_num}.csv')
+
 
     # Helper function to add 'https' if missing
     def add_https_if_missing(link):

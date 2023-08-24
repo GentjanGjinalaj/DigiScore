@@ -4,6 +4,7 @@ from time import sleep
 import pandas as pd
 import requests
 import time
+import os
 
 
 def facebookData(facebook_link,facebook_username):
@@ -13,11 +14,12 @@ def facebookData(facebook_link,facebook_username):
 
     #path1 ='DigiScore\\socialInfoCollector\\facebook.json'
     #path = "DigiScore\\test.csv"
-    path1 ='socialInfoCollector\\facebook.json'
+    #path1 ='socialInfoCollector\\facebook.json'
+    path1 =os.path.join('socialInfoCollector','facebook.json')
     path = "test.csv"
 
 
-    if facebook_link:
+    '''if facebook_link:
         username = 'gentjan_gjinalaj'
         apiKey = 'aWSMM1qwgr52Mm6Yyq6JPKWXH'
         scraper = 'facebookProfile'
@@ -89,7 +91,7 @@ def facebookData(facebook_link,facebook_username):
             et=time.time()
             facebook_time=et-st
             print('Total execution time of FacebookData.py is:',facebook_time,'seconds')
-            return facebook_time
+            return facebook_time'''
 
     likess=[]
     comments=[]
@@ -257,11 +259,15 @@ def facebookDataCompetitor(facebook_link,facebook_username,competitor_num):
 
     #path1=f'DigiScore\\DataML\\Competitors\\Competitor_{competitor_num}\\JsonFiles\\facebook.json'
     #path = f"DigiScore\\DataML\\Competitors\\socialCompetitor_{competitor_num}.csv"
-    path1=f'DataML\\Competitors\\Competitor_{competitor_num}\\JsonFiles\\facebook.json'
-    path = f"DataML\\Competitors\\socialCompetitor_{competitor_num}.csv"
+
+    #path1=f'DataML\\Competitors\\Competitor_{competitor_num}\\JsonFiles\\facebook.json'
+    path1 = os.path.join('DataML', 'Competitors', f'Competitor_{competitor_num}', 'JsonFiles', 'facebook.json')
+    #path = f"DataML\\Competitors\\socialCompetitor_{competitor_num}.csv"
+    path = os.path.join('DataML', 'Competitors', f'socialCompetitor_{competitor_num}.csv')
 
 
-    if facebook_link:
+
+    '''if facebook_link:
         username = 'gentjan_gjinalaj'
         apiKey = 'aWSMM1qwgr52Mm6Yyq6JPKWXH'
         scraper = 'facebookProfile'
@@ -333,7 +339,7 @@ def facebookDataCompetitor(facebook_link,facebook_username,competitor_num):
             et=time.time()
             facebook_time=et-st
             print('Total execution time of FacebookData.py is:',facebook_time,'seconds')
-            return facebook_time
+            return facebook_time'''
 
     likess=[]
     comments=[]
