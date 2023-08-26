@@ -14,26 +14,36 @@ import traceback
 
 appp = Flask(__name__)
 
-'''# Create a logger
-logging.basicConfig(filename='appp.log', level=logging.INFO, format='%(asctime)s - %(message)s')
+# Create a logger
+#log_file_path = os.path.join('DigiScore', 'appp.log')
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(message)s',
+                    handlers=[logging.FileHandler('appp.log'),
+                              logging.StreamHandler()])
+
 logger = logging.getLogger()
 
 # Redirect standard output and standard error to the logger
 class StreamToLogger:
-    def __init__(self, logger, log_level=logging.INFO):
+    def __init__(self, logger, log_level=logging.INFO, terminal_stream=None):
         self.logger = logger
         self.log_level = log_level
         self.linebuf = ''
+        self.terminal_stream = terminal_stream
 
     def write(self, buf):
         for line in buf.rstrip().splitlines():
             self.logger.log(self.log_level, line.rstrip())
+        if self.terminal_stream:
+            self.terminal_stream.write(buf)
 
     def flush(self):
-        pass
+        if self.terminal_stream:
+            self.terminal_stream.flush()
 
-sys.stdout = StreamToLogger(logger, logging.INFO)
-sys.stderr = StreamToLogger(logger, logging.ERROR)'''
+sys.stdout = StreamToLogger(logger, logging.INFO, sys.stdout)
+sys.stderr = StreamToLogger(logger, logging.ERROR, sys.stderr)
+
 
 # Global flag for termination
 terminate_flag = False
@@ -288,10 +298,16 @@ def download_csv1():
 
 @appp.route('/download_Info_csv')
 def download_csv_info():
-    filename = "t_column_info.csv"
+    filenames = ["t_column_info.csv",'appp.log']
+    zip_filename = "InfoAndLogFiles.zip"
     #path = os.path.abspath(os.path.join(os.getcwd(), "DigiScore", filename))
-    path = os.path.abspath(os.path.join(os.getcwd(), filename))
-    return send_file(path, as_attachment=True)
+    with zipfile.ZipFile(zip_filename, 'w') as zipf:
+        for filename in filenames:
+            #path = os.path.abspath(os.path.join(os.getcwd(), "DigiScore", filename))
+            path = os.path.abspath(os.path.join(os.getcwd(), filename))
+            zipf.write(path, arcname=os.path.basename(filename))
+    return send_file(zip_filename, as_attachment=True)
+
 
 @appp.route('/download_Ratings_csv')
 def download_csv_final_scores():
@@ -309,4 +325,4 @@ def terminate():
 
 
 if __name__ == '__main__':
-    appp.run(debug=True,port=5000)
+    appp.run(host='0.0.0.0',port=5000)

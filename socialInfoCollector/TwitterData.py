@@ -1,4 +1,4 @@
-import snscrape.modules.twitter as sntwitter
+#import snscrape.modules.twitter as sntwitter
 import pandas as pd
 import time
 from datetime import datetime, timedelta

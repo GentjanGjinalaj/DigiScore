@@ -11,6 +11,7 @@ from selenium.webdriver.common.by import By
 from urllib.parse import urlparse
 import os
 import platform
+from selenium.common.exceptions import TimeoutException
 
 '''
 import requests
@@ -87,10 +88,16 @@ def simiWebData(url):
         # Set the driver path according to the OS
         if os_type == "Windows":
             driver_path = os.path.join('DataML', 'chromedriver.exe')
+            service_log_path = os.path.join('DataML', 'chromedriver.log')
         elif os_type == "Linux":
             driver_path = os.path.join('DataML', 'chromedriver')  # Adjust this if your path is different in Linux
+            service_log_path = "/home/ubuntu/DigiScore/DataML/chromedriver.log"
+            service = Service(driver_path, log_path=service_log_path)
+
         else:
             raise Exception("Unsupported OS")
+
+        print(f"Using driver at path: {driver_path}")
 
         # Create a new instance of the Chrome options
         options = Options()
@@ -102,8 +109,33 @@ def simiWebData(url):
         # Set the user agent to a regular browser user agent
         options.add_argument('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36')
 
-        service = Service(driver_path)
-        driver = webdriver.Chrome(service=service,options=options)
+        # Create service object
+        if os_type == "Linux":
+            service = Service(driver_path, log_path=service_log_path)
+            options.add_argument('--no-sandbox')
+            options.add_argument('--disable-gpu')
+            options.add_argument("--window-size=1920x1080")
+            options.add_argument("--disable-dev-shm-usage")
+            options.add_argument('--headless')
+            # Disable the AutomationControlled feature
+            options.add_argument('--disable-blink-features=AutomationControlled')
+            # Set the user agent to a regular browser user agent
+            options.add_argument('user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.5938.22 Safari/537.36')
+            options.add_argument('--incognito')
+            options.add_argument('--start-maximized')
+            options.add_argument('--disable-webgl')
+            options.add_argument('--disable-extensions')
+            options.add_argument('Referer: https://www.google.com/')
+        else:
+            service = Service(driver_path)
+
+        try:
+            #service = Service(driver_path)
+            driver = webdriver.Chrome(service=service,options=options)
+            print("Webdriver initialized successfully")
+        except Exception as e:
+            print(f"Error initializing webdriver: {e}")
+            raise e
 
         parsed_url = urlparse(url)
         companyName = parsed_url.netloc.replace("www.", "")
@@ -117,24 +149,37 @@ def simiWebData(url):
         urlScrape=f'https://www.similarweb.com/website/{companyName}/#overview'
 
         driver.get(urlScrape)
+        print("Website loaded")
+        print("Before time.sleep")
         # Wait for the page to load
         time.sleep(7)
+        print("After time.sleep")
         # Check if the current url contains 'search/?q'
         if 'search/' in driver.current_url:
+            print('Company not found or something went wrong')
             raise ValueError("Company not found or something went wrong")
         else:
-
+            print('Things look good')
             # Scroll the page down by 500 pixels
             ###driver.execute_script('window.scrollBy(0, 350)')
             # Scroll to the specified location using 100dvh
             #driver.execute_script("window.scrollTo(0, (document.documentElement.scrollHeight - document.documentElement.clientHeight) * 0.01 * 100)")
 
             # Accept Cookies Button
-            wait = WebDriverWait(driver, 1)
-            accept_button = wait.until(EC.element_to_be_clickable((By.ID, 'onetrust-accept-btn-handler')))
-            # Click the "Accept All Cookies" button
-            accept_button.click()
+            wait = WebDriverWait(driver, 10)
+            try:
+                accept_button = wait.until(EC.element_to_be_clickable((By.ID, 'onetrust-accept-btn-handler')))
+                print("Accept button found and is clickable!")
+            except TimeoutException:
+                print("Accept button either not found or not clickable.")
+                raise ValueError("Accept button not found or not clickable within the wait time.")
 
+            # Click the "Accept All Cookies" button
+            try:
+                accept_button.click()
+                print("Cookies accepted.")
+            except Exception as e:
+                print(f"Error accepting cookies: {e}")
 
             driver.execute_script('window.scrollBy(0, 500)') # 480
             driver.execute_script("document.body.style.zoom='140%'")
@@ -301,10 +346,16 @@ def simiWebDataCompetitor(competitorURL,competitor_num):
         # Set the driver path according to the OS
         if os_type == "Windows":
             driver_path = os.path.join('DataML', 'chromedriver.exe')
+            service_log_path = os.path.join('DataML', 'chromedriver.log')
         elif os_type == "Linux":
             driver_path = os.path.join('DataML', 'chromedriver')  # Adjust this if your path is different in Linux
+            service_log_path = "/home/ubuntu/DigiScore/DataML/chromedriver.log"
+            service = Service(driver_path, log_path=service_log_path)
+
         else:
             raise Exception("Unsupported OS")
+
+        print(f"Using driver at path: {driver_path}")
 
         # Create a new instance of the Chrome options
         options = Options()
@@ -316,8 +367,33 @@ def simiWebDataCompetitor(competitorURL,competitor_num):
         # Set the user agent to a regular browser user agent
         options.add_argument('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36')
 
-        service = Service(driver_path)
-        driver = webdriver.Chrome(service=service,options=options)
+        # Create service object
+        if os_type == "Linux":
+            service = Service(driver_path, log_path=service_log_path)
+            options.add_argument('--no-sandbox')
+            options.add_argument('--disable-gpu')
+            options.add_argument("--window-size=1920x1080")
+            options.add_argument("--disable-dev-shm-usage")
+            options.add_argument('--headless')
+            # Disable the AutomationControlled feature
+            options.add_argument('--disable-blink-features=AutomationControlled')
+            # Set the user agent to a regular browser user agent
+            options.add_argument('user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.5938.22 Safari/537.36')
+            options.add_argument('--incognito')
+            options.add_argument('--start-maximized')
+            options.add_argument('--disable-webgl')
+            options.add_argument('--disable-extensions')
+            options.add_argument('Referer: https://www.google.com/')
+        else:
+            service = Service(driver_path)
+
+        try:
+            #service = Service(driver_path)
+            driver = webdriver.Chrome(service=service,options=options)
+            print("Webdriver initialized successfully")
+        except Exception as e:
+            print(f"Error initializing webdriver: {e}")
+            raise e
 
         parsed_url = urlparse(competitorURL)
         companyName = parsed_url.netloc.replace("www.", "")
@@ -331,23 +407,37 @@ def simiWebDataCompetitor(competitorURL,competitor_num):
         urlScrape=f'https://www.similarweb.com/website/{companyName}/#overview'
 
         driver.get(urlScrape)
+        print("Website loaded")
+        print("Before time.sleep")
         # Wait for the page to load
         time.sleep(7)
+        print("After time.sleep")
         # Check if the current url contains 'search/?q'
         if 'search/' in driver.current_url:
+            print('Company not found or something went wrong')
             raise ValueError("Company not found or something went wrong")
         else:
-
+            print('Things look good')
             # Scroll the page down by 500 pixels
             ###driver.execute_script('window.scrollBy(0, 350)')
             # Scroll to the specified location using 100dvh
             #driver.execute_script("window.scrollTo(0, (document.documentElement.scrollHeight - document.documentElement.clientHeight) * 0.01 * 100)")
 
             # Accept Cookies Button
-            wait = WebDriverWait(driver, 1)
-            accept_button = wait.until(EC.element_to_be_clickable((By.ID, 'onetrust-accept-btn-handler')))
+            wait = WebDriverWait(driver, 10)
+            try:
+                accept_button = wait.until(EC.element_to_be_clickable((By.ID, 'onetrust-accept-btn-handler')))
+                print("Accept button found and is clickable!")
+            except TimeoutException:
+                print("Accept button either not found or not clickable.")
+                raise ValueError("Accept button not found or not clickable within the wait time.")
+
             # Click the "Accept All Cookies" button
-            accept_button.click()
+            try:
+                accept_button.click()
+                print("Cookies accepted.")
+            except Exception as e:
+                print(f"Error accepting cookies: {e}")
 
             driver.execute_script('window.scrollBy(0, 500)') # 480
             driver.execute_script("document.body.style.zoom='140%'")

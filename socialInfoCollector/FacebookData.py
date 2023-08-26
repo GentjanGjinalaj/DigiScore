@@ -267,7 +267,7 @@ def facebookDataCompetitor(facebook_link,facebook_username,competitor_num):
 
 
 
-    '''if facebook_link:
+    if facebook_link:
         username = 'gentjan_gjinalaj'
         apiKey = 'aWSMM1qwgr52Mm6Yyq6JPKWXH'
         scraper = 'facebookProfile'
@@ -308,8 +308,10 @@ def facebookDataCompetitor(facebook_link,facebook_username,competitor_num):
                         pending = False
                         print(json.dumps(result, indent=4))
 
-        else:
+        elif response.status_code == 402 or response.status_code == 429:
             print("An error occurred while making the API request.")
+            print("Exceeded concurrent connection limit. Slow down your request rate.")
+            print("Exceeded API calls limit. Upgrade your plan or check if you've exceeded the monthly free limit of 100 requests.")
             print(response.text)
              # Create a new row to append to the DataFrame
             new_row = {
@@ -339,7 +341,41 @@ def facebookDataCompetitor(facebook_link,facebook_username,competitor_num):
             et=time.time()
             facebook_time=et-st
             print('Total execution time of FacebookData.py is:',facebook_time,'seconds')
-            return facebook_time'''
+            return facebook_time
+
+        else:
+            print("An unexpected error occurred.")
+            print(f"Status code: {response.status_code}")
+            print("Response text:", response.text)
+             # Create a new row to append to the DataFrame
+            new_row = {
+                        'Social Platform Name':'Facebook',
+                        'Social Platform Link':None,
+                        'Social Platform Username':None,
+                        'Average Likes per 5 posts':None,
+                        'Followers Count': None,
+                        'Average Comments per 5 posts':None
+                        #'Page Like Count':None
+                    }
+            try:
+                df1 = pd.read_csv(path)
+                # Convert the dictionary to a DataFrame
+                new_row_df = pd.DataFrame([new_row])
+                # Append the new row of data to the existing DataFrame
+                df1 = pd.concat([df1,new_row_df], ignore_index=True)
+                # df1.loc[len(df1)] = new_row
+
+                # Write the updated DataFrame to the CSV file
+                df1.to_csv(path, index=False)
+                print(df1)
+            except Exception as e:
+                print("An error occurred while reading the CSV file: ", e)
+                df1 = None
+
+            et=time.time()
+            facebook_time=et-st
+            print('Total execution time of FacebookData.py is:',facebook_time,'seconds')
+            return facebook_time
 
     likess=[]
     comments=[]
